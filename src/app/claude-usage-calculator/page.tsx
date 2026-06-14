@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Claude Usage Calculator - Estimate Messages Left",
   description:
     "Estimate remaining Claude messages or coding tasks from a remaining percentage, with support for Claude Fable 5, Claude Code, files, context size and effort level.",
+  alternates: {
+    canonical: "/claude-usage-calculator",
+  },
 };
 
 export default function ClaudeUsageCalculatorPage() {

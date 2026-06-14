@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "Gemini Usage Calculator — Estimate Prompts Left",
+  title: "Gemini Usage Calculator - Estimate Prompts Left",
   description:
     "Estimate remaining Gemini prompts or actions from a remaining percentage, plan, model and feature selection.",
+  alternates: {
+    canonical: "/gemini-usage-calculator",
+  },
 };
 
 export default function GeminiUsageCalculatorPage() {

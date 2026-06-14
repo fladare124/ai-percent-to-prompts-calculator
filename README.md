@@ -42,6 +42,9 @@ npm run lint
 
 No backend, database or environment variables are required.
 
+The app includes Vercel Web Analytics and Speed Insights. It also generates
+`/robots.txt` and `/sitemap.xml` from the canonical calculator routes.
+
 ## Change Presets
 
 Edit platform plans, labels, usage units and multipliers in:
@@ -74,8 +77,10 @@ Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a h
 
 ## Suggested Domains
 
+- `percenttoprompts.com`
 - `aipercenttoprompts.com`
-- `aipercenttopromptscalculator.com`
+- `promptpercent.com`
+- `promptsleft.com`
 - `percenttoprompts.ai`
 - `promptsleft.ai`
 

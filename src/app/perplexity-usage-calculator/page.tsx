@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Perplexity Usage Calculator - Estimate Searches Left",
   description:
     "Estimate remaining Perplexity searches or research tasks from a remaining percentage, plan, mode and research depth.",
+  alternates: {
+    canonical: "/perplexity-usage-calculator",
+  },
 };
 
 export default function PerplexityUsageCalculatorPage() {

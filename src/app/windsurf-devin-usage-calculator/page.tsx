@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Windsurf / Devin Usage Calculator - Estimate Agent Runs Left",
   description:
     "Estimate remaining Windsurf or Devin requests, agent runs or quota units from a remaining percentage, plan, mode and model.",
+  alternates: {
+    canonical: "/windsurf-devin-usage-calculator",
+  },
 };
 
 export default function WindsurfDevinUsageCalculatorPage() {

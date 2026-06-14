@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "AI Percent to Prompts Calculator - Estimate Remaining AI Usage",
   description:
     "Enter your remaining usage percentage and estimate remaining AI prompts, messages, tasks, searches or usage units across popular AI tools.",
+  alternates: {
+    canonical: "/ai-percent-to-prompts-calculator",
+  },
 };
 
 export default function AiUsageCalculatorPage() {

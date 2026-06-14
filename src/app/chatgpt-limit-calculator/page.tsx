@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "ChatGPT Limit Calculator — Estimate Messages Left",
+  title: "ChatGPT Limit Calculator - Estimate Messages Left",
   description:
     "Estimate remaining ChatGPT messages or prompts from a remaining percentage, plan, model mode and tool selection.",
+  alternates: {
+    canonical: "/chatgpt-limit-calculator",
+  },
 };
 
 export default function ChatGptLimitCalculatorPage() {

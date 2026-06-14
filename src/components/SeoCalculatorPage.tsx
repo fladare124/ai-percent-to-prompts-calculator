@@ -67,8 +67,26 @@ export default function SeoCalculatorPage({
   platformFocus,
   extraFaq = [],
 }: SeoCalculatorPageProps) {
+  const faqItems = [...extraFaq, ...globalFaq];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
         <header className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
           <div>
@@ -132,7 +150,7 @@ export default function SeoCalculatorPage({
             </p>
           </div>
           <div className="space-y-3">
-            {[...extraFaq, ...globalFaq].map((item) => (
+            {faqItems.map((item) => (
               <details
                 key={item.question}
                 className="rounded-md border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"

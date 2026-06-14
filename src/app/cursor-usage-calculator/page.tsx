@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Cursor Usage Calculator - Estimate Requests Left",
   description:
     "Estimate remaining Cursor requests or agent runs from a remaining percentage, plan, mode and context size.",
+  alternates: {
+    canonical: "/cursor-usage-calculator",
+  },
 };
 
 export default function CursorUsageCalculatorPage() {
