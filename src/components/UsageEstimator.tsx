@@ -20,8 +20,8 @@ import {
 } from "@/lib/platformPresets";
 import type { EstimateInput, PlatformName } from "@/types";
 
-const STORAGE_KEY = "ai-usage-estimator:last-input:codex-first";
-const THEME_KEY = "ai-usage-estimator:theme";
+const STORAGE_KEY = "percent-to-prompts:last-input:codex-first";
+const THEME_KEY = "percent-to-prompts:theme";
 
 interface UsageEstimatorProps {
   platformFocus?: PlatformName;
@@ -171,7 +171,7 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "AI Usage Calculator",
+          title: "Percent to Prompts Calculator",
           text: shareText,
         });
         setShareStatus("Share sheet opened.");
@@ -189,10 +189,10 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
       <div className="flex flex-col gap-4 border-b border-zinc-200 p-5 dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-            AI Usage Calculator
+            Percent to Prompts
           </p>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Estimate usage left for Codex, ChatGPT, Claude, Gemini and more.
+            Convert remaining usage percentage into estimated prompts, messages or tasks left.
           </p>
         </div>
         <button

@@ -11,6 +11,7 @@ interface SeoCalculatorPageProps {
 }
 
 const links = [
+  { href: "/", label: "Percent to Prompts Calculator" },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   { href: "/chatgpt-limit-calculator", label: "ChatGPT Limit Calculator" },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
@@ -60,7 +61,7 @@ export default function SeoCalculatorPage({
               Unofficial calculator
             </p>
             <span className="mt-3 inline-flex rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-              Codex-first estimates
+              Percent-based estimates
             </span>
             <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
               {h1}

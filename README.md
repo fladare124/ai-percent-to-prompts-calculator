@@ -1,6 +1,6 @@
-# AI Usage Calculator
+# Percent to Prompts Calculator
 
-AI Usage Calculator is a frontend-only Next.js MVP that estimates how many AI prompts, messages, tasks, searches or usage units may remain from the remaining percentage shown by a platform.
+Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a remaining usage percentage into an unofficial estimate of how many AI prompts, messages, tasks, searches or usage units may remain.
 
 It supports Codex, ChatGPT, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. Claude Fable 5 is included in the supported Claude models. The estimate is unofficial and uses plan presets, reset-window presets, task complexity and advanced multipliers.
 
@@ -27,6 +27,7 @@ npm run build
 Useful checks:
 
 ```bash
+npm run test
 npm run typecheck
 npm run lint
 ```
@@ -60,17 +61,22 @@ Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a h
 ## Routes
 
 - `/`
+- `/percent-to-prompts-calculator`
 - `/codex-usage-calculator`
 - `/chatgpt-limit-calculator`
 - `/claude-usage-calculator`
 - `/gemini-usage-calculator`
+- `/perplexity-usage-calculator`
+- `/cursor-usage-calculator`
+- `/windsurf-devin-usage-calculator`
 - `/ai-usage-calculator`
 
 ## Suggested Domains
 
-- `aiusagecalculator.com`
-- `codexusagecalculator.com`
-- `chatgptlimitcalculator.com`
+- `percenttoprompts.com`
+- `percenttopromptscalculator.com`
+- `promptpercent.com`
+- `promptsleft.com`
 
 ## Disclaimer
 

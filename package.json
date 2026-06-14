@@ -1,5 +1,5 @@
 {
-  "name": "ai-usage-estimator",
+  "name": "percent-to-prompts-calculator",
   "version": "0.1.0",
   "private": true,
   "scripts": {

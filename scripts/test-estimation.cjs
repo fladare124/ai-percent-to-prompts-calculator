@@ -182,6 +182,6 @@ const homePage = fs.readFileSync(
   "utf8",
 );
 assert.match(homePage, /Codex, ChatGPT, Claude, Gemini and more/);
-assert.match(homePage, /AI Usage Calculator - Codex, ChatGPT, Claude & Gemini/);
+assert.match(homePage, /Percent to Prompts Calculator - Estimate AI Prompts Left/);
 
 console.log("Estimation tests passed.");

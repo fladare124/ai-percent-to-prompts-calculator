@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "AI Usage Calculator — Estimate Remaining Usage",
+  title: "Percent to Prompts Calculator - Estimate Remaining AI Usage",
   description:
-    "Estimate remaining prompts, messages, tasks, searches or AI usage units across popular AI tools.",
+    "Enter your remaining usage percentage and estimate remaining AI prompts, messages, tasks, searches or usage units across popular AI tools.",
 };
 
 export default function AiUsageCalculatorPage() {
   return (
     <SeoCalculatorPage
-      h1="AI Usage Calculator"
+      h1="Percent to Prompts Calculator"
       intro="Enter the percentage your AI tool shows as remaining. We estimate what that could mean in real prompts, messages or tasks."
     />
   );
