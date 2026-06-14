@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   },
   description:
     "Unofficial calculator for estimating remaining AI prompts, messages, tasks and usage units from your usage percentage.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -46,6 +46,21 @@ const globalFaq = [
   },
 ];
 
+const estimateSteps = [
+  {
+    title: "Start With Percent Left",
+    text: "Use the remaining percentage your AI tool shows, not the percentage already used.",
+  },
+  {
+    title: "Match The Window",
+    text: "Choose the reset window, plan and platform so the estimate uses the closest preset.",
+  },
+  {
+    title: "Read Human Units",
+    text: "See estimated Codex tasks, ChatGPT messages, Claude messages or similar usage labels.",
+  },
+];
+
 export default function SeoCalculatorPage({
   h1,
   intro,
@@ -57,13 +72,18 @@ export default function SeoCalculatorPage({
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
         <header className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-              Unofficial calculator
-            </p>
-            <span className="mt-3 inline-flex rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-              AI usage percent estimates
-            </span>
-            <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
+            <div className="flex items-start gap-3">
+              <BrandMark />
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
+                  Unofficial calculator
+                </p>
+                <span className="mt-2 inline-flex rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+                  AI usage percent estimates
+                </span>
+              </div>
+            </div>
+            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
               {h1}
             </h1>
           </div>
@@ -73,6 +93,33 @@ export default function SeoCalculatorPage({
         </header>
 
         <UsageEstimator platformFocus={platformFocus} />
+
+        <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <h2 className="text-2xl font-semibold text-zinc-950 dark:text-white">
+              From Percent To Prompts
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              The calculator turns a vague remaining percentage into an easier
+              estimate of prompts, messages, coding tasks or agent runs left.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {estimateSteps.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-md border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
@@ -123,5 +170,33 @@ export default function SeoCalculatorPage({
         </p>
       </div>
     </main>
+  );
+}
+
+function BrandMark() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-11 w-11 shrink-0 rounded-lg"
+      viewBox="0 0 64 64"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="64" height="64" rx="14" className="fill-zinc-950 dark:fill-white" />
+      <path
+        d="M17 41.5 31.5 22l8.5 11.5 7-8.5"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="5"
+        className="text-cyan-300 dark:text-cyan-600"
+      />
+      <g className="fill-white dark:fill-zinc-950">
+        <circle cx="18" cy="42" r="4" />
+        <circle cx="32" cy="22" r="4" />
+        <circle cx="40" cy="34" r="4" />
+        <circle cx="47" cy="25" r="4" />
+      </g>
+    </svg>
   );
 }
