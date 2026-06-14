@@ -23,6 +23,7 @@ export interface EstimatorFormState {
 }
 
 export const DEFAULT_PLATFORM: PlatformName = "Codex";
+export const DEFAULT_REMAINING_PERCENT = "65";
 
 function isPlatformName(value: unknown): value is PlatformName {
   return typeof value === "string" && PLATFORMS.includes(value as PlatformName);
@@ -47,13 +48,29 @@ export function createDefaultEstimatorForm(
   return {
     platform,
     plan: defaultPlanByPlatform[platform],
-    remainingPercent: "65",
+    remainingPercent: DEFAULT_REMAINING_PERCENT,
     resetWindow: "5 hours",
     hoursUntilReset: "5",
     minutesUntilReset: "0",
     usageIntensity: "Normal",
     advancedSelections: getDefaultAdvancedSelections(platform),
   };
+}
+
+function normalizeRemainingPercent(value: unknown) {
+  const text = String(value ?? "").trim();
+  const numericValue = Number(text);
+
+  if (
+    text === "" ||
+    !Number.isFinite(numericValue) ||
+    numericValue < 0 ||
+    numericValue > 100
+  ) {
+    return DEFAULT_REMAINING_PERCENT;
+  }
+
+  return text;
 }
 
 export function isFormState(value: unknown): value is EstimatorFormState {
@@ -123,6 +140,7 @@ export function normalizeStoredEstimatorForm(
       plan: savedPlanStillExists
         ? parsed.plan
         : defaultPlanByPlatform[targetPlatform],
+      remainingPercent: normalizeRemainingPercent(parsed.remainingPercent),
       resetWindow,
       advancedSelections: normalizeLegacySelections(
         targetPlatform,

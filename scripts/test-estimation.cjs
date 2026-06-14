@@ -47,6 +47,7 @@ const {
 const {
   createDefaultEstimatorForm,
   DEFAULT_PLATFORM,
+  DEFAULT_REMAINING_PERCENT,
   getPlatformFromSearch,
   normalizeStoredEstimatorForm,
 } = require("../src/lib/formState.ts");
@@ -150,7 +151,9 @@ assert.match(shareText, /Likely range:/);
 
 const firstVisitDefault = createDefaultEstimatorForm();
 assert.equal(DEFAULT_PLATFORM, "Codex");
+assert.equal(DEFAULT_REMAINING_PERCENT, "65");
 assert.equal(firstVisitDefault.platform, "Codex");
+assert.equal(firstVisitDefault.remainingPercent, "65");
 assert.deepEqual(firstVisitDefault.advancedSelections, {});
 
 const claudeDefault = createDefaultEstimatorForm("Claude");
@@ -173,6 +176,21 @@ const savedForm = normalizeStoredEstimatorForm(
 assert.equal(savedForm.platform, "Codex");
 assert.equal(savedForm.advancedSelections.reasoning, "High");
 assert.equal(savedForm.remainingPercent, "42");
+
+const savedBlankPercentForm = normalizeStoredEstimatorForm(
+  JSON.stringify({
+    platform: "Codex",
+    plan: "Plus",
+    remainingPercent: "",
+    resetWindow: "5 hours",
+    hoursUntilReset: "5",
+    minutesUntilReset: "0",
+    usageIntensity: "Normal",
+    advancedSelections: {},
+  }),
+);
+
+assert.equal(savedBlankPercentForm.remainingPercent, "65");
 
 assert.equal(PLATFORMS[0], "Codex");
 assert.equal(PLATFORMS.at(-1), "Other");
