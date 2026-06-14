@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PercentToPromptsCalculatorPage() {
+export default function AiPercentToPromptsCalculatorPage() {
   return (
     <SeoCalculatorPage
       h1="AI Percent to Prompts Calculator"
-      intro="Enter your remaining usage percentage and estimate how many AI prompts, messages or tasks you may have left across Codex, ChatGPT, Claude, Gemini and more."
+      intro="Enter your remaining AI usage percentage and estimate how many prompts, messages or tasks you may have left across Codex, ChatGPT, Claude, Gemini and more."
     />
   );
 }

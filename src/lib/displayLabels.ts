@@ -83,7 +83,7 @@ Likely range: ${roundDisplayUsage(result.estimatedLow)}-${roundDisplayUsage(
   )} ${unitLabel}.
 Window: ${result.resetWindow}.
 Status: ${result.status}.
-Calculated with Percent to Prompts Calculator.`;
+Calculated with AI Percent to Prompts Calculator.`;
 }
 
 export function getMainFactorsSummary(result: EstimateResult) {

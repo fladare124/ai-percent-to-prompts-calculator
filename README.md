@@ -1,6 +1,6 @@
-# Percent to Prompts Calculator
+# AI Percent to Prompts Calculator
 
-Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a remaining usage percentage into an unofficial estimate of how many AI prompts, messages, tasks, searches or usage units may remain.
+AI Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a remaining AI usage percentage into an unofficial estimate of how many prompts, messages, tasks, searches or usage units may remain.
 
 It supports Codex, ChatGPT, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. Claude Fable 5 is included in the supported Claude models. The estimate is unofficial and uses plan presets, reset-window presets, task complexity and advanced multipliers.
 
@@ -61,6 +61,7 @@ Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a h
 ## Routes
 
 - `/`
+- `/ai-percent-to-prompts-calculator`
 - `/percent-to-prompts-calculator`
 - `/codex-usage-calculator`
 - `/chatgpt-limit-calculator`
@@ -73,10 +74,10 @@ Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a h
 
 ## Suggested Domains
 
-- `percenttoprompts.com`
-- `percenttopromptscalculator.com`
-- `promptpercent.com`
-- `promptsleft.com`
+- `aipercenttoprompts.com`
+- `aipercenttopromptscalculator.com`
+- `percenttoprompts.ai`
+- `promptsleft.ai`
 
 ## Disclaimer
 

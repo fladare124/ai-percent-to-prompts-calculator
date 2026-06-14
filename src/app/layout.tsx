@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://percenttoprompts.com"),
+  metadataBase: new URL("https://aipercenttoprompts.com"),
   title: {
-    default: "Percent to Prompts Calculator",
-    template: "%s | Percent to Prompts Calculator",
+    default: "AI Percent to Prompts Calculator",
+    template: "%s | AI Percent to Prompts Calculator",
   },
   description:
     "Unofficial calculator for estimating remaining AI prompts, messages, tasks and usage units from your usage percentage.",

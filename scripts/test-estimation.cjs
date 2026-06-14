@@ -145,6 +145,7 @@ const shareText = buildShareText(
 
 assert.match(shareText, /Model: Claude Fable 5\./);
 assert.match(shareText, /Estimated remaining: around 30 Claude Fable 5 messages\/tasks\./);
+assert.match(shareText, /Calculated with AI Percent to Prompts Calculator\./);
 assert.match(shareText, /Likely range:/);
 
 const firstVisitDefault = createDefaultEstimatorForm();
@@ -182,6 +183,6 @@ const homePage = fs.readFileSync(
   "utf8",
 );
 assert.match(homePage, /Codex, ChatGPT, Claude, Gemini and more/);
-assert.match(homePage, /Percent to Prompts Calculator - Estimate AI Prompts Left/);
+assert.match(homePage, /AI Percent to Prompts Calculator - Estimate AI Prompts Left/);
 
 console.log("Estimation tests passed.");
