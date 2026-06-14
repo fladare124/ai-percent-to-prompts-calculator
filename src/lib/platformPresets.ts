@@ -6,9 +6,9 @@ import type {
 } from "@/types";
 
 export const PLATFORMS: PlatformName[] = [
-  "Claude",
   "Codex",
   "ChatGPT",
+  "Claude",
   "Gemini",
   "Perplexity",
   "Cursor",

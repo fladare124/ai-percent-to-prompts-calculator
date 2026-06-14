@@ -148,10 +148,13 @@ assert.match(shareText, /Estimated remaining: around 30 Claude Fable 5 messages\
 assert.match(shareText, /Likely range:/);
 
 const firstVisitDefault = createDefaultEstimatorForm();
-assert.equal(DEFAULT_PLATFORM, "Claude");
-assert.equal(firstVisitDefault.platform, "Claude");
-assert.equal(firstVisitDefault.advancedSelections.model, "claude-fable-5");
-assert.equal(firstVisitDefault.advancedSelections.mode, "Standard chat");
+assert.equal(DEFAULT_PLATFORM, "Codex");
+assert.equal(firstVisitDefault.platform, "Codex");
+assert.deepEqual(firstVisitDefault.advancedSelections, {});
+
+const claudeDefault = createDefaultEstimatorForm("Claude");
+assert.equal(claudeDefault.advancedSelections.model, "claude-sonnet");
+assert.equal(claudeDefault.advancedSelections.mode, "Standard chat");
 
 const savedForm = normalizeStoredEstimatorForm(
   JSON.stringify({
@@ -170,7 +173,7 @@ assert.equal(savedForm.platform, "Codex");
 assert.equal(savedForm.advancedSelections.reasoning, "High");
 assert.equal(savedForm.remainingPercent, "42");
 
-assert.equal(PLATFORMS[0], "Claude");
+assert.equal(PLATFORMS[0], "Codex");
 assert.equal(PLATFORMS.at(-1), "Other");
 assert.equal(getPlatformFromSearch("?platform=chatgpt"), "ChatGPT");
 
@@ -178,7 +181,7 @@ const homePage = fs.readFileSync(
   path.join(root, "src", "app", "page.tsx"),
   "utf8",
 );
-assert.match(homePage, /Claude Fable 5/);
-assert.match(homePage, /AI Usage Calculator - Claude Fable 5, ChatGPT, Codex & Gemini/);
+assert.match(homePage, /Codex, ChatGPT, Claude, Gemini and more/);
+assert.match(homePage, /AI Usage Calculator - Codex, ChatGPT, Claude & Gemini/);
 
 console.log("Estimation tests passed.");

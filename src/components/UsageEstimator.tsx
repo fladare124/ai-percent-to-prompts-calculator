@@ -20,7 +20,7 @@ import {
 } from "@/lib/platformPresets";
 import type { EstimateInput, PlatformName } from "@/types";
 
-const STORAGE_KEY = "ai-usage-estimator:last-input";
+const STORAGE_KEY = "ai-usage-estimator:last-input:codex-first";
 const THEME_KEY = "ai-usage-estimator:theme";
 
 interface UsageEstimatorProps {
@@ -192,7 +192,7 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
             AI Usage Calculator
           </p>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Estimate usage left for Claude Fable 5, Codex, ChatGPT, Gemini and more.
+            Estimate usage left for Codex, ChatGPT, Claude, Gemini and more.
           </p>
         </div>
         <button

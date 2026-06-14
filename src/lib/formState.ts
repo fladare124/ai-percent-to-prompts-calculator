@@ -22,7 +22,7 @@ export interface EstimatorFormState {
   advancedSelections: Partial<Record<AdvancedOptionKey, string>>;
 }
 
-export const DEFAULT_PLATFORM: PlatformName = "Claude";
+export const DEFAULT_PLATFORM: PlatformName = "Codex";
 
 function isPlatformName(value: unknown): value is PlatformName {
   return typeof value === "string" && PLATFORMS.includes(value as PlatformName);
@@ -33,7 +33,7 @@ function getDefaultAdvancedSelections(
 ): Partial<Record<AdvancedOptionKey, string>> {
   if (platform === "Claude") {
     return {
-      model: "claude-fable-5",
+      model: "claude-sonnet",
       mode: "Standard chat",
     };
   }
