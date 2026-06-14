@@ -1,6 +1,6 @@
 export const SITE_NAME = "AI Percent to Prompts Calculator";
 
-export const SITE_URL = "https://ai-percent-to-prompts-calculator.vercel.app";
+export const SITE_URL = "https://percenttoprompts.com";
 
 export const calculatorRoutes = [
   {
