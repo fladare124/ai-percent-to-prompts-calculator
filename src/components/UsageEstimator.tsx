@@ -35,7 +35,7 @@ function toEstimateInput(form: EstimatorFormState): EstimateInput {
       advancedSelections.model === "GPT-5.5 Thinking"
         ? advancedSelections.reasoning === "None / Instant" ||
           !advancedSelections.reasoning
-          ? "Standard"
+          ? "Medium"
           : advancedSelections.reasoning
         : "None / Instant";
   }
@@ -142,12 +142,14 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
     form.advancedSelections.model,
   );
   const mainFactorsSummary = getMainFactorsSummary(result);
-  const selectedModelLabel =
-    form.platform === "Claude" &&
-    (form.advancedSelections.model === "claude-fable-5" ||
-      form.advancedSelections.model === "Claude Fable 5")
-      ? "Claude Fable 5"
-      : undefined;
+  const selectedModelValue = form.advancedSelections.model;
+  const selectedModelLabel = preset.advancedGroups
+    .find((group) => group.key === "model")
+    ?.options.find(
+      (option) =>
+        (option.value ?? option.label) === selectedModelValue ||
+        option.label === selectedModelValue,
+    )?.label;
   const inlineErrors = result.errors.filter(
     (error) =>
       error.includes("Remaining") ||

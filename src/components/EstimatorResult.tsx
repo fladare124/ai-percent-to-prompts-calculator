@@ -40,6 +40,12 @@ function rangeText(low: number, high: number) {
   return `${roundUsage(low)}-${roundUsage(high)}`;
 }
 
+function moneyRange(low: number, high: number) {
+  const format = (value: number) =>
+    value < 0.01 ? `$${value.toFixed(3)}` : `$${value.toFixed(2)}`;
+  return `${format(low)}-${format(high)}`;
+}
+
 export default function EstimatorResult({
   result,
   unitLabel,
@@ -104,6 +110,16 @@ export default function EstimatorResult({
           }
           wide={!result.safeRate}
         />
+        {result.apiCostEstimate ? (
+          <Metric
+            label="Typical API cost per task"
+            value={`${moneyRange(
+              result.apiCostEstimate.low,
+              result.apiCostEstimate.high,
+            )} (${result.apiCostEstimate.modelLabel})`}
+            wide
+          />
+        ) : null}
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -128,6 +144,20 @@ export default function EstimatorResult({
         <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
           {mainFactorsSummary}
         </p>
+        <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          <span className="font-medium text-zinc-700 dark:text-zinc-300">Limit basis:</span>{" "}
+          {result.limitBasis}
+        </p>
+        {result.apiCostEstimate?.pricingNote ? (
+          <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {result.apiCostEstimate.pricingNote}
+          </p>
+        ) : null}
+        {result.costReference ? (
+          <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {result.costReference}
+          </p>
+        ) : null}
         {result.notes.length > 0 ? (
           <div className="mt-3 space-y-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {result.notes.map((note) => (

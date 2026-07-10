@@ -3,7 +3,6 @@
 import AdvancedOptions from "@/components/AdvancedOptions";
 import {
   PLATFORMS,
-  RESET_WINDOWS,
   USAGE_INTENSITIES,
   platformPresets,
 } from "@/lib/platformPresets";
@@ -57,7 +56,26 @@ export default function EstimatorForm({
       ...form,
       platform,
       plan: platformDefaults.plan,
+      resetWindow: platformDefaults.resetWindow,
+      hoursUntilReset: platformDefaults.hoursUntilReset,
+      minutesUntilReset: platformDefaults.minutesUntilReset,
       advancedSelections: platformDefaults.advancedSelections,
+    });
+  };
+
+  const handleResetWindowChange = (resetWindow: ResetWindow) => {
+    const hoursByWindow: Record<ResetWindow, string> = {
+      "3 hours": "3",
+      "5 hours": "5",
+      Daily: "24",
+      Weekly: "168",
+      Monthly: "720",
+    };
+    onChange({
+      ...form,
+      resetWindow,
+      hoursUntilReset: hoursByWindow[resetWindow],
+      minutesUntilReset: "0",
     });
   };
 
@@ -69,7 +87,7 @@ export default function EstimatorForm({
 
     if (form.platform === "ChatGPT" && key === "model") {
       nextSelections.reasoning =
-        value === "GPT-5.5 Thinking" ? "Standard" : "None / Instant";
+        value === "GPT-5.5 Thinking" ? "Medium" : "None / Instant";
     }
 
     onChange({
@@ -147,11 +165,11 @@ export default function EstimatorForm({
           <select
             value={form.resetWindow}
             onChange={(event) =>
-              update("resetWindow", event.target.value as ResetWindow)
+              handleResetWindowChange(event.target.value as ResetWindow)
             }
             className={inputClass}
           >
-            {RESET_WINDOWS.map((window) => (
+            {preset.resetWindows.map((window) => (
               <option key={window} value={window}>
                 {window}
               </option>
@@ -160,6 +178,11 @@ export default function EstimatorForm({
           {form.platform === "Codex" ? (
             <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
               Choose the same window shown by Codex, usually 5 hours or weekly.
+            </span>
+          ) : null}
+          {form.platform === "ChatGPT" ? (
+            <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+              Choose the window shown in ChatGPT. Plus commonly uses a 3-hour message window.
             </span>
           ) : null}
         </label>
@@ -298,7 +321,7 @@ function getCriticalFields(
         options: group.options.filter(
           (option) => option.label !== "None / Instant",
         ),
-        fallbackValue: "Standard",
+        fallbackValue: "Medium",
         helpText: "Longer thinking time may reduce the number of messages left.",
       });
     }
@@ -310,7 +333,7 @@ function getCriticalFields(
       fields.push({
         group,
         options: group.options,
-        fallbackValue: "claude-fable-5",
+        fallbackValue: "claude-sonnet-5",
         helpText:
           "Choose the Claude model closest to what you are using for this window.",
       });

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "AI Percent to Prompts Calculator - Estimate AI Prompts Left",
+  title: "AI Percent to Prompts Calculator - GPT-5.6, Claude & Gemini",
   description:
-    "Enter your remaining usage percentage and estimate how many AI prompts, messages or tasks you may have left across Codex, ChatGPT, Claude, Gemini and more.",
+    "Convert a remaining AI usage percentage into estimated prompts or tasks for GPT-5.6, Codex, Claude Sonnet 5, Fable 5, Gemini and more.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "AI Percent to Prompts Calculator",
     description:
-      "Convert your remaining AI usage percentage into estimated prompts, messages or tasks left.",
+      "Estimate prompts or tasks left for GPT-5.6, Codex, Claude Sonnet 5, Fable 5, Gemini and more.",
     url: "/",
     type: "website",
   },
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "AI Percent to Prompts Calculator",
     description:
-      "Convert your remaining AI usage percentage into estimated prompts, messages or tasks left.",
+      "Estimate prompts or tasks left for GPT-5.6, Codex, Claude Sonnet 5, Fable 5, Gemini and more.",
   },
 };
 
@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <SeoCalculatorPage
       h1="AI Percent to Prompts Calculator"
-      intro="Enter your remaining usage percentage and estimate how many AI prompts, messages or tasks you may have left across Codex, ChatGPT, Claude, Gemini and more."
+      intro="Enter your remaining usage percentage and estimate prompts, messages or tasks left across GPT-5.6, Codex, Claude Sonnet 5, Fable 5, Gemini and more."
     />
   );
 }

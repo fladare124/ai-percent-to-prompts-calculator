@@ -1,9 +1,4 @@
-import {
-  defaultPlanByPlatform,
-  PLATFORMS,
-  platformPresets,
-  RESET_WINDOWS,
-} from "@/lib/platformPresets";
+import { defaultPlanByPlatform, PLATFORMS, platformPresets } from "@/lib/platformPresets";
 import type {
   AdvancedOptionKey,
   PlatformName,
@@ -34,9 +29,17 @@ function getDefaultAdvancedSelections(
 ): Partial<Record<AdvancedOptionKey, string>> {
   if (platform === "Claude") {
     return {
-      model: "claude-sonnet",
+      model: "claude-sonnet-5",
       mode: "Standard chat",
     };
+  }
+
+  if (platform === "ChatGPT") {
+    return { model: "GPT-5.5 Instant", reasoning: "None / Instant" };
+  }
+
+  if (platform === "Codex") {
+    return { model: "GPT-5.5", reasoning: "Medium" };
   }
 
   return {};
@@ -45,12 +48,21 @@ function getDefaultAdvancedSelections(
 export function createDefaultEstimatorForm(
   platform: PlatformName = DEFAULT_PLATFORM,
 ): EstimatorFormState {
+  const preset = platformPresets[platform];
+  const defaultHours: Record<ResetWindow, string> = {
+    "3 hours": "3",
+    "5 hours": "5",
+    Daily: "24",
+    Weekly: "168",
+    Monthly: "720",
+  };
+
   return {
     platform,
     plan: defaultPlanByPlatform[platform],
     remainingPercent: DEFAULT_REMAINING_PERCENT,
-    resetWindow: "5 hours",
-    hoursUntilReset: "5",
+    resetWindow: preset.defaultResetWindow,
+    hoursUntilReset: defaultHours[preset.defaultResetWindow],
     minutesUntilReset: "0",
     usageIntensity: "Normal",
     advancedSelections: getDefaultAdvancedSelections(platform),
@@ -89,6 +101,16 @@ function normalizeLegacySelections(
   platform: PlatformName,
   advancedSelections: Partial<Record<AdvancedOptionKey, string>>,
 ) {
+  if (platform === "ChatGPT") {
+    return {
+      ...advancedSelections,
+      reasoning:
+        advancedSelections.reasoning === "Standard"
+          ? "Medium"
+          : advancedSelections.reasoning,
+    };
+  }
+
   if (platform !== "Claude") return advancedSelections;
 
   const legacyModeByModel: Record<string, string> = {
@@ -102,15 +124,28 @@ function normalizeLegacySelections(
     ? legacyModeByModel[advancedSelections.model]
     : undefined;
 
-  if (legacyMode) {
-    return {
+  const normalized = legacyMode
+    ? {
       ...advancedSelections,
       model: undefined,
       mode: advancedSelections.mode ?? legacyMode,
-    };
+    }
+    : { ...advancedSelections };
+
+  const modelMigrations: Record<string, string> = {
+    "claude-sonnet": "claude-sonnet-5",
+    "Claude Sonnet": "claude-sonnet-5",
+    "claude-opus": "claude-opus-4-8",
+    "Claude Opus": "claude-opus-4-8",
+    "claude-haiku": "claude-haiku-4-5",
+    "Claude Haiku": "claude-haiku-4-5",
+  };
+
+  if (normalized.model && modelMigrations[normalized.model]) {
+    normalized.model = modelMigrations[normalized.model];
   }
 
-  return advancedSelections;
+  return normalized;
 }
 
 export function normalizeStoredEstimatorForm(
@@ -128,9 +163,9 @@ export function normalizeStoredEstimatorForm(
     const savedPlanStillExists = targetPreset.planPresets.some(
       (plan) => plan.label === parsed.plan,
     );
-    const resetWindow = RESET_WINDOWS.includes(parsed.resetWindow)
+    const resetWindow = targetPreset.resetWindows.includes(parsed.resetWindow)
       ? parsed.resetWindow
-      : "5 hours";
+      : targetPreset.defaultResetWindow;
     const advancedSelections =
       parsed.platform === targetPlatform ? { ...parsed.advancedSelections } : {};
 

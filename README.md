@@ -4,7 +4,9 @@ AI Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a 
 
 Production: `https://percenttoprompts.com`
 
-It supports Codex, ChatGPT, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. Claude Fable 5 is included in the supported Claude models. The estimate is unofficial and uses plan presets, reset-window presets, task complexity and advanced multipliers.
+It supports Codex, ChatGPT, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. Current model references include GPT-5.6 preview models, GPT-5.5, Claude Sonnet 5, Fable 5, Opus 4.8, Haiku 4.5 and current Gemini 3.5/3.1 API models. The estimate is unofficial and uses plan presets, reset windows, task complexity and model-specific multipliers.
+
+Presets and public price references were reviewed on July 10, 2026.
 
 ## Install
 
@@ -61,7 +63,9 @@ The calculation logic lives in:
 src/lib/estimation.ts
 ```
 
-Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a high-cost, high-capability model: conservative for light and normal tasks, with a slightly less severe model penalty for heavy long-horizon work. Task complexity still reduces the final estimate.
+Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a high-cost, high-capability model: conservative for light and normal tasks, with a less severe model penalty for heavy long-horizon work where fewer iterations may help.
+
+The app keeps subscription quotas, provider credits and API prices separate. API cost ranges are shown only when an official per-token price is available and are illustrative per-task references, not subscription charges. Unsupported reset windows are time-scaled from the nearest known preset and automatically receive lower reliability.
 
 ## Routes
 
@@ -88,4 +92,4 @@ Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a h
 
 ## Disclaimer
 
-This tool is not affiliated with OpenAI, Anthropic, Google, Perplexity, Cursor, Windsurf or Devin. Results are unofficial estimates based on the remaining percentage and options you enter. Real limits can vary by plan, model, feature, system capacity, context length, files, task complexity and provider changes.
+This tool is not affiliated with OpenAI, Anthropic, Google, Perplexity, Cursor, Windsurf or Devin. Results are unofficial estimates based on the remaining percentage and options you enter. Real limits can vary by plan, model, feature, system capacity, context length, files, task complexity and provider changes. API cost references are not subscription charges.

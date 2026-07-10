@@ -11,6 +11,7 @@ export type PlatformName =
 export type UsageIntensity = "Light" | "Normal" | "Heavy" | "Very heavy";
 
 export type ResetWindow =
+  | "3 hours"
   | "5 hours"
   | "Daily"
   | "Weekly"
@@ -45,6 +46,13 @@ export interface MultiplierOption {
   label: string;
   value?: string;
   multiplier: number;
+  apiPricing?: {
+    inputPerMillion: number;
+    outputPerMillion: number;
+    note?: string;
+  };
+  costReference?: string;
+  availabilityNote?: string;
 }
 
 export interface AdvancedOptionGroup {
@@ -61,6 +69,9 @@ export interface PlanPreset {
 export interface PlatformPreset {
   platform: PlatformName;
   usageUnit: string;
+  resetWindows: ResetWindow[];
+  defaultResetWindow: ResetWindow;
+  limitBasis: string;
   planPresets: PlanPreset[];
   advancedGroups: AdvancedOptionGroup[];
 }
@@ -91,6 +102,7 @@ export interface EstimateResult {
   resetWindow: ResetWindow;
   usageIntensity: UsageIntensity;
   usageUnit: string;
+  limitBasis: string;
   remainingPercent: number;
   usedPercent: number;
   baseLimit?: number;
@@ -108,4 +120,12 @@ export interface EstimateResult {
   };
   factors: string[];
   notes: string[];
+  apiCostEstimate?: {
+    low: number;
+    mid: number;
+    high: number;
+    modelLabel: string;
+    pricingNote?: string;
+  };
+  costReference?: string;
 }

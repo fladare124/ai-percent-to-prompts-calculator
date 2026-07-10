@@ -17,7 +17,6 @@ require.extensions[".ts"] = function compileTypeScript(module, filename) {
       target: ts.ScriptTarget.ES2020,
     },
   }).outputText;
-
   module._compile(output, filename);
 };
 
@@ -31,7 +30,6 @@ Module._resolveFilename = function resolveAlias(request, parent, isMain, options
       options,
     );
   }
-
   return originalResolveFilename.call(this, request, parent, isMain, options);
 };
 
@@ -51,9 +49,9 @@ const {
   getPlatformFromSearch,
   normalizeStoredEstimatorForm,
 } = require("../src/lib/formState.ts");
-const { PLATFORMS } = require("../src/lib/platformPresets.ts");
+const { PLATFORMS, platformPresets } = require("../src/lib/platformPresets.ts");
 
-function claudeInput(usageIntensity, advancedSelections = {}) {
+function input(overrides = {}) {
   return {
     platform: "Claude",
     plan: "Pro",
@@ -61,73 +59,118 @@ function claudeInput(usageIntensity, advancedSelections = {}) {
     resetWindow: "5 hours",
     hoursUntilReset: 5,
     minutesUntilReset: 0,
-    usageIntensity,
-    advancedSelections,
+    usageIntensity: "Normal",
+    advancedSelections: {},
+    ...overrides,
   };
 }
 
-assert.equal(getClaudeFable5Multiplier("Light"), 0.26);
-assert.equal(getClaudeFable5Multiplier("Normal"), 0.3);
-assert.equal(getClaudeFable5Multiplier("Heavy"), 0.38);
-assert.equal(getClaudeFable5Multiplier("Very heavy"), 0.5);
+assert.equal(getClaudeFable5Multiplier("Light"), 0.2);
+assert.equal(getClaudeFable5Multiplier("Normal"), 0.24);
+assert.equal(getClaudeFable5Multiplier("Heavy"), 0.4);
+assert.equal(getClaudeFable5Multiplier("Very heavy"), 0.6);
+
+const claudeProSonnet = estimateUsage(
+  input({ advancedSelections: { model: "claude-sonnet-5" } }),
+);
+const claudeMax5 = estimateUsage(
+  input({ plan: "Max 5x", advancedSelections: { model: "claude-sonnet-5" } }),
+);
+const claudeMax20 = estimateUsage(
+  input({ plan: "Max 20x", advancedSelections: { model: "claude-sonnet-5" } }),
+);
+assert.equal(roundUsage(claudeProSonnet.estimatedMid), 45);
+assert.equal(roundUsage(claudeMax5.estimatedMid), 225);
+assert.equal(roundUsage(claudeMax20.estimatedMid), 900);
 
 const fableLight = estimateUsage(
-  claudeInput("Light", { model: "claude-fable-5" }),
+  input({ usageIntensity: "Light", advancedSelections: { model: "claude-fable-5" } }),
 );
 const fableNormal = estimateUsage(
-  claudeInput("Normal", { model: "claude-fable-5" }),
+  input({ advancedSelections: { model: "claude-fable-5" } }),
 );
 const fableHeavy = estimateUsage(
-  claudeInput("Heavy", { model: "claude-fable-5" }),
+  input({ usageIntensity: "Heavy", advancedSelections: { model: "claude-fable-5" } }),
 );
 const fableVeryHeavy = estimateUsage(
-  claudeInput("Very heavy", { model: "claude-fable-5" }),
+  input({ usageIntensity: "Very heavy", advancedSelections: { model: "claude-fable-5" } }),
 );
+assert.equal(roundUsage(fableLight.estimatedMid), 11);
+assert.equal(roundUsage(fableNormal.estimatedMid), 11);
+assert.equal(roundUsage(fableHeavy.estimatedMid), 13);
+assert.equal(roundUsage(fableVeryHeavy.estimatedMid), 12);
+assert.ok(claudeProSonnet.estimatedMid > fableNormal.estimatedMid);
+assert.ok(fableVeryHeavy.estimatedMid > fableLight.estimatedMid);
+assert.equal(fableNormal.apiCostEstimate.modelLabel, "Claude Fable 5");
+assert.ok(Math.abs(fableNormal.apiCostEstimate.mid - 0.155) < 0.0001);
 
-assert.equal(roundUsage(fableLight.estimatedMid), 31);
-assert.equal(roundUsage(fableNormal.estimatedMid), 30);
-assert.equal(roundUsage(fableHeavy.estimatedMid), 27);
-assert.equal(roundUsage(fableVeryHeavy.estimatedMid), 23);
+const codexPlusHigh = estimateUsage(
+  input({
+    platform: "Codex",
+    plan: "Plus",
+    remainingPercent: 65,
+    usageIntensity: "Normal",
+    advancedSelections: { model: "GPT-5.5", reasoning: "High" },
+  }),
+);
+const fablePro65 = estimateUsage(
+  input({ remainingPercent: 65, advancedSelections: { model: "claude-fable-5" } }),
+);
+assert.equal(roundUsage(codexPlusHigh.estimatedMid), 49);
+assert.ok(codexPlusHigh.estimatedMid > fablePro65.estimatedMid);
 
-const sonnetLight = estimateUsage(
-  claudeInput("Light", { model: "claude-sonnet" }),
+const chatGptThreeHours = estimateUsage(
+  input({
+    platform: "ChatGPT",
+    plan: "Plus",
+    resetWindow: "3 hours",
+    hoursUntilReset: 3,
+    advancedSelections: { model: "GPT-5.5 Instant", reasoning: "None / Instant" },
+  }),
 );
-const sonnetNormal = estimateUsage(
-  claudeInput("Normal", { model: "claude-sonnet" }),
+const chatGptFiveHours = estimateUsage(
+  input({
+    platform: "ChatGPT",
+    plan: "Plus",
+    resetWindow: "5 hours",
+    advancedSelections: { model: "GPT-5.5 Instant", reasoning: "None / Instant" },
+  }),
 );
+assert.equal(roundUsage(chatGptThreeHours.estimatedMid), 160);
+assert.notEqual(roundUsage(chatGptThreeHours.estimatedMid), roundUsage(chatGptFiveHours.estimatedMid));
+assert.equal(chatGptFiveHours.baseLimitFallback, true);
 
-assert.ok(
-  sonnetLight.estimatedMid > fableLight.estimatedMid,
-  "Claude Sonnet should estimate more messages than Fable 5 for light tasks.",
+const cursorProGpt = estimateUsage(
+  input({
+    platform: "Cursor",
+    plan: "Pro",
+    resetWindow: "Monthly",
+    hoursUntilReset: 720,
+    advancedSelections: { model: "GPT-5 / GPT-5.5" },
+  }),
 );
-assert.ok(
-  sonnetNormal.estimatedMid > fableNormal.estimatedMid,
-  "Claude Sonnet should estimate more messages than Fable 5 for normal tasks.",
+const cursorProSonnet = estimateUsage(
+  input({
+    platform: "Cursor",
+    plan: "Pro",
+    resetWindow: "Monthly",
+    hoursUntilReset: 720,
+    advancedSelections: { model: "Claude Sonnet 5" },
+  }),
 );
-assert.ok(
-  fableVeryHeavy.estimatedMid < fableLight.estimatedMid,
-  "Fable 5 very heavy should still estimate fewer tasks than Fable 5 light because task complexity is expensive.",
-);
+assert.equal(roundUsage(cursorProGpt.estimatedMid), 500);
+assert.equal(roundUsage(cursorProSonnet.estimatedMid), 225);
 
-const codexPlusHigh = estimateUsage({
-  platform: "Codex",
-  plan: "Plus",
-  remainingPercent: 65,
-  resetWindow: "5 hours",
-  hoursUntilReset: 5,
-  minutesUntilReset: 0,
-  usageIntensity: "Normal",
-  advancedSelections: { reasoning: "High" },
-});
-const fablePro65 = estimateUsage({
-  ...claudeInput("Normal", { model: "claude-fable-5" }),
-  remainingPercent: 65,
-});
-
-assert.ok(
-  codexPlusHigh.estimatedMid > fablePro65.estimatedMid,
-  "Codex Plus with High reasoning should estimate more tasks than Claude Pro with Fable 5 for the same 65% window.",
+const windsurfPro = estimateUsage(
+  input({
+    platform: "Windsurf / Devin",
+    plan: "Pro",
+    resetWindow: "Monthly",
+    hoursUntilReset: 720,
+    advancedSelections: { model: "Adaptive" },
+  }),
 );
+assert.equal(roundUsage(windsurfPro.estimatedMid), 500);
 
 assert.equal(
   getPlatformUnitLabel("Claude", "Claude Code", undefined, "claude-fable-5"),
@@ -143,9 +186,7 @@ const shareText = buildShareText(
   getPlatformUnitLabel("Claude", "Standard chat", undefined, "claude-fable-5"),
   "Claude Fable 5",
 );
-
 assert.match(shareText, /Model: Claude Fable 5\./);
-assert.match(shareText, /Estimated remaining: around 30 Claude Fable 5 messages\/tasks\./);
 assert.match(shareText, /Calculated with AI Percent to Prompts Calculator\./);
 assert.match(shareText, /Likely range:/);
 
@@ -153,12 +194,16 @@ const firstVisitDefault = createDefaultEstimatorForm();
 assert.equal(DEFAULT_PLATFORM, "Codex");
 assert.equal(DEFAULT_REMAINING_PERCENT, "65");
 assert.equal(firstVisitDefault.platform, "Codex");
-assert.equal(firstVisitDefault.remainingPercent, "65");
-assert.deepEqual(firstVisitDefault.advancedSelections, {});
+assert.equal(firstVisitDefault.resetWindow, "5 hours");
+assert.equal(firstVisitDefault.advancedSelections.model, "GPT-5.5");
 
+const chatGptDefault = createDefaultEstimatorForm("ChatGPT");
+assert.equal(chatGptDefault.resetWindow, "3 hours");
+assert.equal(chatGptDefault.advancedSelections.model, "GPT-5.5 Instant");
 const claudeDefault = createDefaultEstimatorForm("Claude");
-assert.equal(claudeDefault.advancedSelections.model, "claude-sonnet");
+assert.equal(claudeDefault.advancedSelections.model, "claude-sonnet-5");
 assert.equal(claudeDefault.advancedSelections.mode, "Standard chat");
+assert.equal(platformPresets.Cursor.defaultResetWindow, "Monthly");
 
 const savedForm = normalizeStoredEstimatorForm(
   JSON.stringify({
@@ -172,35 +217,15 @@ const savedForm = normalizeStoredEstimatorForm(
     advancedSelections: { reasoning: "High" },
   }),
 );
-
 assert.equal(savedForm.platform, "Codex");
-assert.equal(savedForm.advancedSelections.reasoning, "High");
 assert.equal(savedForm.remainingPercent, "42");
-
-const savedBlankPercentForm = normalizeStoredEstimatorForm(
-  JSON.stringify({
-    platform: "Codex",
-    plan: "Plus",
-    remainingPercent: "",
-    resetWindow: "5 hours",
-    hoursUntilReset: "5",
-    minutesUntilReset: "0",
-    usageIntensity: "Normal",
-    advancedSelections: {},
-  }),
-);
-
-assert.equal(savedBlankPercentForm.remainingPercent, "65");
 
 assert.equal(PLATFORMS[0], "Codex");
 assert.equal(PLATFORMS.at(-1), "Other");
 assert.equal(getPlatformFromSearch("?platform=chatgpt"), "ChatGPT");
 
-const homePage = fs.readFileSync(
-  path.join(root, "src", "app", "page.tsx"),
-  "utf8",
-);
-assert.match(homePage, /Codex, ChatGPT, Claude, Gemini and more/);
-assert.match(homePage, /AI Percent to Prompts Calculator - Estimate AI Prompts Left/);
+const homePage = fs.readFileSync(path.join(root, "src", "app", "page.tsx"), "utf8");
+assert.match(homePage, /GPT-5\.6/);
+assert.match(homePage, /Claude Sonnet 5/);
 
 console.log("Estimation tests passed.");

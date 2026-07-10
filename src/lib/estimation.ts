@@ -15,7 +15,7 @@ import type {
 } from "@/types";
 
 export const DISCLAIMER =
-  "This tool is not affiliated with OpenAI, Anthropic, Google, Perplexity, Cursor, Windsurf or Devin. Results are unofficial estimates based on the remaining percentage and options you enter. Real limits can vary by plan, model, feature, system capacity, context length, files, task complexity and provider changes.";
+  "This tool is not affiliated with OpenAI, Anthropic, Google, Perplexity, Cursor, Windsurf or Devin. Results are unofficial estimates based on the remaining percentage and options you enter. Real limits can vary by plan, model, feature, system capacity, context length, files, task complexity and provider changes. API cost references are not subscription charges.";
 
 const statusMessages: Record<StatusLevel, string> = {
   Comfortable: "You have plenty of estimated usage left.",
@@ -33,11 +33,19 @@ const reliabilityOrder: ReliabilityLevel[] = [
   "High",
 ];
 
+const windowHours: Record<ResetWindow, number> = {
+  "3 hours": 3,
+  "5 hours": 5,
+  Daily: 24,
+  Weekly: 168,
+  Monthly: 720,
+};
+
 const claudeFable5Multipliers = {
-  Light: 0.26,
-  Normal: 0.3,
-  Heavy: 0.38,
-  "Very heavy": 0.5,
+  Light: 0.2,
+  Normal: 0.24,
+  Heavy: 0.4,
+  "Very heavy": 0.6,
 } satisfies Record<EstimateInput["usageIntensity"], number>;
 
 export function getClaudeFable5Multiplier(
@@ -71,18 +79,19 @@ function getUncertainty(input: EstimateInput) {
     if (input.plan === "Pro 100" || input.plan === "Pro 200") {
       return { low: 0.5, high: 1.8 };
     }
-
-    return { low: 0.8, high: 1.2 };
+    return input.resetWindow === "3 hours"
+      ? { low: 0.8, high: 1.2 }
+      : { low: 0.55, high: 1.55 };
   }
 
   const map: Record<PlatformName, { low: number; high: number }> = {
-    Codex: { low: 0.55, high: 1.45 },
-    ChatGPT: { low: 0.8, high: 1.2 },
+    Codex: { low: 0.45, high: 1.55 },
+    ChatGPT: { low: 0.55, high: 1.55 },
     Claude: { low: 0.6, high: 1.4 },
-    Gemini: { low: 0.7, high: 1.3 },
-    Perplexity: { low: 0.55, high: 1.45 },
-    Cursor: { low: 0.65, high: 1.35 },
-    "Windsurf / Devin": { low: 0.65, high: 1.35 },
+    Gemini: { low: 0.55, high: 1.45 },
+    Perplexity: { low: 0.5, high: 1.6 },
+    Cursor: { low: 0.75, high: 1.25 },
+    "Windsurf / Devin": { low: 0.75, high: 1.3 },
     Other: { low: 0.5, high: 1.5 },
   };
 
@@ -90,32 +99,34 @@ function getUncertainty(input: EstimateInput) {
 }
 
 function getReliability(input: EstimateInput, baseLimitFallback: boolean) {
-  let reliability: ReliabilityLevel;
+  const base: Record<PlatformName, ReliabilityLevel> = {
+    Codex: "Medium-low",
+    ChatGPT: "Medium",
+    Claude: "Medium-high",
+    Gemini: "Medium-low",
+    Perplexity: "Medium-low",
+    Cursor: "Medium-high",
+    "Windsurf / Devin": "Medium-high",
+    Other: "Low",
+  };
+  let reliability = base[input.platform];
 
   if (
     input.platform === "ChatGPT" &&
     (input.plan === "Pro 100" || input.plan === "Pro 200")
   ) {
     reliability = "Medium-low";
-  } else {
-    const base: Record<PlatformName, ReliabilityLevel> = {
-      Codex: "Medium-low",
-      ChatGPT: "Medium",
-      Claude: "Medium",
-      Gemini: "Medium-high",
-      Perplexity: "Medium",
-      Cursor: "Medium",
-      "Windsurf / Devin": "Medium",
-      Other: "Low",
-    };
-
-    reliability = base[input.platform];
   }
 
-  if (input.platform === "Codex") {
-    const maxCodexIndex = reliabilityOrder.indexOf("Medium");
-    const currentIndex = reliabilityOrder.indexOf(reliability);
-    reliability = reliabilityOrder[Math.min(currentIndex, maxCodexIndex)];
+  if (input.advancedSelections.model?.includes("preview")) {
+    reliability = shiftReliability(reliability, -1);
+  }
+
+  if (
+    input.platform === "Windsurf / Devin" &&
+    input.advancedSelections.mode === "Devin session"
+  ) {
+    reliability = "Low";
   }
 
   if (baseLimitFallback) {
@@ -136,12 +147,6 @@ function getSelectedOption(group: AdvancedOptionGroup, value?: string) {
   );
 }
 
-function getFallbackWindow(resetWindow: ResetWindow): ResetWindow {
-  if (resetWindow === "Weekly") return "Daily";
-  if (resetWindow === "Monthly") return "Weekly";
-  return "5 hours";
-}
-
 function getBaseLimit(planPreset?: PlanPreset, resetWindow?: ResetWindow) {
   if (!planPreset || !resetWindow) {
     return { baseLimit: undefined, baseLimitFallback: true };
@@ -152,12 +157,43 @@ function getBaseLimit(planPreset?: PlanPreset, resetWindow?: ResetWindow) {
     return { baseLimit: exactLimit, baseLimitFallback: false };
   }
 
-  const fallbackLimit =
-    planPreset.baseLimits[getFallbackWindow(resetWindow)] ??
-    planPreset.baseLimits["5 hours"] ??
-    Object.values(planPreset.baseLimits).find((value) => value !== undefined);
+  const source = Object.entries(planPreset.baseLimits).find(
+    (entry): entry is [ResetWindow, number] => entry[1] !== undefined,
+  );
+  if (!source) return { baseLimit: undefined, baseLimitFallback: true };
 
-  return { baseLimit: fallbackLimit, baseLimitFallback: true };
+  const [sourceWindow, sourceLimit] = source;
+  const scaledLimit =
+    sourceLimit * (windowHours[resetWindow] / windowHours[sourceWindow]);
+  return { baseLimit: scaledLimit, baseLimitFallback: true };
+}
+
+function getTypicalTokenProfile(intensity: EstimateInput["usageIntensity"]) {
+  return {
+    Light: { input: 2_000, output: 500 },
+    Normal: { input: 8_000, output: 1_500 },
+    Heavy: { input: 30_000, output: 5_000 },
+    "Very heavy": { input: 100_000, output: 15_000 },
+  }[intensity];
+}
+
+function getApiCostEstimate(
+  model: MultiplierOption | undefined,
+  intensity: EstimateInput["usageIntensity"],
+) {
+  if (!model?.apiPricing) return undefined;
+  const tokens = getTypicalTokenProfile(intensity);
+  const mid =
+    (tokens.input / 1_000_000) * model.apiPricing.inputPerMillion +
+    (tokens.output / 1_000_000) * model.apiPricing.outputPerMillion;
+
+  return {
+    low: mid * 0.35,
+    mid,
+    high: mid * 2.5,
+    modelLabel: model.label,
+    pricingNote: model.apiPricing.note,
+  };
 }
 
 export function estimateUsage(input: EstimateInput): EstimateResult {
@@ -200,6 +236,7 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
       resetWindow: input.resetWindow,
       usageIntensity: input.usageIntensity,
       usageUnit: preset.usageUnit,
+      limitBasis: preset.limitBasis,
       remainingPercent: safeRemainingPercent,
       usedPercent,
       baseLimit,
@@ -212,11 +249,12 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
       reliability,
       uncertainty,
       factors: [],
-      notes: getNotes(input, baseLimitFallback),
+      notes: getNotes(input, baseLimitFallback, []),
     };
   }
 
   const factors = [`${input.platform}`, `${input.plan} plan`, input.resetWindow];
+  const selectedOptions: MultiplierOption[] = [];
   let multiplier = usageIntensityMultipliers[input.usageIntensity] ?? 1;
 
   if (input.usageIntensity !== "Normal") {
@@ -226,15 +264,16 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
   for (const group of preset.advancedGroups) {
     const selected = getSelectedOption(group, input.advancedSelections[group.key]);
     if (!selected) continue;
+    selectedOptions.push(selected);
 
     if (
       input.platform === "Claude" &&
       group.key === "model" &&
       getOptionValue(selected) === "claude-fable-5"
     ) {
-      // Claude Fable 5 has higher per-token cost than Opus/Sonnet/Haiku,
-      // but may be more efficient on long-horizon coding and agentic tasks.
-      // We use a dynamic model multiplier, then still apply task complexity above.
+      // Claude Fable 5 has higher per-token cost than Opus/Sonnet/Haiku, but may
+      // be more efficient on long-horizon coding and agentic tasks. We use a
+      // dynamic multiplier: conservative for light tasks, less punitive for heavy tasks.
       multiplier *= getClaudeFable5Multiplier(input.usageIntensity);
     } else {
       multiplier *= selected.multiplier;
@@ -260,6 +299,9 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
           hoursRemaining,
         }
       : undefined;
+  const selectedModel = selectedOptions.find((option) => option.apiPricing);
+  const costReference = selectedOptions.find((option) => option.costReference)
+    ?.costReference;
 
   return {
     isValid: true,
@@ -269,6 +311,7 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     resetWindow: input.resetWindow,
     usageIntensity: input.usageIntensity,
     usageUnit: preset.usageUnit,
+    limitBasis: preset.limitBasis,
     remainingPercent: safeRemainingPercent,
     usedPercent,
     baseLimit,
@@ -282,41 +325,62 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     reliability,
     uncertainty,
     factors,
-    notes: getNotes(input, baseLimitFallback),
+    notes: getNotes(input, baseLimitFallback, selectedOptions),
+    apiCostEstimate: getApiCostEstimate(selectedModel, input.usageIntensity),
+    costReference,
   };
 }
 
-function getNotes(input: EstimateInput, baseLimitFallback: boolean) {
+function getNotes(
+  input: EstimateInput,
+  baseLimitFallback: boolean,
+  selectedOptions: MultiplierOption[],
+) {
   const notes: string[] = [];
 
   if (
     input.platform === "ChatGPT" &&
     input.plan === "Plus" &&
-    input.resetWindow === "5 hours"
+    input.resetWindow === "3 hours"
   ) {
     notes.push(
-      "For ChatGPT Plus, 160 is treated as a rough short-window reference when applicable, not a guaranteed limit for every model or feature.",
+      "ChatGPT Plus uses 160 messages per 3 hours as a current published reference, not a guarantee for every model or feature.",
     );
   }
 
-  if (input.platform === "ChatGPT" && input.resetWindow !== "5 hours") {
+  if (input.platform === "Codex") {
     notes.push(
-      "Some ChatGPT limits may use different reset windows depending on model and plan.",
+      "Codex now meters model tokens and credits. Task counts are normalized equivalents, not a fixed message cap.",
     );
   }
 
-  if (
-    input.platform === "ChatGPT" &&
-    (input.plan === "Pro 100" || input.plan === "Pro 200")
-  ) {
+  if (input.platform === "Gemini") {
     notes.push(
-      "ChatGPT Pro-style usage is especially variable, so this estimate uses a wider uncertainty range.",
+      "Gemini app limits are compute-based; prompts can consume different amounts depending on model, feature, context and complexity.",
     );
+  }
+
+  if (input.platform === "Cursor") {
+    notes.push(
+      "Cursor converts included monthly API usage into approximate request counts, so the selected model strongly affects the result.",
+    );
+  }
+
+  if (input.platform === "Windsurf / Devin") {
+    notes.push(
+      "Windsurf prompt credits are more predictable than Devin agent sessions, which use complexity-based quota.",
+    );
+  }
+
+  for (const option of selectedOptions) {
+    if (option.availabilityNote && !notes.includes(option.availabilityNote)) {
+      notes.push(option.availabilityNote);
+    }
   }
 
   if (baseLimitFallback) {
     notes.push(
-      "This plan does not have a specific preset for the selected reset window, so a nearby preset was used and reliability was lowered.",
+      "No published preset exists for this exact window. The nearest known limit was time-scaled, so reliability was lowered.",
     );
   }
 

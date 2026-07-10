@@ -54,7 +54,7 @@ export function getPlatformUnitLabel(
   }
 
   if (platform === "Windsurf / Devin") {
-    return "Windsurf quota units/agent runs";
+    return "Windsurf prompt credits/agent usage";
   }
 
   return "AI usage units";
@@ -98,11 +98,11 @@ export function getMainFactorsSummary(result: EstimateResult) {
     : "";
 
   if (result.platform === "Codex") {
-    return "Codex estimates use your plan, remaining percentage, reasoning effort, task type, repo size and execution style.";
+    return "Codex estimates normalize the current token and credit rate into task equivalents, then adjust for model, reasoning, repo size and execution style.";
   }
 
   if (result.platform === "ChatGPT") {
-    return "ChatGPT estimates use your plan, model, thinking time and selected tools.";
+    return "ChatGPT starts from the published plan window when available, then adjusts for model, thinking time and selected tools.";
   }
 
   if (result.platform === "Claude") {
@@ -111,7 +111,7 @@ export function getMainFactorsSummary(result: EstimateResult) {
         result.usageIntensity === "Heavy" ||
         result.usageIntensity === "Very heavy"
       ) {
-        return "Claude Fable 5 is high-cost, but demanding work gets a slightly less severe model penalty because it may need fewer iterations. Task complexity still lowers the total.";
+        return "Claude Fable 5 has a high per-token cost, but demanding work gets a smaller penalty because it may need fewer iterations.";
       }
       return "Claude Fable 5 is treated as a high-cost, high-capability model, so the estimate is conservative for lighter tasks.";
     }
@@ -127,15 +127,19 @@ export function getMainFactorsSummary(result: EstimateResult) {
   }
 
   if (result.platform === "Gemini") {
-    return "Gemini estimates use your plan, model, thinking level and selected feature.";
+    return "Gemini uses Google's compute-based plan ratios, adjusted for model, thinking level, selected feature and task demand.";
   }
 
-  if (result.platform === "Cursor" || result.platform === "Windsurf / Devin") {
-    return "Coding assistant estimates use your plan, mode, context size and agent usage.";
+  if (result.platform === "Cursor") {
+    return "Cursor converts the plan's monthly included API usage into model-specific request estimates, then adjusts for agent mode and context size.";
+  }
+
+  if (result.platform === "Windsurf / Devin") {
+    return "Windsurf starts from monthly prompt credits and applies each model's credit rate. Devin agent sessions remain less predictable.";
   }
 
   if (result.platform === "Perplexity") {
-    return "Perplexity estimates use your plan, search mode, API model and research depth.";
+    return "Perplexity uses published search allowances where available, adjusted for search mode and research depth.";
   }
 
   return "Estimates use the selected preset, remaining percentage and task complexity.";
