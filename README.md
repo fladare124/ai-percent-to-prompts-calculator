@@ -4,9 +4,11 @@ AI Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a 
 
 Production: `https://percenttoprompts.com`
 
-It supports Codex, ChatGPT, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. Current model references include GPT-5.6 preview models, GPT-5.5, Claude Sonnet 5, Fable 5, Opus 4.8, Haiku 4.5 and current Gemini 3.5/3.1 API models. The estimate is unofficial and uses plan presets, reset windows, task complexity and model-specific multipliers.
+It supports ChatGPT / Codex as one OpenAI platform, plus Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. The OpenAI selector separates ChatGPT chat from Codex and Work so message windows are not confused with the shared agentic credit pool. Current model references include GPT-5.6 Sol, Terra and Luna, GPT-5.5, Claude Fable 5, Sonnet 5, Opus 4.8, Haiku 4.5 and current Gemini 3.5/3.1 API models.
 
 Presets and public price references were reviewed on July 10, 2026.
+
+GPT-5.6 Sol and Claude Fable 5 are visible in the main form because model choice has a large effect on the result. Less important context, feature and execution controls remain under Advanced options.
 
 ## Install
 

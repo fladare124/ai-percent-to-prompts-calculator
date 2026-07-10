@@ -80,12 +80,29 @@ export default function EstimatorResult({
   return (
     <section className="space-y-6" aria-live="polite">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-          Estimate
-        </p>
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+          <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 dark:border-zinc-700 dark:bg-zinc-950">
+            {result.plan}
+          </span>
+          <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 dark:border-zinc-700 dark:bg-zinc-950">
+            {result.resetWindow}
+          </span>
+        </div>
         <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
           Around {roundUsage(result.estimatedMid)} {unitLabel} left
         </h2>
+        <div className="mt-4" aria-label={`${result.remainingPercent}% remaining`}>
+          <div className="mb-2 flex items-center justify-between text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span>Used {result.usedPercent}%</span>
+            <span>Remaining {result.remainingPercent}%</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+            <div
+              className="h-full rounded-full bg-cyan-600 transition-[width] dark:bg-cyan-400"
+              style={{ width: `${Math.min(100, Math.max(0, result.remainingPercent))}%` }}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -112,7 +129,7 @@ export default function EstimatorResult({
         />
         {result.apiCostEstimate ? (
           <Metric
-            label="Typical API cost per task"
+            label="Typical API reference per task"
             value={`${moneyRange(
               result.apiCostEstimate.low,
               result.apiCostEstimate.high,

@@ -14,8 +14,9 @@ export default function CodexUsageCalculatorPage() {
   return (
     <SeoCalculatorPage
       h1="Codex Usage Calculator"
-      intro="Estimate roughly how many Codex tasks, local messages or cloud tasks may remain by entering the remaining usage percentage, plan and task style."
+      intro="Estimate Codex tasks from the shared OpenAI agentic pool. GPT-5.6 Sol, Terra and Luna are visible beside the ChatGPT and Work experiences."
       platformFocus="Codex"
+      productFocus="Codex"
       extraFaq={[
         {
           question: "Why can Codex estimates vary?",

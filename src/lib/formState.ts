@@ -29,7 +29,7 @@ function getDefaultAdvancedSelections(
 ): Partial<Record<AdvancedOptionKey, string>> {
   if (platform === "Claude") {
     return {
-      model: "claude-sonnet-5",
+      model: "claude-fable-5",
       mode: "Standard chat",
     };
   }
@@ -39,7 +39,12 @@ function getDefaultAdvancedSelections(
   }
 
   if (platform === "Codex") {
-    return { model: "GPT-5.5", reasoning: "Medium" };
+    return {
+      product: "ChatGPT chat",
+      model: "gpt-5.6-sol",
+      reasoning: "Medium",
+      feature: "Simple chat",
+    };
   }
 
   return {};
@@ -101,6 +106,29 @@ function normalizeLegacySelections(
   platform: PlatformName,
   advancedSelections: Partial<Record<AdvancedOptionKey, string>>,
 ) {
+  if (platform === "Codex") {
+    const modelMigrations: Record<string, string> = {
+      "GPT-5.6 Sol (preview)": "gpt-5.6-sol",
+      "GPT-5.6 Sol": "gpt-5.6-sol",
+      "GPT-5.6 Terra (preview)": "gpt-5.6-terra",
+      "GPT-5.6 Luna (preview)": "gpt-5.6-luna",
+      "GPT-5.5 Instant": "gpt-5.5-instant",
+      "GPT-5.5": "gpt-5.5-codex",
+      "GPT-5.4": "gpt-5.4",
+    };
+    return {
+      ...advancedSelections,
+      model: advancedSelections.model
+        ? modelMigrations[advancedSelections.model] ?? advancedSelections.model
+        : "gpt-5.6-sol",
+      product: advancedSelections.product ?? "ChatGPT chat",
+      reasoning:
+        advancedSelections.reasoning === "Standard"
+          ? "Medium"
+          : advancedSelections.reasoning ?? "Medium",
+    };
+  }
+
   if (platform === "ChatGPT") {
     return {
       ...advancedSelections,
@@ -156,24 +184,44 @@ export function normalizeStoredEstimatorForm(
     const parsed = storedFormJson ? JSON.parse(storedFormJson) : null;
     if (!isFormState(parsed)) return null;
 
+    const isLegacyOpenAI =
+      parsed.platform === "Codex" || parsed.platform === "ChatGPT";
     const targetPlatform =
       platformFocus ??
-      (isPlatformName(parsed.platform) ? parsed.platform : DEFAULT_PLATFORM);
+      (isLegacyOpenAI
+        ? "Codex"
+        : isPlatformName(parsed.platform)
+          ? parsed.platform
+          : DEFAULT_PLATFORM);
     const targetPreset = platformPresets[targetPlatform];
+    const migratedPlan =
+      targetPlatform === "Codex" &&
+      (parsed.plan === "Pro 100" || parsed.plan === "Pro 200")
+        ? "Pro"
+        : parsed.plan;
     const savedPlanStillExists = targetPreset.planPresets.some(
-      (plan) => plan.label === parsed.plan,
+      (plan) => plan.label === migratedPlan,
     );
     const resetWindow = targetPreset.resetWindows.includes(parsed.resetWindow)
       ? parsed.resetWindow
       : targetPreset.defaultResetWindow;
     const advancedSelections =
-      parsed.platform === targetPlatform ? { ...parsed.advancedSelections } : {};
+      parsed.platform === targetPlatform ||
+      (targetPlatform === "Codex" && isLegacyOpenAI)
+        ? {
+            ...parsed.advancedSelections,
+            product:
+              parsed.platform === "ChatGPT"
+                ? "ChatGPT chat"
+                : parsed.advancedSelections.product ?? "Codex",
+          }
+        : {};
 
     return {
       ...parsed,
       platform: targetPlatform,
       plan: savedPlanStillExists
-        ? parsed.plan
+        ? migratedPlan
         : defaultPlanByPlatform[targetPlatform],
       remainingPercent: normalizeRemainingPercent(parsed.remainingPercent),
       resetWindow,
@@ -201,6 +249,7 @@ export function getPlatformFromSearch(search: string): PlatformName | undefined 
   if (!rawPlatform) return undefined;
 
   const normalized = normalizePlatformParam(rawPlatform);
+  if (normalized === "chatgpt" || normalized === "codex") return "Codex";
   return PLATFORMS.find(
     (platform) => normalizePlatformParam(platform) === normalized,
   );
@@ -211,5 +260,25 @@ export function createEstimatorFormFromSearch(
   platformFocus?: PlatformName,
 ) {
   const platform = platformFocus ?? getPlatformFromSearch(search);
-  return platform ? createDefaultEstimatorForm(platform) : null;
+  if (!platform) return null;
+  const form = createDefaultEstimatorForm(platform);
+  const params = new URLSearchParams(search);
+  const requested = normalizePlatformParam(
+    params.get("platform") ?? params.get("tool") ?? "",
+  );
+
+  if (platform === "Codex" && requested === "codex") {
+    return {
+      ...form,
+      resetWindow: "5 hours" as ResetWindow,
+      hoursUntilReset: "5",
+      advancedSelections: {
+        ...form.advancedSelections,
+        product: "Codex",
+        feature: "Coding task",
+      },
+    };
+  }
+
+  return form;
 }

@@ -85,6 +85,60 @@ export default function EstimatorForm({
       [key]: value || undefined,
     };
 
+    if (form.platform === "Codex" && key === "product") {
+      const productDefaults = {
+        "ChatGPT chat": {
+          model: "gpt-5.6-sol",
+          reasoning: "Medium",
+          feature: "Simple chat",
+          resetWindow: "3 hours" as ResetWindow,
+          hours: "3",
+        },
+        Codex: {
+          model: "gpt-5.6-sol",
+          reasoning: "Medium",
+          feature: "Coding task",
+          resetWindow: "5 hours" as ResetWindow,
+          hours: "5",
+        },
+        "Work / workspace agents": {
+          model: "gpt-5.6-sol",
+          reasoning: "High",
+          feature: "Agent mode",
+          resetWindow: "5 hours" as ResetWindow,
+          hours: "5",
+        },
+      }[value];
+
+      if (productDefaults) {
+        onChange({
+          ...form,
+          resetWindow: productDefaults.resetWindow,
+          hoursUntilReset: productDefaults.hours,
+          minutesUntilReset: "0",
+          advancedSelections: {
+            ...nextSelections,
+            model: productDefaults.model,
+            reasoning: productDefaults.reasoning,
+            feature: productDefaults.feature,
+          },
+        });
+        return;
+      }
+    }
+
+    if (form.platform === "Codex" && key === "model") {
+      nextSelections.reasoning =
+        value === "gpt-5.5-instant"
+          ? "None / Instant"
+          : value === "gpt-5.6-sol-pro"
+            ? "Pro"
+            : nextSelections.reasoning === "None / Instant" ||
+                nextSelections.reasoning === "Pro"
+              ? "Medium"
+              : nextSelections.reasoning;
+    }
+
     if (form.platform === "ChatGPT" && key === "model") {
       nextSelections.reasoning =
         value === "GPT-5.5 Thinking" ? "Medium" : "None / Instant";
@@ -100,7 +154,21 @@ export default function EstimatorForm({
   const hiddenAdvancedKeys = getHiddenAdvancedKeys(form, criticalFields);
 
   return (
-    <form className="space-y-5" noValidate>
+    <form className="space-y-7" noValidate>
+      <div className="flex items-center justify-between border-b border-zinc-200 pb-4 dark:border-zinc-800">
+        <div>
+          <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+            Usage setup
+          </p>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            Match what your provider shows before reading the estimate.
+          </p>
+        </div>
+        <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
+          Live estimate
+        </span>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelClass}>Platform</span>
@@ -113,7 +181,7 @@ export default function EstimatorForm({
           >
             {PLATFORMS.map((platform) => (
               <option key={platform} value={platform}>
-                {platform}
+                {platform === "Codex" ? "ChatGPT / Codex" : platform}
               </option>
             ))}
           </select>
@@ -135,6 +203,35 @@ export default function EstimatorForm({
             )}
           </select>
         </label>
+      </div>
+
+      {criticalFields.length > 0 ? (
+        <div className="space-y-3 border-t border-zinc-200 pt-5 dark:border-zinc-800">
+          <div>
+            <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+              Product and model
+            </p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              These choices have the biggest effect on the estimate.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {criticalFields.map((field) => (
+              <ImportantAdvancedField
+                key={field.group.key}
+                field={field}
+                value={form.advancedSelections[field.group.key]}
+                onChange={handleAdvancedChange}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
+        <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+          Remaining allowance
+        </p>
       </div>
 
       <label className="flex flex-col gap-2">
@@ -177,7 +274,9 @@ export default function EstimatorForm({
           </select>
           {form.platform === "Codex" ? (
             <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
-              Choose the same window shown by Codex, usually 5 hours or weekly.
+              {form.advancedSelections.product === "ChatGPT chat"
+                ? "Use the window shown in ChatGPT, commonly 3 hours for Instant messages."
+                : "Use the same agentic window shown by Codex or Work, commonly 5 hours or weekly."}
             </span>
           ) : null}
           {form.platform === "ChatGPT" ? (
@@ -208,19 +307,11 @@ export default function EstimatorForm({
         </label>
       </div>
 
-      {criticalFields.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {criticalFields.map((field) => (
-            <ImportantAdvancedField
-              key={field.group.key}
-              field={field}
-              value={form.advancedSelections[field.group.key]}
-              onChange={handleAdvancedChange}
-            />
-          ))}
-        </div>
-      ) : null}
-
+      <div className="border-t border-zinc-200 pt-5 dark:border-zinc-800">
+        <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+          Time until reset
+        </p>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelClass}>Hours</span>
@@ -272,10 +363,44 @@ interface CriticalField {
   options: MultiplierOption[];
   fallbackValue: string;
   helpText: string;
+  emphasized?: boolean;
 }
 
 function getGroup(preset: PlatformPreset, key: AdvancedOptionKey) {
   return preset.advancedGroups.find((group) => group.key === key);
+}
+
+function getOpenAIModelOptions(
+  options: MultiplierOption[],
+  product?: string,
+) {
+  const allowedByProduct: Record<string, string[]> = {
+    "ChatGPT chat": [
+      "gpt-5.6-sol",
+      "gpt-5.6-sol-pro",
+      "gpt-5.5-instant",
+      "openai-auto",
+    ],
+    Codex: [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna",
+      "gpt-5.5-codex",
+      "gpt-5.4",
+      "openai-auto",
+    ],
+    "Work / workspace agents": [
+      "gpt-5.6-sol",
+      "gpt-5.6-sol-pro",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna",
+      "openai-auto",
+    ],
+  };
+  const allowed = allowedByProduct[product ?? "ChatGPT chat"];
+  return options.filter((option) =>
+    allowed.includes(option.value ?? option.label),
+  );
 }
 
 function getCriticalFields(
@@ -288,14 +413,60 @@ function getCriticalFields(
   const reasoning = form.advancedSelections.reasoning;
 
   if (form.platform === "Codex") {
-    const group = getGroup(preset, "reasoning");
-    if (group) {
+    const productGroup = getGroup(preset, "product");
+    const modelGroup = getGroup(preset, "model");
+    const reasoningGroup = getGroup(preset, "reasoning");
+    const product = form.advancedSelections.product ?? "ChatGPT chat";
+
+    if (productGroup) {
       fields.push({
-        group,
-        options: group.options,
-        fallbackValue: "Medium",
+        group: productGroup,
+        options: productGroup.options,
+        fallbackValue: "ChatGPT chat",
         helpText:
-          "Higher reasoning effort usually means fewer tasks left, but better reasoning for complex coding work.",
+          "ChatGPT chat uses message limits. Codex and Work use the shared agentic usage pool.",
+      });
+    }
+
+    if (modelGroup) {
+      fields.push({
+        group: modelGroup,
+        options: getOpenAIModelOptions(modelGroup.options, product),
+        fallbackValue: "gpt-5.6-sol",
+        helpText:
+          product === "ChatGPT chat"
+            ? "GPT-5.6 Sol powers Medium, High and Extra High reasoning on eligible plans."
+            : "Sol, Terra and Luna use different token and credit rates for agentic work.",
+        emphasized: true,
+      });
+    }
+
+    if (reasoningGroup) {
+      const reasoningOptions =
+        model === "gpt-5.5-instant"
+          ? reasoningGroup.options.filter(
+              (option) => option.label === "None / Instant",
+            )
+          : model === "gpt-5.6-sol-pro"
+            ? reasoningGroup.options.filter(
+                (option) => option.label === "Pro",
+              )
+            : reasoningGroup.options.filter(
+                (option) =>
+                  option.label !== "None / Instant" &&
+                  option.label !== "Pro",
+              );
+      fields.push({
+        group: reasoningGroup,
+        options: reasoningOptions,
+        fallbackValue:
+          model === "gpt-5.5-instant"
+            ? "None / Instant"
+            : model === "gpt-5.6-sol-pro"
+              ? "Pro"
+              : "Medium",
+        helpText:
+          "More reasoning usually means fewer messages or tasks, with more work done per response.",
       });
     }
   }
@@ -333,9 +504,10 @@ function getCriticalFields(
       fields.push({
         group,
         options: group.options,
-        fallbackValue: "claude-sonnet-5",
+        fallbackValue: "claude-fable-5",
         helpText:
-          "Choose the Claude model closest to what you are using for this window.",
+          "Claude Fable 5 is included and uses a more conservative, task-aware estimate.",
+        emphasized: true,
       });
     }
   }
@@ -377,7 +549,8 @@ function getHiddenAdvancedKeys(
 ): AdvancedOptionKey[] {
   const keys = criticalFields.map((field) => field.group.key);
 
-  if (form.platform === "ChatGPT") {
+  if (form.platform === "ChatGPT" || form.platform === "Codex") {
+    keys.push("product");
     keys.push("model");
     keys.push("reasoning");
   }
@@ -401,8 +574,21 @@ function ImportantAdvancedField({
       : field.fallbackValue;
 
   return (
-    <label className="flex flex-col gap-2">
-      <span className={labelClass}>{field.group.label}</span>
+    <label
+      className={`flex flex-col gap-2 ${
+        field.emphasized
+          ? "rounded-md border border-cyan-200 bg-cyan-50/60 p-3 dark:border-cyan-900/60 dark:bg-cyan-950/20"
+          : ""
+      }`}
+    >
+      <span className="flex items-center justify-between gap-2">
+        <span className={labelClass}>{field.group.label}</span>
+        {field.emphasized ? (
+          <span className="text-xs font-semibold text-cyan-700 dark:text-cyan-300">
+            Key factor
+          </span>
+        ) : null}
+      </span>
       <select
         value={selectedValue}
         onChange={(event) => onChange(field.group.key, event.target.value)}

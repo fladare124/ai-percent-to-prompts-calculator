@@ -75,6 +75,16 @@ function getStatus(remainingPercent: number): StatusLevel {
 }
 
 function getUncertainty(input: EstimateInput) {
+  if (
+    input.platform === "Codex" &&
+    input.advancedSelections.product === "ChatGPT chat"
+  ) {
+    if (input.plan === "Pro") return { low: 0.5, high: 1.8 };
+    return input.resetWindow === "3 hours"
+      ? { low: 0.8, high: 1.2 }
+      : { low: 0.55, high: 1.55 };
+  }
+
   if (input.platform === "ChatGPT") {
     if (input.plan === "Pro 100" || input.plan === "Pro 200") {
       return { low: 0.5, high: 1.8 };
@@ -110,6 +120,13 @@ function getReliability(input: EstimateInput, baseLimitFallback: boolean) {
     Other: "Low",
   };
   let reliability = base[input.platform];
+
+  if (
+    input.platform === "Codex" &&
+    input.advancedSelections.product === "ChatGPT chat"
+  ) {
+    reliability = input.resetWindow === "3 hours" ? "Medium" : "Medium-low";
+  }
 
   if (
     input.platform === "ChatGPT" &&
@@ -175,6 +192,25 @@ function getTypicalTokenProfile(intensity: EstimateInput["usageIntensity"]) {
     Heavy: { input: 30_000, output: 5_000 },
     "Very heavy": { input: 100_000, output: 15_000 },
   }[intensity];
+}
+
+function getOpenAIModelMultiplier(
+  product: string | undefined,
+  model: MultiplierOption,
+) {
+  if (product === "ChatGPT chat") return model.multiplier;
+
+  const codexRates: Record<string, number> = {
+    "gpt-5.6-sol": 1,
+    "gpt-5.6-sol-pro": 0.5,
+    "gpt-5.6-terra": 2,
+    "gpt-5.6-luna": 4.67,
+    "gpt-5.5-codex": 0.25,
+    "gpt-5.4": 1,
+    "openai-auto": 0.8,
+  };
+
+  return codexRates[getOptionValue(model)] ?? model.multiplier;
 }
 
 function getApiCostEstimate(
@@ -275,6 +311,11 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
       // be more efficient on long-horizon coding and agentic tasks. We use a
       // dynamic multiplier: conservative for light tasks, less punitive for heavy tasks.
       multiplier *= getClaudeFable5Multiplier(input.usageIntensity);
+    } else if (input.platform === "Codex" && group.key === "model") {
+      multiplier *= getOpenAIModelMultiplier(
+        input.advancedSelections.product,
+        selected,
+      );
     } else {
       multiplier *= selected.multiplier;
     }
@@ -349,9 +390,20 @@ function getNotes(
   }
 
   if (input.platform === "Codex") {
-    notes.push(
-      "Codex now meters model tokens and credits. Task counts are normalized equivalents, not a fixed message cap.",
-    );
+    if (input.advancedSelections.product === "ChatGPT chat") {
+      if (input.plan === "Plus" && input.resetWindow === "3 hours") {
+        notes.push(
+          "ChatGPT Plus currently allows up to 160 GPT-5.5 Instant messages per 3 hours. GPT-5.6 reasoning uses its own dynamic allowance.",
+        );
+      }
+    } else {
+      notes.push(
+        "Codex, ChatGPT Work and workspace agents draw from the same agentic usage and credit pool when available on your plan.",
+      );
+      notes.push(
+        "Agentic usage is token-based. Task counts are normalized equivalents, not a fixed message cap.",
+      );
+    }
   }
 
   if (input.platform === "Gemini") {

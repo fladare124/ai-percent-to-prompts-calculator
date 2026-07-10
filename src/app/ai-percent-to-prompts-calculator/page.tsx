@@ -4,7 +4,7 @@ import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 export const metadata: Metadata = {
   title: "AI Percent to Prompts Calculator - Estimate AI Prompts Left",
   description:
-    "Convert your remaining AI usage percentage into estimated prompts, messages or tasks left across Codex, ChatGPT, Claude, Gemini and more.",
+    "Convert your remaining AI usage percentage into estimated prompts, messages or tasks across ChatGPT / Codex, Claude, Gemini and more.",
   alternates: {
     canonical: "/ai-percent-to-prompts-calculator",
   },
@@ -27,7 +27,7 @@ export default function AiPercentToPromptsCalculatorPage() {
   return (
     <SeoCalculatorPage
       h1="AI Percent to Prompts Calculator"
-      intro="Enter your remaining AI usage percentage and estimate how many prompts, messages or tasks you may have left across Codex, ChatGPT, Claude, Gemini and more."
+      intro="Enter your remaining AI usage percentage and estimate prompts, messages or tasks across ChatGPT / Codex, Claude, Gemini and more."
     />
   );
 }

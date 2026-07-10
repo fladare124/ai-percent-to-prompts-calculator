@@ -109,8 +109,13 @@ const codexPlusHigh = estimateUsage(
     platform: "Codex",
     plan: "Plus",
     remainingPercent: 65,
+    resetWindow: "5 hours",
     usageIntensity: "Normal",
-    advancedSelections: { model: "GPT-5.5", reasoning: "High" },
+    advancedSelections: {
+      product: "Codex",
+      model: "gpt-5.6-sol",
+      reasoning: "High",
+    },
   }),
 );
 const fablePro65 = estimateUsage(
@@ -121,24 +126,32 @@ assert.ok(codexPlusHigh.estimatedMid > fablePro65.estimatedMid);
 
 const chatGptThreeHours = estimateUsage(
   input({
-    platform: "ChatGPT",
+    platform: "Codex",
     plan: "Plus",
     resetWindow: "3 hours",
     hoursUntilReset: 3,
-    advancedSelections: { model: "GPT-5.5 Instant", reasoning: "None / Instant" },
+    advancedSelections: {
+      product: "ChatGPT chat",
+      model: "gpt-5.5-instant",
+      reasoning: "None / Instant",
+    },
   }),
 );
 const chatGptFiveHours = estimateUsage(
   input({
-    platform: "ChatGPT",
+    platform: "Codex",
     plan: "Plus",
     resetWindow: "5 hours",
-    advancedSelections: { model: "GPT-5.5 Instant", reasoning: "None / Instant" },
+    advancedSelections: {
+      product: "ChatGPT chat",
+      model: "gpt-5.5-instant",
+      reasoning: "None / Instant",
+    },
   }),
 );
 assert.equal(roundUsage(chatGptThreeHours.estimatedMid), 160);
 assert.notEqual(roundUsage(chatGptThreeHours.estimatedMid), roundUsage(chatGptFiveHours.estimatedMid));
-assert.equal(chatGptFiveHours.baseLimitFallback, true);
+assert.equal(chatGptFiveHours.baseLimitFallback, false);
 
 const cursorProGpt = estimateUsage(
   input({
@@ -194,14 +207,12 @@ const firstVisitDefault = createDefaultEstimatorForm();
 assert.equal(DEFAULT_PLATFORM, "Codex");
 assert.equal(DEFAULT_REMAINING_PERCENT, "65");
 assert.equal(firstVisitDefault.platform, "Codex");
-assert.equal(firstVisitDefault.resetWindow, "5 hours");
-assert.equal(firstVisitDefault.advancedSelections.model, "GPT-5.5");
+assert.equal(firstVisitDefault.resetWindow, "3 hours");
+assert.equal(firstVisitDefault.advancedSelections.product, "ChatGPT chat");
+assert.equal(firstVisitDefault.advancedSelections.model, "gpt-5.6-sol");
 
-const chatGptDefault = createDefaultEstimatorForm("ChatGPT");
-assert.equal(chatGptDefault.resetWindow, "3 hours");
-assert.equal(chatGptDefault.advancedSelections.model, "GPT-5.5 Instant");
 const claudeDefault = createDefaultEstimatorForm("Claude");
-assert.equal(claudeDefault.advancedSelections.model, "claude-sonnet-5");
+assert.equal(claudeDefault.advancedSelections.model, "claude-fable-5");
 assert.equal(claudeDefault.advancedSelections.mode, "Standard chat");
 assert.equal(platformPresets.Cursor.defaultResetWindow, "Monthly");
 
@@ -221,11 +232,20 @@ assert.equal(savedForm.platform, "Codex");
 assert.equal(savedForm.remainingPercent, "42");
 
 assert.equal(PLATFORMS[0], "Codex");
+assert.equal(PLATFORMS.includes("ChatGPT"), false);
 assert.equal(PLATFORMS.at(-1), "Other");
-assert.equal(getPlatformFromSearch("?platform=chatgpt"), "ChatGPT");
+assert.equal(getPlatformFromSearch("?platform=chatgpt"), "Codex");
+assert.equal(
+  getPlatformUnitLabel("Codex", "ChatGPT chat", undefined, "gpt-5.6-sol"),
+  "ChatGPT messages",
+);
+assert.equal(
+  getPlatformUnitLabel("Codex", "Codex", undefined, "gpt-5.6-sol"),
+  "Codex tasks",
+);
 
 const homePage = fs.readFileSync(path.join(root, "src", "app", "page.tsx"), "utf8");
 assert.match(homePage, /GPT-5\.6/);
-assert.match(homePage, /Claude Sonnet 5/);
+assert.match(homePage, /Claude Fable 5/);
 
 console.log("Estimation tests passed.");

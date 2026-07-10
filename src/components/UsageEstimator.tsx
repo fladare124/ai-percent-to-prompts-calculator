@@ -25,6 +25,28 @@ const THEME_KEY = "ai-percent-to-prompts:theme";
 
 interface UsageEstimatorProps {
   platformFocus?: PlatformName;
+  productFocus?: "ChatGPT chat" | "Codex";
+}
+
+function applyProductFocus(
+  form: EstimatorFormState | null,
+  productFocus?: "ChatGPT chat" | "Codex",
+) {
+  if (!form || form.platform !== "Codex" || !productFocus) return form;
+  const isChat = productFocus === "ChatGPT chat";
+  return {
+    ...form,
+    resetWindow: (isChat ? "3 hours" : "5 hours") as EstimatorFormState["resetWindow"],
+    hoursUntilReset: isChat ? "3" : "5",
+    minutesUntilReset: "0",
+    advancedSelections: {
+      ...form.advancedSelections,
+      product: productFocus,
+      model: "gpt-5.6-sol",
+      reasoning: "Medium",
+      feature: isChat ? "Simple chat" : "Coding task",
+    },
+  };
 }
 
 function toEstimateInput(form: EstimatorFormState): EstimateInput {
@@ -38,6 +60,15 @@ function toEstimateInput(form: EstimatorFormState): EstimateInput {
           ? "Medium"
           : advancedSelections.reasoning
         : "None / Instant";
+  }
+
+  if (form.platform === "Codex") {
+    advancedSelections.reasoning =
+      advancedSelections.model === "gpt-5.5-instant"
+        ? "None / Instant"
+        : advancedSelections.model === "gpt-5.6-sol-pro"
+          ? "Pro"
+          : advancedSelections.reasoning ?? "Medium";
   }
 
   return {
@@ -82,10 +113,17 @@ function getServerSnapshot() {
   return null;
 }
 
-export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
+export default function UsageEstimator({
+  platformFocus,
+  productFocus,
+}: UsageEstimatorProps) {
   const defaultForm = useMemo(
-    () => createDefaultEstimatorForm(platformFocus),
-    [platformFocus],
+    () =>
+      applyProductFocus(
+        createDefaultEstimatorForm(platformFocus),
+        productFocus,
+      )!,
+    [platformFocus, productFocus],
   );
   const storedFormJson = useSyncExternalStore(
     subscribeToBrowserStorage,
@@ -103,12 +141,20 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
     getServerSnapshot,
   );
   const storedForm = useMemo(
-    () => normalizeStoredEstimatorForm(storedFormJson, platformFocus),
-    [platformFocus, storedFormJson],
+    () =>
+      applyProductFocus(
+        normalizeStoredEstimatorForm(storedFormJson, platformFocus),
+        productFocus,
+      ),
+    [platformFocus, productFocus, storedFormJson],
   );
   const queryForm = useMemo(
-    () => createEstimatorFormFromSearch(locationSearch ?? "", platformFocus),
-    [locationSearch, platformFocus],
+    () =>
+      applyProductFocus(
+        createEstimatorFormFromSearch(locationSearch ?? "", platformFocus),
+        productFocus,
+      ),
+    [locationSearch, platformFocus, productFocus],
   );
   const [draftForm, setDraftForm] = useState<EstimatorFormState | null>(null);
   const form = draftForm ?? storedForm ?? queryForm ?? defaultForm;
@@ -132,7 +178,9 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
   const preset = platformPresets[form.platform];
   const result = useMemo(() => estimateUsage(toEstimateInput(form)), [form]);
   const selectedModeForLabel =
-    form.platform === "Claude"
+    form.platform === "Codex"
+      ? form.advancedSelections.product
+      : form.platform === "Claude"
       ? form.advancedSelections.mode
       : form.advancedSelections.model;
   const unitLabel = getPlatformUnitLabel(
@@ -187,15 +235,20 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
   };
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="flex flex-col gap-4 border-b border-zinc-200 p-5 dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
+    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-[0_18px_50px_-30px_rgba(24,24,27,0.35)] dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-none">
+      <div className="flex flex-col gap-4 border-b border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/40 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-            AI Percent to Prompts
+          <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+            Build your estimate
           </p>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Convert remaining usage percentage into estimated prompts, messages or tasks left.
-          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
+              GPT-5.6 Sol
+            </span>
+            <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+              Claude Fable 5
+            </span>
+          </div>
         </div>
         <button
           type="button"
@@ -220,7 +273,7 @@ export default function UsageEstimator({ platformFocus }: UsageEstimatorProps) {
             onAdvancedToggle={() => setAdvancedOpen((value) => !value)}
           />
         </div>
-        <div className="p-5">
+        <div className="self-start p-5 lg:sticky lg:top-4">
           <EstimatorResult
             result={result}
             unitLabel={unitLabel}

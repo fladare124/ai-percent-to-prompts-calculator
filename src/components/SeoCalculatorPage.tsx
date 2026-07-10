@@ -7,13 +7,13 @@ interface SeoCalculatorPageProps {
   h1: string;
   intro: string;
   platformFocus?: PlatformName;
+  productFocus?: "ChatGPT chat" | "Codex";
   extraFaq?: Array<{ question: string; answer: string }>;
 }
 
 const links = [
   { href: "/", label: "AI Percent to Prompts Calculator" },
-  { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
-  { href: "/chatgpt-limit-calculator", label: "ChatGPT Limit Calculator" },
+  { href: "/chatgpt-limit-calculator", label: "ChatGPT / Codex Calculator" },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
   { href: "/perplexity-usage-calculator", label: "Perplexity Usage Calculator" },
@@ -65,6 +65,7 @@ export default function SeoCalculatorPage({
   h1,
   intro,
   platformFocus,
+  productFocus,
   extraFaq = [],
 }: SeoCalculatorPageProps) {
   const faqItems = [...extraFaq, ...globalFaq];
@@ -88,29 +89,40 @@ export default function SeoCalculatorPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
-        <header className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
-          <div>
+        <header className="border-b border-zinc-200 pb-8 dark:border-zinc-800">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
               <BrandMark />
               <div>
                 <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
                   Unofficial calculator
                 </p>
-                <span className="mt-2 inline-flex rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-                  AI usage percent estimates
-                </span>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  Percent in. Human estimate out.
+                </p>
               </div>
             </div>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
-              {h1}
-            </h1>
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
+                GPT-5.6 Sol
+              </span>
+              <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+                Updated July 2026
+              </span>
+            </div>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
+          <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
+            {h1}
+          </h1>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
             {intro}
           </p>
         </header>
 
-        <UsageEstimator platformFocus={platformFocus} />
+        <UsageEstimator
+          platformFocus={platformFocus}
+          productFocus={productFocus}
+        />
 
         <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
           <div>

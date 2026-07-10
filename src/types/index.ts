@@ -18,6 +18,7 @@ export type ResetWindow =
   | "Monthly";
 
 export type AdvancedOptionKey =
+  | "product"
   | "model"
   | "mode"
   | "reasoning"
