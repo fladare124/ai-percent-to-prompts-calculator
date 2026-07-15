@@ -8,7 +8,7 @@ It supports ChatGPT / Codex as one OpenAI platform, plus Claude, Gemini, Perplex
 
 Presets and public price references were reviewed on July 10, 2026.
 
-GPT-5.6 Sol and Claude Fable 5 are visible in the main form because model choice has a large effect on the result. Less important context, feature and execution controls remain under Advanced options.
+GPT-5.6 Sol and Claude Fable 5 are visible in the main form because model choice has a large effect on the result. Codex also exposes Extra High, Max and Ultra controls when the selected product supports them. Less important context, feature and execution controls remain under Advanced options.
 
 ## Install
 
@@ -66,6 +66,8 @@ src/lib/estimation.ts
 ```
 
 Claude Fable 5 uses dynamic multipliers by task complexity. It is treated as a high-cost, high-capability model: conservative for light and normal tasks, with a less severe model penalty for heavy long-horizon work where fewer iterations may help.
+
+OpenAI's Max and Ultra execution modes are treated as higher-cost agentic paths, while Extra High is a reasoning-effort option. Claude Max 5x/20x, Gemini AI Ultra and Cursor Ultra are represented as separate plan presets. Availability and limits vary by account, rollout, context and provider capacity.
 
 The app keeps subscription quotas, provider credits and API prices separate. API cost ranges are shown only when an official per-token price is available and are illustrative per-task references, not subscription charges. Unsupported reset windows are time-scaled from the nearest known preset and automatically receive lower reliability.
 

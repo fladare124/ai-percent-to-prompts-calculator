@@ -34,7 +34,6 @@ const reliabilityOrder: ReliabilityLevel[] = [
 ];
 
 const windowHours: Record<ResetWindow, number> = {
-  "3 hours": 3,
   "5 hours": 5,
   Daily: 24,
   Weekly: 168,
@@ -80,8 +79,8 @@ function getUncertainty(input: EstimateInput) {
     input.advancedSelections.product === "ChatGPT chat"
   ) {
     if (input.plan === "Pro") return { low: 0.5, high: 1.8 };
-    return input.resetWindow === "3 hours"
-      ? { low: 0.8, high: 1.2 }
+    return input.resetWindow === "5 hours"
+      ? { low: 0.7, high: 1.3 }
       : { low: 0.55, high: 1.55 };
   }
 
@@ -89,8 +88,8 @@ function getUncertainty(input: EstimateInput) {
     if (input.plan === "Pro 100" || input.plan === "Pro 200") {
       return { low: 0.5, high: 1.8 };
     }
-    return input.resetWindow === "3 hours"
-      ? { low: 0.8, high: 1.2 }
+    return input.resetWindow === "5 hours"
+      ? { low: 0.7, high: 1.3 }
       : { low: 0.55, high: 1.55 };
   }
 
@@ -125,7 +124,7 @@ function getReliability(input: EstimateInput, baseLimitFallback: boolean) {
     input.platform === "Codex" &&
     input.advancedSelections.product === "ChatGPT chat"
   ) {
-    reliability = input.resetWindow === "3 hours" ? "Medium" : "Medium-low";
+    reliability = input.resetWindow === "5 hours" ? "Medium" : "Medium-low";
   }
 
   if (
@@ -144,6 +143,13 @@ function getReliability(input: EstimateInput, baseLimitFallback: boolean) {
     input.advancedSelections.mode === "Devin session"
   ) {
     reliability = "Low";
+  }
+
+  if (
+    input.platform === "Codex" &&
+    ["max", "ultra"].includes(input.advancedSelections.mode ?? "")
+  ) {
+    reliability = shiftReliability(reliability, -1);
   }
 
   if (baseLimitFallback) {
@@ -382,18 +388,18 @@ function getNotes(
   if (
     input.platform === "ChatGPT" &&
     input.plan === "Plus" &&
-    input.resetWindow === "3 hours"
+    input.resetWindow === "5 hours"
   ) {
     notes.push(
-      "ChatGPT Plus uses 160 messages per 3 hours as a current published reference, not a guarantee for every model or feature.",
+      "ChatGPT Plus is shown against a normalized 5-hour reference; real message windows can be shorter or vary by model and feature.",
     );
   }
 
   if (input.platform === "Codex") {
     if (input.advancedSelections.product === "ChatGPT chat") {
-      if (input.plan === "Plus" && input.resetWindow === "3 hours") {
+      if (input.plan === "Plus" && input.resetWindow === "5 hours") {
         notes.push(
-          "ChatGPT Plus currently allows up to 160 GPT-5.5 Instant messages per 3 hours. GPT-5.6 reasoning uses its own dynamic allowance.",
+          "ChatGPT message access can use separate dynamic allowances for reasoning, tools and agent features, so this is a planning estimate rather than a cap.",
         );
       }
     } else {
@@ -403,6 +409,16 @@ function getNotes(
       notes.push(
         "Agentic usage is token-based. Task counts are normalized equivalents, not a fixed message cap.",
       );
+      if (input.advancedSelections.mode === "max") {
+        notes.push(
+          "Max execution gives the agent more reasoning room, so the estimate is lower than standard execution.",
+        );
+      }
+      if (input.advancedSelections.mode === "ultra") {
+        notes.push(
+          "Ultra is treated as a multi-agent or long-horizon mode; real consumption can vary widely by task.",
+        );
+      }
     }
   }
 

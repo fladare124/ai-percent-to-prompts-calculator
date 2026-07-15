@@ -7,7 +7,7 @@ export const calculatorRoutes = [
     path: "/",
     title: "AI Percent to Prompts Calculator",
     description:
-      "Convert a remaining AI usage percentage into estimated prompts, messages or tasks left.",
+      "Estimate ChatGPT messages, Codex tasks, Claude Max messages and Gemini Ultra prompts from a remaining percentage.",
     priority: 1,
   },
   {

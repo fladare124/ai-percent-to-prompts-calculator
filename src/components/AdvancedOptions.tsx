@@ -43,29 +43,58 @@ export default function AdvancedOptions({
       {isOpen ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {visibleGroups.map((group) => (
-            <label key={group.key} className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                {group.label}
-              </span>
-              <select
-                value={values[group.key] ?? ""}
-                onChange={(event) => onChange(group.key, event.target.value)}
-                className={selectClass}
-              >
-                <option value="">Not selected</option>
-                {group.options.map((option) => (
-                  <option
-                    key={option.value ?? option.label}
-                    value={option.value ?? option.label}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <AdvancedGroupField
+              key={group.key}
+              group={group}
+              value={values[group.key]}
+              onChange={onChange}
+            />
           ))}
         </div>
       ) : null}
     </div>
+  );
+}
+
+function AdvancedGroupField({
+  group,
+  value,
+  onChange,
+}: {
+  group: PlatformPreset["advancedGroups"][number];
+  value?: string;
+  onChange: (key: AdvancedOptionKey, value: string) => void;
+}) {
+  const selectedOption = group.options.find(
+    (option) =>
+      (option.value ?? option.label) === value || option.label === value,
+  );
+
+  return (
+    <label className="flex flex-col gap-2">
+      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+        {group.label}
+      </span>
+      <select
+        value={value ?? ""}
+        onChange={(event) => onChange(group.key, event.target.value)}
+        className={selectClass}
+      >
+        <option value="">Not selected</option>
+        {group.options.map((option) => (
+          <option
+            key={option.value ?? option.label}
+            value={option.value ?? option.label}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {selectedOption?.availabilityNote ? (
+        <span className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          {selectedOption.availabilityNote}
+        </span>
+      ) : null}
+    </label>
   );
 }

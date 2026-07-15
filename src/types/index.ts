@@ -11,7 +11,6 @@ export type PlatformName =
 export type UsageIntensity = "Light" | "Normal" | "Heavy" | "Very heavy";
 
 export type ResetWindow =
-  | "3 hours"
   | "5 hours"
   | "Daily"
   | "Weekly"

@@ -101,8 +101,8 @@ assert.equal(roundUsage(fableHeavy.estimatedMid), 13);
 assert.equal(roundUsage(fableVeryHeavy.estimatedMid), 12);
 assert.ok(claudeProSonnet.estimatedMid > fableNormal.estimatedMid);
 assert.ok(fableVeryHeavy.estimatedMid > fableLight.estimatedMid);
-assert.equal(fableNormal.apiCostEstimate.modelLabel, "Claude Fable 5");
-assert.ok(Math.abs(fableNormal.apiCostEstimate.mid - 0.155) < 0.0001);
+assert.equal(fableNormal.apiCostEstimate, undefined);
+assert.match(fableNormal.costReference, /No public subscription-to-token conversion/);
 
 const codexPlusHigh = estimateUsage(
   input({
@@ -124,24 +124,43 @@ const fablePro65 = estimateUsage(
 assert.equal(roundUsage(codexPlusHigh.estimatedMid), 49);
 assert.ok(codexPlusHigh.estimatedMid > fablePro65.estimatedMid);
 
-const chatGptThreeHours = estimateUsage(
+const codexMaxMode = estimateUsage(
   input({
     platform: "Codex",
     plan: "Plus",
-    resetWindow: "3 hours",
-    hoursUntilReset: 3,
+    remainingPercent: 65,
+    resetWindow: "5 hours",
     advancedSelections: {
-      product: "ChatGPT chat",
-      model: "gpt-5.5-instant",
-      reasoning: "None / Instant",
+      product: "Codex",
+      model: "gpt-5.6-sol",
+      reasoning: "High",
+      mode: "max",
     },
   }),
 );
+const codexUltraMode = estimateUsage(
+  input({
+    platform: "Codex",
+    plan: "Plus",
+    remainingPercent: 65,
+    resetWindow: "5 hours",
+    advancedSelections: {
+      product: "Codex",
+      model: "gpt-5.6-sol",
+      reasoning: "High",
+      mode: "ultra",
+    },
+  }),
+);
+assert.ok(codexPlusHigh.estimatedMid > codexMaxMode.estimatedMid);
+assert.ok(codexMaxMode.estimatedMid > codexUltraMode.estimatedMid);
+
 const chatGptFiveHours = estimateUsage(
   input({
     platform: "Codex",
     plan: "Plus",
     resetWindow: "5 hours",
+    hoursUntilReset: 5,
     advancedSelections: {
       product: "ChatGPT chat",
       model: "gpt-5.5-instant",
@@ -149,9 +168,22 @@ const chatGptFiveHours = estimateUsage(
     },
   }),
 );
-assert.equal(roundUsage(chatGptThreeHours.estimatedMid), 160);
-assert.notEqual(roundUsage(chatGptThreeHours.estimatedMid), roundUsage(chatGptFiveHours.estimatedMid));
-assert.equal(chatGptFiveHours.baseLimitFallback, false);
+const chatGptWeekly = estimateUsage(
+  input({
+    platform: "Codex",
+    plan: "Plus",
+    resetWindow: "Weekly",
+    hoursUntilReset: 168,
+    advancedSelections: {
+      product: "ChatGPT chat",
+      model: "gpt-5.5-instant",
+      reasoning: "None / Instant",
+    },
+  }),
+);
+assert.equal(roundUsage(chatGptFiveHours.estimatedMid), 100);
+assert.notEqual(roundUsage(chatGptFiveHours.estimatedMid), roundUsage(chatGptWeekly.estimatedMid));
+assert.equal(chatGptWeekly.baseLimitFallback, false);
 
 const cursorProGpt = estimateUsage(
   input({
@@ -207,7 +239,7 @@ const firstVisitDefault = createDefaultEstimatorForm();
 assert.equal(DEFAULT_PLATFORM, "Codex");
 assert.equal(DEFAULT_REMAINING_PERCENT, "65");
 assert.equal(firstVisitDefault.platform, "Codex");
-assert.equal(firstVisitDefault.resetWindow, "3 hours");
+assert.equal(firstVisitDefault.resetWindow, "5 hours");
 assert.equal(firstVisitDefault.advancedSelections.product, "ChatGPT chat");
 assert.equal(firstVisitDefault.advancedSelections.model, "gpt-5.6-sol");
 
@@ -215,6 +247,22 @@ const claudeDefault = createDefaultEstimatorForm("Claude");
 assert.equal(claudeDefault.advancedSelections.model, "claude-fable-5");
 assert.equal(claudeDefault.advancedSelections.mode, "Standard chat");
 assert.equal(platformPresets.Cursor.defaultResetWindow, "Monthly");
+assert.deepEqual(platformPresets.Codex.resetWindows, ["5 hours", "Daily", "Weekly", "Monthly"]);
+assert.ok(
+  platformPresets.Codex.advancedGroups
+    .find((group) => group.key === "reasoning")
+    .options.some((option) => option.label === "Extra High"),
+);
+assert.ok(
+  platformPresets.Codex.advancedGroups
+    .find((group) => group.key === "reasoning")
+    .options.some((option) => option.label === "Max"),
+);
+assert.ok(
+  platformPresets.Codex.advancedGroups
+    .find((group) => group.key === "mode")
+    .options.some((option) => option.label === "Ultra"),
+);
 
 const savedForm = normalizeStoredEstimatorForm(
   JSON.stringify({
@@ -233,7 +281,7 @@ assert.equal(savedForm.remainingPercent, "42");
 
 assert.equal(PLATFORMS[0], "Codex");
 assert.equal(PLATFORMS.includes("ChatGPT"), false);
-assert.equal(PLATFORMS.at(-1), "Other");
+assert.equal(PLATFORMS.includes("Other"), false);
 assert.equal(getPlatformFromSearch("?platform=chatgpt"), "Codex");
 assert.equal(
   getPlatformUnitLabel("Codex", "ChatGPT chat", undefined, "gpt-5.6-sol"),

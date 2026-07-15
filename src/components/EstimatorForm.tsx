@@ -65,7 +65,6 @@ export default function EstimatorForm({
 
   const handleResetWindowChange = (resetWindow: ResetWindow) => {
     const hoursByWindow: Record<ResetWindow, string> = {
-      "3 hours": "3",
       "5 hours": "5",
       Daily: "24",
       Weekly: "168",
@@ -90,13 +89,15 @@ export default function EstimatorForm({
         "ChatGPT chat": {
           model: "gpt-5.6-sol",
           reasoning: "Medium",
+          mode: "standard",
           feature: "Simple chat",
-          resetWindow: "3 hours" as ResetWindow,
-          hours: "3",
+          resetWindow: "5 hours" as ResetWindow,
+          hours: "5",
         },
         Codex: {
           model: "gpt-5.6-sol",
           reasoning: "Medium",
+          mode: "standard",
           feature: "Coding task",
           resetWindow: "5 hours" as ResetWindow,
           hours: "5",
@@ -104,6 +105,7 @@ export default function EstimatorForm({
         "Work / workspace agents": {
           model: "gpt-5.6-sol",
           reasoning: "High",
+          mode: "standard",
           feature: "Agent mode",
           resetWindow: "5 hours" as ResetWindow,
           hours: "5",
@@ -209,20 +211,24 @@ export default function EstimatorForm({
         <div className="space-y-3 border-t border-zinc-200 pt-5 dark:border-zinc-800">
           <div>
             <p className="text-sm font-semibold text-zinc-950 dark:text-white">
-              Product and model
+              Choose your setup
             </p>
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-              These choices have the biggest effect on the estimate.
+              Start with the product and model, then add effort or agent mode when it matters.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {criticalFields.map((field) => (
-              <ImportantAdvancedField
+              <div
                 key={field.group.key}
-                field={field}
-                value={form.advancedSelections[field.group.key]}
-                onChange={handleAdvancedChange}
-              />
+                className={field.wide ? "sm:col-span-2" : ""}
+              >
+                <ImportantAdvancedField
+                  field={field}
+                  value={form.advancedSelections[field.group.key]}
+                  onChange={handleAdvancedChange}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -275,13 +281,13 @@ export default function EstimatorForm({
           {form.platform === "Codex" ? (
             <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
               {form.advancedSelections.product === "ChatGPT chat"
-                ? "Use the window shown in ChatGPT, commonly 3 hours for Instant messages."
-                : "Use the same agentic window shown by Codex or Work, commonly 5 hours or weekly."}
+                ? "Use the closest window shown in ChatGPT. Limits can vary by model and feature."
+                : "Use the same agentic window shown by Codex or Work, usually 5 hours or weekly."}
             </span>
           ) : null}
           {form.platform === "ChatGPT" ? (
             <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
-              Choose the window shown in ChatGPT. Plus commonly uses a 3-hour message window.
+              Choose the closest window shown in ChatGPT. Limits can vary by model and feature.
             </span>
           ) : null}
         </label>
@@ -364,6 +370,7 @@ interface CriticalField {
   fallbackValue: string;
   helpText: string;
   emphasized?: boolean;
+  wide?: boolean;
 }
 
 function getGroup(preset: PlatformPreset, key: AdvancedOptionKey) {
@@ -403,6 +410,43 @@ function getOpenAIModelOptions(
   );
 }
 
+function getOpenAIReasoningOptions(
+  options: MultiplierOption[],
+  model?: string,
+  product?: string,
+) {
+  if (model === "gpt-5.5-instant") {
+    return options.filter((option) => option.label === "None / Instant");
+  }
+
+  if (model === "gpt-5.6-sol-pro") {
+    return options.filter((option) => option.label === "Pro");
+  }
+
+  const effortOptions = options.filter(
+    (option) =>
+      option.label !== "None / Instant" && option.label !== "Pro",
+  );
+
+  if (product !== "ChatGPT chat") return effortOptions;
+
+  return effortOptions.filter((option) => option.label !== "Max");
+}
+
+function getOpenAIExecutionModeOptions(
+  options: MultiplierOption[],
+  product?: string,
+  plan?: string,
+) {
+  if (product === "ChatGPT chat") return [];
+
+  const ultraPlans = ["Plus", "Pro", "Business", "Enterprise / Edu"];
+  return options.filter(
+    (option) =>
+      option.value !== "ultra" || ultraPlans.includes(plan ?? ""),
+  );
+}
+
 function getCriticalFields(
   form: EstimatorFormState,
   preset: PlatformPreset,
@@ -425,6 +469,7 @@ function getCriticalFields(
         fallbackValue: "ChatGPT chat",
         helpText:
           "ChatGPT chat uses message limits. Codex and Work use the shared agentic usage pool.",
+        wide: true,
       });
     }
 
@@ -436,26 +481,35 @@ function getCriticalFields(
         helpText:
           product === "ChatGPT chat"
             ? "GPT-5.6 Sol powers Medium, High and Extra High reasoning on eligible plans."
-            : "Sol, Terra and Luna use different token and credit rates for agentic work.",
+            : "Sol is the flagship; Terra is the lower-cost balance and Luna is the fast, efficient option.",
         emphasized: true,
       });
     }
 
+    const executionModeGroup = getGroup(preset, "mode");
+    const executionModeOptions = executionModeGroup
+      ? getOpenAIExecutionModeOptions(
+          executionModeGroup.options,
+          product,
+          form.plan,
+        )
+      : [];
+    if (executionModeGroup && executionModeOptions.length > 0) {
+      fields.push({
+        group: executionModeGroup,
+        options: executionModeOptions,
+        fallbackValue: "standard",
+        helpText:
+          "Standard is best for everyday work. Max and Ultra can use more agentic effort and consume more of the shared pool.",
+      });
+    }
+
     if (reasoningGroup) {
-      const reasoningOptions =
-        model === "gpt-5.5-instant"
-          ? reasoningGroup.options.filter(
-              (option) => option.label === "None / Instant",
-            )
-          : model === "gpt-5.6-sol-pro"
-            ? reasoningGroup.options.filter(
-                (option) => option.label === "Pro",
-              )
-            : reasoningGroup.options.filter(
-                (option) =>
-                  option.label !== "None / Instant" &&
-                  option.label !== "Pro",
-              );
+      const reasoningOptions = getOpenAIReasoningOptions(
+        reasoningGroup.options,
+        model,
+        product,
+      );
       fields.push({
         group: reasoningGroup,
         options: reasoningOptions,
@@ -514,7 +568,9 @@ function getCriticalFields(
 
   if (
     form.platform === "Gemini" &&
-    (model === "Gemini 3 Pro" || reasoning === "Deep Think")
+    (model === "Gemini 3 Pro" ||
+      model === "Gemini 3.1 Pro" ||
+      reasoning === "Deep Think")
   ) {
     const group = getGroup(preset, "reasoning");
     if (group) {
@@ -553,6 +609,7 @@ function getHiddenAdvancedKeys(
     keys.push("product");
     keys.push("model");
     keys.push("reasoning");
+    keys.push("mode");
   }
 
   return Array.from(new Set(keys));
@@ -572,6 +629,9 @@ function ImportantAdvancedField({
     field.options.some((option) => (option.value ?? option.label) === value)
       ? value
       : field.fallbackValue;
+  const selectedOption = field.options.find(
+    (option) => (option.value ?? option.label) === selectedValue,
+  );
 
   return (
     <label
@@ -603,6 +663,11 @@ function ImportantAdvancedField({
       <span className="text-sm leading-5 text-zinc-600 dark:text-zinc-400">
         {field.helpText}
       </span>
+      {selectedOption?.availabilityNote ? (
+        <span className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          {selectedOption.availabilityNote}
+        </span>
+      ) : null}
     </label>
   );
 }

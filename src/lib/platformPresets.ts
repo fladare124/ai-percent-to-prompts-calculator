@@ -12,11 +12,9 @@ export const PLATFORMS: PlatformName[] = [
   "Perplexity",
   "Cursor",
   "Windsurf / Devin",
-  "Other",
 ];
 
 export const RESET_WINDOWS: ResetWindow[] = [
-  "3 hours",
   "5 hours",
   "Daily",
   "Weekly",
@@ -55,18 +53,18 @@ function limits(values: Partial<Record<ResetWindow, number>>) {
 export const platformPresets: Record<PlatformName, PlatformPreset> = {
   Codex: {
     platform: "Codex",
-    usageUnit: "ChatGPT messages / Codex task equivalents",
-    resetWindows: ["3 hours", "5 hours", "Weekly"],
-    defaultResetWindow: "3 hours",
+    usageUnit: "ChatGPT messages / Codex tasks",
+    resetWindows: ["5 hours", "Daily", "Weekly", "Monthly"],
+    defaultResetWindow: "5 hours",
     limitBasis:
-      "ChatGPT chat uses published message windows where available. Codex, Work and workspace agents share an agentic usage and credit pool, with token-based model rates.",
+      "ChatGPT chat uses the closest normalized message window. Codex, Work and workspace agents share an agentic usage and credit pool, with token-based model rates and optional Max or Ultra execution modes.",
     planPresets: [
       { label: "Free", baseLimits: limits({ "5 hours": 10 }) },
-      { label: "Go", baseLimits: limits({ "3 hours": 160, "5 hours": 10 }) },
-      { label: "Plus", baseLimits: limits({ "3 hours": 160, "5 hours": 100, Weekly: 700 }) },
-      { label: "Pro", baseLimits: limits({ "3 hours": 3200, "5 hours": 2000, Weekly: 14000 }) },
-      { label: "Business", baseLimits: limits({ "3 hours": 300, "5 hours": 100, Weekly: 700 }) },
-      { label: "Enterprise / Edu", baseLimits: limits({ "3 hours": 300, "5 hours": 100, Weekly: 700 }) },
+      { label: "Go", baseLimits: limits({ "5 hours": 40, Daily: 120, Weekly: 360, Monthly: 1440 }) },
+      { label: "Plus", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
+      { label: "Pro", baseLimits: limits({ "5 hours": 2000, Daily: 5000, Weekly: 14000, Monthly: 56000 }) },
+      { label: "Business", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
+      { label: "Enterprise / Edu", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
     ],
     advancedGroups: [
       {
@@ -138,7 +136,34 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
           { label: "Medium", multiplier: 1 },
           { label: "High", multiplier: 0.75 },
           { label: "Extra High", multiplier: 0.6 },
+          {
+            label: "Max",
+            multiplier: 0.45,
+            availabilityNote:
+              "Max is a higher reasoning effort for demanding Codex or Work tasks, not a fixed message allowance.",
+          },
           { label: "Pro", multiplier: 0.25 },
+        ],
+      },
+      {
+        key: "mode",
+        label: "Agent execution",
+        options: [
+          { label: "Standard", value: "standard", multiplier: 1 },
+          {
+            label: "Max",
+            value: "max",
+            multiplier: 0.8,
+            availabilityNote:
+              "Max execution gives the agent more room for difficult work and can consume more of the shared pool.",
+          },
+          {
+            label: "Ultra",
+            value: "ultra",
+            multiplier: 0.55,
+            availabilityNote:
+              "Ultra can orchestrate multiple agents for larger tasks, so it is the most conservative estimate.",
+          },
         ],
       },
       {
@@ -201,17 +226,17 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
   ChatGPT: {
     platform: "ChatGPT",
     usageUnit: "ChatGPT messages",
-    resetWindows: ["3 hours", "5 hours", "Weekly"],
-    defaultResetWindow: "3 hours",
+    resetWindows: ["5 hours", "Daily", "Weekly", "Monthly"],
+    defaultResetWindow: "5 hours",
     limitBasis:
-      "ChatGPT message caps where published. Plus uses the current 160 messages per 3-hour reference; Pro tiers use official 5x and 20x plan ratios.",
+      "ChatGPT message caps are dynamic. These normalized windows are planning references, not guaranteed limits for every model or feature.",
     planPresets: [
       { label: "Free", baseLimits: limits({ "5 hours": 10 }) },
-      { label: "Plus", baseLimits: limits({ "3 hours": 160 }) },
-      { label: "Pro 100", baseLimits: limits({ "3 hours": 800 }) },
-      { label: "Pro 200", baseLimits: limits({ "3 hours": 3200 }) },
-      { label: "Business", baseLimits: limits({ "3 hours": 300 }) },
-      { label: "Enterprise / Edu", baseLimits: limits({ "3 hours": 300 }) },
+      { label: "Plus", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
+      { label: "Pro 100", baseLimits: limits({ "5 hours": 500, Daily: 1250, Weekly: 3500, Monthly: 14000 }) },
+      { label: "Pro 200", baseLimits: limits({ "5 hours": 2000, Daily: 5000, Weekly: 14000, Monthly: 56000 }) },
+      { label: "Business", baseLimits: limits({ "5 hours": 300, Daily: 750, Weekly: 2100, Monthly: 8400 }) },
+      { label: "Enterprise / Edu", baseLimits: limits({ "5 hours": 300, Daily: 750, Weekly: 2100, Monthly: 8400 }) },
     ],
     advancedGroups: [
       {
@@ -298,7 +323,8 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
             label: "Claude Fable 5",
             value: "claude-fable-5",
             multiplier: 1,
-            apiPricing: { inputPerMillion: 10, outputPerMillion: 50 },
+            costReference:
+              "No public subscription-to-token conversion is used for Fable 5; its task-complexity multiplier is intentionally conservative.",
           },
           {
             label: "Claude Sonnet 5",
@@ -381,6 +407,8 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
         options: [
           { label: "Gemini 3 Flash-Lite", multiplier: 1.4 },
           { label: "Gemini 3 Flash", multiplier: 1 },
+          { label: "Gemini Omni Flash", multiplier: 1 },
+          { label: "Gemini 3.1 Pro", multiplier: 0.5 },
           { label: "Gemini 3 Pro", multiplier: 0.5 },
           {
             label: "Gemini 3.5 Flash (API)",
@@ -462,6 +490,7 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
           { label: "Pro Search", multiplier: 0.85 },
           { label: "Reasoning", multiplier: 0.55 },
           { label: "Deep Research", multiplier: 0.2 },
+          { label: "Computer / agent", multiplier: 0.2 },
           { label: "Create files and apps", multiplier: 0.15 },
           { label: "File analysis", multiplier: 0.6 },
         ],
@@ -503,7 +532,8 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
         options: [
           { label: "Cursor Auto", multiplier: 1.3 },
           { label: "GPT-5 / GPT-5.5", multiplier: 1 },
-          { label: "GPT-5.6 Sol (preview)", multiplier: 1 },
+          { label: "GPT-5.6 Sol", multiplier: 1 },
+          { label: "GPT-5.6 Terra", multiplier: 1.8 },
           { label: "Claude Sonnet 5", multiplier: 0.45 },
           { label: "Claude Opus 4.8", multiplier: 0.2 },
           { label: "Claude Fable 5", multiplier: 0.55 },
@@ -516,10 +546,17 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
         label: "Mode",
         options: [
           { label: "Tab completion", multiplier: 2 },
+          { label: "Auto mode", multiplier: 1.25 },
           { label: "Ask / Chat", multiplier: 1 },
           { label: "Edit", multiplier: 0.9 },
           { label: "Agent", multiplier: 0.65 },
           { label: "Multi-file edit", multiplier: 0.5 },
+          {
+            label: "Max mode",
+            multiplier: 0.55,
+            costReference:
+              "Cursor Max Mode uses token-based pricing and can consume more of the included monthly usage.",
+          },
           { label: "Background Agent", multiplier: 0.35 },
         ],
       },

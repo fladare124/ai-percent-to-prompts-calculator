@@ -24,6 +24,29 @@ const links = [
   },
 ];
 
+const popularLinks = [
+  {
+    href: "/chatgpt-limit-calculator",
+    label: "GPT-5.6 / Codex",
+    text: "Sol reasoning, Extra High, Max and Ultra agent modes.",
+  },
+  {
+    href: "/claude-usage-calculator",
+    label: "Claude Max / Fable 5",
+    text: "Pro, Max 5x, Max 20x and task-aware Fable 5 estimates.",
+  },
+  {
+    href: "/gemini-usage-calculator",
+    label: "Gemini Ultra",
+    text: "AI Pro, Ultra tiers and Deep Think.",
+  },
+  {
+    href: "/cursor-usage-calculator",
+    label: "Cursor Ultra",
+    text: "Agent, background and Max Mode estimates.",
+  },
+];
+
 const globalFaq = [
   {
     question: "Does this calculate exact tokens?",
@@ -81,12 +104,25 @@ export default function SeoCalculatorPage({
       },
     })),
   };
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "AI Percent to Prompts Calculator",
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
 
   return (
     <main className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-8 sm:px-6 lg:px-8">
         <header className="border-b border-zinc-200 pb-8 dark:border-zinc-800">
@@ -109,12 +145,15 @@ export default function SeoCalculatorPage({
               <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
                 Updated July 2026
               </span>
+              <span className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                Max / Ultra / Extra High
+              </span>
             </div>
           </div>
           <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-tight text-zinc-950 dark:text-white sm:text-5xl">
             {h1}
           </h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
+          <p className="mt-4 max-w-3xl border-l-2 border-cyan-400 pl-4 text-base leading-7 text-zinc-700 dark:border-cyan-500 dark:text-zinc-300">
             {intro}
           </p>
         </header>
@@ -123,6 +162,36 @@ export default function SeoCalculatorPage({
           platformFocus={platformFocus}
           productFocus={productFocus}
         />
+
+        <section className="border-t border-zinc-200 pt-8 dark:border-zinc-800">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
+              Popular setups
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
+              Jump straight to the estimate you need
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              These are the setups people most often compare when a provider shows a percentage instead of a simple count.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {popularLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="group rounded-md border border-zinc-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-800"
+              >
+                <span className="block text-sm font-semibold text-zinc-950 group-hover:text-cyan-700 dark:text-white dark:group-hover:text-cyan-300">
+                  {link.label}
+                </span>
+                <span className="mt-2 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+                  {link.text}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
           <div>

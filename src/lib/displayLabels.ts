@@ -84,6 +84,7 @@ export function buildShareText(
   result: EstimateResult,
   unitLabel: string,
   selectedModelLabel?: string,
+  selectedModeLabel?: string,
 ) {
   const platformLabel =
     result.platform === "Codex" &&
@@ -93,6 +94,13 @@ export function buildShareText(
   const modelLine = selectedModelLabel
     ? `Model: ${selectedModelLabel}.\n`
     : "";
+  const modeLine =
+    selectedModeLabel &&
+    !["Standard", "standard", "Standard chat", "None / Instant"].includes(
+      selectedModeLabel,
+    )
+      ? `Mode: ${selectedModeLabel}.\n`
+      : "";
 
   return `${platformLabel} shows I have ${result.remainingPercent}% usage left.
 ${modelLine}Estimated remaining: around ${roundDisplayUsage(
@@ -101,7 +109,7 @@ ${modelLine}Estimated remaining: around ${roundDisplayUsage(
 Likely range: ${roundDisplayUsage(result.estimatedLow)}-${roundDisplayUsage(
     result.estimatedHigh,
   )} ${unitLabel}.
-Window: ${result.resetWindow}.
+${modeLine}Window: ${result.resetWindow}.
 Status: ${result.status}.
 Calculated with AI Percent to Prompts Calculator.`;
 }
@@ -119,12 +127,12 @@ export function getMainFactorsSummary(result: EstimateResult) {
 
   if (result.platform === "Codex") {
     if (result.factors.some((factor) => factor.includes("ChatGPT chat"))) {
-      return "ChatGPT uses its message window plus the selected model, reasoning level and feature. GPT-5.6 Sol reasoning can have a separate dynamic allowance.";
+      return "ChatGPT uses its message window plus the selected model, reasoning level and feature. Higher effort settings can use more of the allowance.";
     }
     if (result.factors.some((factor) => factor.includes("Work / workspace agents"))) {
-      return "OpenAI Work and workspace agents use the shared agentic pool, adjusted for model cost, reasoning and task complexity.";
+      return "OpenAI Work and workspace agents use the shared pool, adjusted for model cost, reasoning, execution mode and task complexity.";
     }
-    return "Codex uses the shared OpenAI agentic pool and token-based model rates, adjusted for reasoning, repo size and execution style.";
+    return "Codex uses the shared OpenAI agentic pool and token-based model rates, adjusted for reasoning, execution mode, repo size and task complexity.";
   }
 
   if (result.platform === "ChatGPT") {

@@ -21,7 +21,7 @@ export default function ChatGptLimitCalculatorPage() {
         {
           question: "Is the ChatGPT Plus number guaranteed?",
           answer:
-            "No. The current Plus reference is 160 messages per 3 hours, but access can differ by model, feature and capacity and may change.",
+            "No. The Plus number is a normalized planning reference, and access can differ by model, feature, capacity and the window shown in your account.",
         },
         {
           question: "Does this support GPT-5.6?",

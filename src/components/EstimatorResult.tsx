@@ -16,7 +16,7 @@ const statusStyles: Record<string, string> = {
   Comfortable:
     "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/50 dark:text-emerald-200",
   Normal:
-    "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-900/60 dark:bg-blue-950/50 dark:text-blue-200",
+    "border-indigo-200 bg-indigo-50 text-indigo-800 dark:border-indigo-900/60 dark:bg-indigo-950/50 dark:text-indigo-200",
   Caution:
     "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/50 dark:text-amber-200",
   "High risk":
@@ -80,6 +80,9 @@ export default function EstimatorResult({
   return (
     <section className="space-y-6" aria-live="polite">
       <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-cyan-700 dark:text-cyan-300">
+          Your estimate
+        </p>
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
           <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1 dark:border-zinc-700 dark:bg-zinc-950">
             {result.plan}
@@ -88,15 +91,18 @@ export default function EstimatorResult({
             {result.resetWindow}
           </span>
         </div>
-        <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
+        <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight text-zinc-950 dark:text-white sm:text-4xl">
           Around {roundUsage(result.estimatedMid)} {unitLabel} left
         </h2>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          Based on {result.remainingPercent}% remaining in the {result.resetWindow.toLowerCase()} window.
+        </p>
         <div className="mt-4" aria-label={`${result.remainingPercent}% remaining`}>
           <div className="mb-2 flex items-center justify-between text-xs font-medium text-zinc-500 dark:text-zinc-400">
             <span>Used {result.usedPercent}%</span>
             <span>Remaining {result.remainingPercent}%</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+          <div className="h-2.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
             <div
               className="h-full rounded-full bg-cyan-600 transition-[width] dark:bg-cyan-400"
               style={{ width: `${Math.min(100, Math.max(0, result.remainingPercent))}%` }}
@@ -139,7 +145,7 @@ export default function EstimatorResult({
         ) : null}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 border-t border-zinc-200 pt-5 dark:border-zinc-800">
         <Badge
           label={`Status: ${result.status}`}
           className={statusStyles[result.status]}
@@ -154,7 +160,7 @@ export default function EstimatorResult({
         {result.statusMessage}
       </p>
 
-      <div className="rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950/70">
+      <div className="rounded-md border border-zinc-200 border-l-4 border-l-cyan-400 bg-zinc-50 p-4 dark:border-zinc-800 dark:border-l-cyan-500 dark:bg-zinc-950/70">
         <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">
           Main factors
         </h3>
@@ -228,7 +234,7 @@ function Metric({
     <div
       className={`rounded-md border p-3 ${
         highlighted
-          ? "border-cyan-200 bg-cyan-50/70 dark:border-cyan-900/50 dark:bg-cyan-950/20"
+        ? "border-cyan-200 bg-cyan-50/70 dark:border-cyan-900/50 dark:bg-cyan-950/20"
           : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950"
       } ${
         wide ? "col-span-2" : ""
@@ -246,7 +252,7 @@ function Metric({
 
 function Badge({ label, className }: { label: string; className: string }) {
   return (
-    <span className={`rounded-md border px-2.5 py-1 text-sm font-semibold ${className}`}>
+    <span className={`rounded-full border px-3 py-1 text-sm font-semibold ${className}`}>
       {label}
     </span>
   );

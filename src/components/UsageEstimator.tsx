@@ -36,8 +36,8 @@ function applyProductFocus(
   const isChat = productFocus === "ChatGPT chat";
   return {
     ...form,
-    resetWindow: (isChat ? "3 hours" : "5 hours") as EstimatorFormState["resetWindow"],
-    hoursUntilReset: isChat ? "3" : "5",
+    resetWindow: "5 hours" as EstimatorFormState["resetWindow"],
+    hoursUntilReset: "5",
     minutesUntilReset: "0",
     advancedSelections: {
       ...form.advancedSelections,
@@ -198,6 +198,13 @@ export default function UsageEstimator({
         (option.value ?? option.label) === selectedModelValue ||
         option.label === selectedModelValue,
     )?.label;
+  const selectedModeLabel = preset.advancedGroups
+    .find((group) => group.key === "mode")
+    ?.options.find(
+      (option) =>
+        (option.value ?? option.label) === form.advancedSelections.mode ||
+        option.label === form.advancedSelections.mode,
+    )?.label;
   const inlineErrors = result.errors.filter(
     (error) =>
       error.includes("Remaining") ||
@@ -205,8 +212,8 @@ export default function UsageEstimator({
   );
 
   const shareText = useMemo(() => {
-    return buildShareText(result, unitLabel, selectedModelLabel);
-  }, [result, selectedModelLabel, unitLabel]);
+    return buildShareText(result, unitLabel, selectedModelLabel, selectedModeLabel);
+  }, [result, selectedModeLabel, selectedModelLabel, unitLabel]);
 
   const copyResult = async () => {
     try {
@@ -223,6 +230,7 @@ export default function UsageEstimator({
         await navigator.share({
           title: "AI Percent to Prompts Calculator",
           text: shareText,
+          url: window.location.href,
         });
         setShareStatus("Share sheet opened.");
       } else {
@@ -235,18 +243,24 @@ export default function UsageEstimator({
   };
 
   return (
-    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-[0_18px_50px_-30px_rgba(24,24,27,0.35)] dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-none">
-      <div className="flex flex-col gap-4 border-b border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/40 sm:flex-row sm:items-center sm:justify-between">
+    <div className="overflow-hidden rounded-lg border border-t-4 border-zinc-200 border-t-cyan-400 bg-white shadow-[0_18px_50px_-30px_rgba(24,24,27,0.35)] dark:border-zinc-800 dark:border-t-cyan-500 dark:bg-zinc-900 dark:shadow-none">
+      <div className="flex flex-col gap-4 border-b border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/40 sm:flex-row sm:items-start sm:justify-between sm:p-6">
         <div>
-          <p className="text-sm font-semibold text-zinc-950 dark:text-white">
+          <p className="text-base font-semibold text-zinc-950 dark:text-white">
             Build your estimate
+          </p>
+          <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
+            Pick a platform, match the window it shows, then read the likely range.
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
-              GPT-5.6 Sol
+              Model: {selectedModelLabel ?? "Auto / not sure"}
             </span>
             <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-              Claude Fable 5
+              Claude Fable 5 supported
+            </span>
+            <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+              Max / Ultra / Extra High
             </span>
           </div>
         </div>
@@ -259,8 +273,8 @@ export default function UsageEstimator({
         </button>
       </div>
 
-      <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="border-b border-zinc-200 p-5 dark:border-zinc-800 lg:border-b-0 lg:border-r">
+      <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="border-b border-zinc-200 p-5 dark:border-zinc-800 sm:p-6 lg:border-b-0 lg:p-7">
           <EstimatorForm
             form={form}
             preset={preset}
@@ -273,7 +287,7 @@ export default function UsageEstimator({
             onAdvancedToggle={() => setAdvancedOpen((value) => !value)}
           />
         </div>
-        <div className="self-start p-5 lg:sticky lg:top-4">
+        <div className="self-start bg-zinc-50/55 p-5 dark:border-zinc-800 dark:bg-zinc-950/25 sm:p-6 lg:sticky lg:top-4 lg:border-l lg:border-zinc-200 lg:p-7">
           <EstimatorResult
             result={result}
             unitLabel={unitLabel}

@@ -43,6 +43,7 @@ function getDefaultAdvancedSelections(
       product: "ChatGPT chat",
       model: "gpt-5.6-sol",
       reasoning: "Medium",
+      mode: "standard",
       feature: "Simple chat",
     };
   }
@@ -55,7 +56,6 @@ export function createDefaultEstimatorForm(
 ): EstimatorFormState {
   const preset = platformPresets[platform];
   const defaultHours: Record<ResetWindow, string> = {
-    "3 hours": "3",
     "5 hours": "5",
     Daily: "24",
     Weekly: "168",
@@ -122,6 +122,7 @@ function normalizeLegacySelections(
         ? modelMigrations[advancedSelections.model] ?? advancedSelections.model
         : "gpt-5.6-sol",
       product: advancedSelections.product ?? "ChatGPT chat",
+      mode: advancedSelections.mode ?? "standard",
       reasoning:
         advancedSelections.reasoning === "Standard"
           ? "Medium"
