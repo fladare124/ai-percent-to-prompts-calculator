@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   GITHUB_COPILOT_MODEL_RATES,
   GITHUB_COPILOT_PLANS,
-  type GitHubCopilotPlan,
 } from "@/lib/githubCopilotPricing";
 
 type TokenInputs = {
