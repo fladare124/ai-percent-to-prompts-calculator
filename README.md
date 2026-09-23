@@ -6,7 +6,7 @@ Production: `https://percenttoprompts.com`
 
 It includes separate guides and calculators for ChatGPT, Codex, Claude, Gemini, Perplexity, Cursor and Windsurf / Devin. The OpenAI selector separates ChatGPT chat from Codex and Work so message windows are not confused with the shared agentic credit pool. Presets are estimates rather than live provider limits.
 
-Provider documentation and public API price references were reviewed on September 23, 2026. Prices shown in the calculator refer to API token use and are not subscription charges.
+Each provider calculator links to the public documentation behind its guidance. Usage rules and API prices can change; API prices shown in the calculator refer to token use, not subscription charges.
 
 The result includes an optional personal calibration tool. Compare two usage readings from the same reset window and estimate remaining work from your own recent usage rate. The Codex page also compares a recent usage pace with the time left until reset; these entered values stay in the browser.
 
@@ -79,15 +79,6 @@ The app keeps subscription quotas, provider credits and API prices separate. API
 - `/cursor-usage-calculator`
 - `/windsurf-devin-usage-calculator`
 - Older duplicate paths redirect to `/`.
-
-## Suggested Domains
-
-- `percenttoprompts.com`
-- `aipercenttoprompts.com`
-- `promptpercent.com`
-- `promptsleft.com`
-- `percenttoprompts.ai`
-- `promptsleft.ai`
 
 ## Disclaimer
 

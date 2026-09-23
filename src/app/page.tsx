@@ -32,7 +32,7 @@ export default function Home() {
         {
           question: "How do I convert an AI usage percentage into prompts?",
           answer:
-            "A percentage alone does not reveal a fixed prompt count because providers use different limits. Choose the matching platform, plan and reset window for a broad estimate, or compare two recent readings and the similar requests you completed to personalize it.",
+            "For a fixed reference allowance, estimate units left as reference count × remaining percentage ÷ 100. For example, 30% of a 40-request allowance is about 12 requests. Most AI providers use dynamic limits rather than one fixed prompt count, so choose the matching platform, plan and reset window, or compare two readings from your own recent use to calibrate the estimate.",
         },
         {
           question: "What does 50% AI usage remaining mean?",
