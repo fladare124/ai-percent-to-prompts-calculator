@@ -15,9 +15,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/codex-usage-calculator",
-    title: "Codex Usage Calculator and Reset Planner",
+    title: "Codex Usage Calculator: Limit and Reset Planner",
     description:
-      "Estimate remaining Codex tasks and check whether your recent usage pace may last until the next reset.",
+      "Compare your Codex usage meter with recent readings to estimate whether the 5-hour or weekly allowance can last until reset.",
     lastModified: contentUpdatedAt,
     priority: 0.85,
   },

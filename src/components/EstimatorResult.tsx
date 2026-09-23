@@ -63,7 +63,9 @@ export default function EstimatorResult({
             Needs one fix
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
-            {result.platform === "Cursor"
+            {result.platform === "Codex"
+              ? "Use your Codex usage meter"
+              : result.platform === "Cursor"
               ? "Use your Cursor pool balance"
               : result.platform === "Gemini"
                 ? "Use your Gemini usage meter"
@@ -76,7 +78,14 @@ export default function EstimatorResult({
           {result.errors.map((error) => (
             <p key={error}>{error}</p>
           ))}
-          {result.platform === "Cursor" ? (
+          {result.platform === "Codex" ? (
+            <Link
+              href="/codex-usage-calculator"
+              className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
+            >
+              Open the Codex usage and reset planner
+            </Link>
+          ) : result.platform === "Cursor" ? (
             <Link
               href="/cursor-usage-calculator"
               className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"

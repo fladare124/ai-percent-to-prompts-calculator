@@ -231,7 +231,7 @@ export default function SeoCalculatorPage({
                   How the estimate works
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-                  The calculator multiplies a reference amount for your selected plan and reset window by the remaining percentage and model or task factors. Those reference amounts are independent estimates, not live or guaranteed provider limits. The result includes an uncertainty range, and you can add two recent readings below the estimate to calculate your own usage pace.
+                  The general estimator scales a reference allowance for your selected plan and reset window by the remaining percentage and model or task factors. These values are independent planning estimates, not live or guaranteed provider limits. For a platform with an account-specific usage meter, open its dedicated calculator and compare recent readings. Where available, add your own recent activity to personalize a count estimate.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">

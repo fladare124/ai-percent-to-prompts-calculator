@@ -279,7 +279,8 @@ export default function UsagePacePlanner({
 
             {estimate.kind === "forecast" ? (
               <p className="mt-2">
-                To spread {estimate.remaining.toFixed(1)}% over the next{" "}
+                To spread the remaining {estimate.remaining.toFixed(1)}{" "}
+                {measurementUnit} over the next{" "}
                 {estimate.hoursUntilReset.toFixed(1)} hours, average use would
                 need to stay near or below{" "}
                 <strong>

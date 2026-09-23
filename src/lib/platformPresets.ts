@@ -57,14 +57,14 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
     resetWindows: ["5 hours", "Daily", "Weekly", "Monthly"],
     defaultResetWindow: "5 hours",
     limitBasis:
-      "ChatGPT chat uses the closest normalized message window. Codex, Work and workspace agents share an agentic usage and credit pool, with token-based model rates and optional Max or Ultra execution modes.",
+      "Codex usage is account-specific and depends on the model, task, context, reasoning and tools. Use the current account meter and recent readings instead of a fixed task allowance.",
     planPresets: [
-      { label: "Free", baseLimits: limits({ "5 hours": 10 }) },
-      { label: "Go", baseLimits: limits({ "5 hours": 40, Daily: 120, Weekly: 360, Monthly: 1440 }) },
-      { label: "Plus", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
-      { label: "Pro", baseLimits: limits({ "5 hours": 2000, Daily: 5000, Weekly: 14000, Monthly: 56000 }) },
-      { label: "Business", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
-      { label: "Enterprise / Edu", baseLimits: limits({ "5 hours": 100, Daily: 250, Weekly: 700, Monthly: 2800 }) },
+      { label: "Free", baseLimits: limits({}) },
+      { label: "Go", baseLimits: limits({}) },
+      { label: "Plus", baseLimits: limits({}) },
+      { label: "Pro", baseLimits: limits({}) },
+      { label: "Business", baseLimits: limits({}) },
+      { label: "Enterprise / Edu", baseLimits: limits({}) },
     ],
     advancedGroups: [
       {

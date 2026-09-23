@@ -242,6 +242,12 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     errors.push("No base limit preset was found for this platform and plan.");
   }
 
+  if (input.platform === "Codex") {
+    errors.push(
+      "Codex task counts are not fixed across models and tasks. Use the Codex usage planner to compare your account meter with your recent pace.",
+    );
+  }
+
   if (
     input.platform === "Claude" &&
     ["claude-fable-5", "claude-fable-5-1"].includes(
