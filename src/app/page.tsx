@@ -48,7 +48,7 @@ export default function Home() {
         {
           question: "How does personal usage calibration work?",
           answer:
-            "Enter an earlier remaining percentage and how many similar requests you completed since that reading. The calculator estimates your remaining requests from the percentage points used at your own recent pace.",
+            "Compare readings from the same provider, model and reset window. For example, if the meter drops from 80% to 70% after 5 similar requests, you used about 2 percentage points per request; at 70% remaining, that pace suggests roughly 35 similar requests left. This is only a planning estimate because later requests may use more or less allowance.",
         },
       ]}
     />
