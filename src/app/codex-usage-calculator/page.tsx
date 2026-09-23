@@ -8,6 +8,10 @@ export const metadata: Metadata = {
     "Compare your Codex usage meter with recent readings to estimate whether the 5-hour or weekly allowance can last until reset.",
   alternates: {
     canonical: "/codex-usage-calculator",
+    languages: {
+      en: "/codex-usage-calculator",
+      "es-ES": "/es/calculadora-uso-codex",
+    },
   },
 };
 

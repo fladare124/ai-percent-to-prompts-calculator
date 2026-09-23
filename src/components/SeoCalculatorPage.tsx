@@ -30,6 +30,10 @@ const links = [
   },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   {
+    href: "/es/calculadora-uso-codex",
+    label: "Calculadora de uso de Codex en español",
+  },
+  {
     href: "/github-copilot-usage-calculator",
     label: "GitHub Copilot AI Credits Calculator",
   },

@@ -6,6 +6,8 @@ Production site: [Percent to Prompts — AI usage percentage calculator](https:/
 
 It includes separate guides and calculators for [ChatGPT Work and Codex message ranges](https://percenttoprompts.com/chatgpt-limit-calculator), Claude, Gemini, Perplexity, GitHub Copilot, Cursor and Windsurf / Devin. The [GitHub Copilot AI credits calculator](https://percenttoprompts.com/github-copilot-usage-calculator) estimates token-based model costs and monthly credit use. The OpenAI selector separates ChatGPT chat from Codex and Work so message windows are not confused with the shared agentic credit pool. Presets are estimates rather than live provider limits.
 
+Spanish-speaking Codex users can use the [Codex usage calculator in Spanish](https://percenttoprompts.com/es/calculadora-uso-codex) to forecast whether their current usage pace may last until reset.
+
 Each provider calculator links to the public documentation behind its guidance. Usage rules and API prices can change; API prices shown in the calculator refer to token use, not subscription charges.
 
 The result includes an optional personal calibration tool. Compare two usage readings from the same reset window and estimate remaining work from your own recent usage rate. The Codex page also compares a recent usage pace with the time left until reset; these entered values stay in the browser.
@@ -72,6 +74,7 @@ The app keeps subscription quotas, provider credits and API prices separate. API
 
 - `/`
 - `/codex-usage-calculator`
+- `/es/calculadora-uso-codex`
 - `/chatgpt-limit-calculator`
 - `/claude-usage-calculator`
 - `/gemini-usage-calculator`
