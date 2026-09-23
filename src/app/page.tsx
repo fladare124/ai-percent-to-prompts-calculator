@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "AI Usage Meter Calculator: Estimate Prompts Left",
+  title: "AI Percentage Calculator: Estimate Prompts Left",
   description:
-    "Estimate prompts, messages or coding tasks from the percentage in an AI usage meter. Supports Claude, Codex, ChatGPT, Gemini and more; free, with no account connection.",
+    "Estimate prompts, messages or coding tasks from the percentage in your AI usage meter. Choose a provider preset or compare recent readings to estimate your own pace. Free, with no account connection.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AI Usage Meter Calculator: Estimate Prompts Left",
+    title: "AI Percentage Calculator: Estimate Prompts Left",
     description:
       "Estimate prompts, messages or coding tasks from the percentage in an AI usage meter.",
     url: "/",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Usage Meter Calculator: Estimate Prompts Left",
+    title: "AI Percentage Calculator: Estimate Prompts Left",
     description:
       "Estimate remaining prompts, messages, searches or coding tasks from an AI usage percentage.",
     images: ["/opengraph-image"],
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <SeoCalculatorPage
-      h1="AI Usage Meter Calculator: Estimate Prompts Left"
+      h1="AI Percentage Calculator: Estimate Prompts Left"
       intro="Enter the remaining percentage shown by your AI provider to estimate prompts, messages, searches or coding tasks left. Choose the provider and reset window, or compare two readings to estimate your personal usage pace."
       extraFaq={[
         {

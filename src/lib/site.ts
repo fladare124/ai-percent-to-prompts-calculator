@@ -7,9 +7,9 @@ const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
 export const calculatorRoutes = [
   {
     path: "/",
-    title: "AI Percentage Calculator: Prompts, Messages & Tasks Left",
+    title: "AI Percentage Calculator: Estimate Prompts Left",
     description:
-      "Estimate remaining prompts, messages, searches or coding tasks from your AI usage percentage, plan and selected reset window.",
+      "Estimate prompts, messages or coding tasks from your AI usage percentage, provider, plan and reset window.",
     lastModified: contentUpdatedAt,
     priority: 1,
   },
