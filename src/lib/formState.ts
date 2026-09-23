@@ -29,7 +29,7 @@ function getDefaultAdvancedSelections(
 ): Partial<Record<AdvancedOptionKey, string>> {
   if (platform === "Claude") {
     return {
-      model: "claude-fable-5",
+      model: "claude-sonnet-5",
       mode: "Standard chat",
     };
   }
@@ -162,6 +162,8 @@ function normalizeLegacySelections(
     : { ...advancedSelections };
 
   const modelMigrations: Record<string, string> = {
+    "Claude Fable 5": "claude-fable-5",
+    "Claude Fable 5.1": "claude-fable-5-1",
     "claude-sonnet": "claude-sonnet-5",
     "Claude Sonnet": "claude-sonnet-5",
     "claude-opus": "claude-opus-4-8",

@@ -558,9 +558,9 @@ function getCriticalFields(
       fields.push({
         group,
         options: group.options,
-        fallbackValue: "claude-fable-5",
+        fallbackValue: "claude-sonnet-5",
         helpText:
-          "Claude Fable 5 is included and uses a more conservative, task-aware estimate.",
+          "Fable 5 and 5.1 use different allowance rules by plan. The estimate cannot convert Fable usage credits into messages.",
         emphasized: true,
       });
     }

@@ -42,6 +42,7 @@ export default function UsagePacePlanner({
   sourceUrl,
   sourceLabel,
 }: UsagePacePlannerProps) {
+  const titleId = `${platform.toLowerCase()}-pace-title`;
   const [inputs, setInputs] = useState(initialInputs);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
   const [error, setError] = useState("");
@@ -104,7 +105,7 @@ export default function UsagePacePlanner({
 
   return (
     <section
-      aria-labelledby="codex-pace-title"
+      aria-labelledby={titleId}
       className="border-t border-zinc-200 pt-8 dark:border-zinc-800"
     >
       <div className="max-w-3xl">
@@ -112,7 +113,7 @@ export default function UsagePacePlanner({
           {platform} usage planner
         </p>
         <h2
-          id="codex-pace-title"
+          id={titleId}
           className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white"
         >
           Will your {platform} usage last until reset?

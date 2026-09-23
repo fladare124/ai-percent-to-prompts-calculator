@@ -23,17 +23,17 @@ export const calculatorRoutes = [
   },
   {
     path: "/chatgpt-limit-calculator",
-    title: "ChatGPT Limit Calculator",
+    title: "ChatGPT Limit Calculator for GPT-6 Pro",
     description:
-      "Estimate remaining ChatGPT messages from your plan, model and usage percentage.",
+      "Calculate GPT-6 Pro messages left in ChatGPT Pro or Business, including shared GPT-5.6 Sol Pro limits.",
     lastModified: contentUpdatedAt,
     priority: 0.85,
   },
   {
     path: "/claude-usage-calculator",
-    title: "Claude Usage Calculator and Reset Planner",
+    title: "Claude Usage Limit Calculator: Pace Until Reset",
     description:
-      "Estimate Claude messages or Claude Code tasks and compare your usage pace with the next reset.",
+      "Compare your current Claude usage meter with your recent pace and get current guidance on weekly limits and Fable credits.",
     lastModified: contentUpdatedAt,
     priority: 0.85,
   },

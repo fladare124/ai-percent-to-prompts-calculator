@@ -40,19 +40,6 @@ const windowHours: Record<ResetWindow, number> = {
   Monthly: 720,
 };
 
-const claudeFable5Multipliers = {
-  Light: 0.2,
-  Normal: 0.24,
-  Heavy: 0.4,
-  "Very heavy": 0.6,
-} satisfies Record<EstimateInput["usageIntensity"], number>;
-
-export function getClaudeFable5Multiplier(
-  taskComplexity: EstimateInput["usageIntensity"],
-) {
-  return claudeFable5Multipliers[taskComplexity];
-}
-
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
@@ -262,6 +249,17 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     errors.push("No base limit preset was found for this platform and plan.");
   }
 
+  if (
+    input.platform === "Claude" &&
+    ["claude-fable-5", "claude-fable-5-1"].includes(
+      input.advancedSelections.model ?? "",
+    )
+  ) {
+    errors.push(
+      "A fixed message estimate does not apply to Claude Fable 5 or 5.1. On Pro and standard organization seats, Fable uses pay-as-you-go credits; on Max and eligible premium seats, it draws from the weekly allowance. Use the Claude usage pace planner with readings from your account.",
+    );
+  }
+
   const safeRemainingPercent = Number.isFinite(input.remainingPercent)
     ? clamp(input.remainingPercent, 0, 100)
     : 0;
@@ -313,16 +311,7 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     if (!selected) continue;
     selectedOptions.push(selected);
 
-    if (
-      input.platform === "Claude" &&
-      group.key === "model" &&
-      getOptionValue(selected) === "claude-fable-5"
-    ) {
-      // Claude Fable 5 has higher per-token cost than Opus/Sonnet/Haiku, but may
-      // be more efficient on long-horizon coding and agentic tasks. We use a
-      // dynamic multiplier: conservative for light tasks, less punitive for heavy tasks.
-      multiplier *= getClaudeFable5Multiplier(input.usageIntensity);
-    } else if (input.platform === "Codex" && group.key === "model") {
+    if (input.platform === "Codex" && group.key === "model") {
       multiplier *= getOpenAIModelMultiplier(
         input.advancedSelections.product,
         selected,

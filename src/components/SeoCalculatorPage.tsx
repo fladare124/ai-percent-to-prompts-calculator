@@ -7,6 +7,7 @@ import type { PlatformName } from "@/types";
 interface SeoCalculatorPageProps {
   h1: string;
   intro: string;
+  calculator?: ReactNode;
   platformFocus?: PlatformName;
   productFocus?: "ChatGPT chat" | "Codex";
   extraTool?: ReactNode;
@@ -23,7 +24,10 @@ interface ProviderGuide {
 
 const links = [
   { href: "/", label: "AI Usage Limit Calculator" },
-  { href: "/chatgpt-limit-calculator", label: "ChatGPT Limit Calculator" },
+  {
+    href: "/chatgpt-limit-calculator",
+    label: "ChatGPT & GPT-6 Pro Limit Calculator",
+  },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
@@ -38,8 +42,8 @@ const links = [
 const popularLinks = [
   {
     href: "/chatgpt-limit-calculator",
-    label: "ChatGPT limits",
-    text: "Estimate remaining messages from the usage meter.",
+    label: "GPT-6 Pro message limit",
+    text: "Check the published weekly or monthly allowance and shared Pro-model usage.",
   },
   {
     href: "/codex-usage-calculator",
@@ -103,13 +107,14 @@ const estimateSteps = [
 export default function SeoCalculatorPage({
   h1,
   intro,
+  calculator,
   platformFocus,
   productFocus,
   extraTool,
   guide,
   extraFaq = [],
 }: SeoCalculatorPageProps) {
-  const isOverviewPage = !platformFocus;
+  const isOverviewPage = !platformFocus && !calculator;
   const faqItems = isOverviewPage ? [...extraFaq, ...globalFaq] : extraFaq;
   const faqSchema = {
     "@context": "https://schema.org",
@@ -177,10 +182,12 @@ export default function SeoCalculatorPage({
           </p>
         </header>
 
-        <UsageEstimator
-          platformFocus={platformFocus}
-          productFocus={productFocus}
-        />
+        {calculator ?? (
+          <UsageEstimator
+            platformFocus={platformFocus}
+            productFocus={productFocus}
+          />
+        )}
 
         {extraTool}
 

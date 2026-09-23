@@ -322,8 +322,15 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
             label: "Claude Fable 5",
             value: "claude-fable-5",
             multiplier: 1,
-            costReference:
-              "No public subscription-to-token conversion is used for Fable 5; its task-complexity multiplier is intentionally conservative.",
+            availabilityNote:
+              "Fable 5 uses plan limits only on Max and eligible premium organization seats. On Pro and standard seats, it uses pay-as-you-go usage credits.",
+          },
+          {
+            label: "Claude Fable 5.1",
+            value: "claude-fable-5-1",
+            multiplier: 1,
+            availabilityNote:
+              "Fable 5.1 uses plan limits only on Max and eligible premium organization seats. On Pro and standard seats, it uses pay-as-you-go usage credits.",
           },
           {
             label: "Claude Sonnet 5",
