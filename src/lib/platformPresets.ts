@@ -84,27 +84,26 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
             label: "GPT-5.6 Sol",
             value: "gpt-5.6-sol",
             multiplier: 0.55,
-            apiPricing: { inputPerMillion: 5, outputPerMillion: 30 },
-            availabilityNote: "GPT-5.6 Sol is rolling out gradually on eligible plans.",
+            apiPricing: { inputPerMillion: 4, outputPerMillion: 20 },
+            availabilityNote: "GPT-5.6 access depends on your plan and account.",
           },
           {
             label: "GPT-5.6 Sol Pro",
             value: "gpt-5.6-sol-pro",
             multiplier: 0.25,
-            apiPricing: { inputPerMillion: 5, outputPerMillion: 30 },
             availabilityNote: "Sol Pro is available only on eligible plans and products.",
           },
           {
             label: "GPT-5.6 Terra",
             value: "gpt-5.6-terra",
             multiplier: 0.8,
-            apiPricing: { inputPerMillion: 2.5, outputPerMillion: 15 },
+            apiPricing: { inputPerMillion: 2, outputPerMillion: 12 },
           },
           {
             label: "GPT-5.6 Luna",
             value: "gpt-5.6-luna",
             multiplier: 1.25,
-            apiPricing: { inputPerMillion: 1, outputPerMillion: 6 },
+            apiPricing: { inputPerMillion: 0.2, outputPerMillion: 1.2 },
           },
           {
             label: "GPT-5.5 Instant",
@@ -246,20 +245,20 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
           {
             label: "GPT-5.6 Sol (preview)",
             multiplier: 0.55,
-            apiPricing: { inputPerMillion: 5, outputPerMillion: 30 },
-            availabilityNote: "Limited preview; not a generally available ChatGPT cap.",
+            apiPricing: { inputPerMillion: 4, outputPerMillion: 20 },
+            availabilityNote: "Model access and message limits depend on your plan.",
           },
           {
             label: "GPT-5.6 Terra (preview)",
             multiplier: 0.8,
-            apiPricing: { inputPerMillion: 2.5, outputPerMillion: 15 },
-            availabilityNote: "Limited preview; not a generally available ChatGPT cap.",
+            apiPricing: { inputPerMillion: 2, outputPerMillion: 12 },
+            availabilityNote: "Model access and message limits depend on your plan.",
           },
           {
             label: "GPT-5.6 Luna (preview)",
             multiplier: 1.25,
-            apiPricing: { inputPerMillion: 1, outputPerMillion: 6 },
-            availabilityNote: "Limited preview; not a generally available ChatGPT cap.",
+            apiPricing: { inputPerMillion: 0.2, outputPerMillion: 1.2 },
+            availabilityNote: "Model access and message limits depend on your plan.",
           },
           {
             label: "GPT-5.5 Instant",
@@ -333,7 +332,7 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
             apiPricing: {
               inputPerMillion: 2,
               outputPerMillion: 10,
-              note: "Introductory price through August 31, 2026; then $3/$15 per million tokens.",
+              note: "Anthropic API pricing is separate from Claude subscription usage.",
             },
           },
           {

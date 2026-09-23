@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+    template: "%s | Percent to Prompts",
   },
   description:
     "Unofficial calculator for estimating remaining AI prompts, messages, tasks and usage units from your usage percentage.",

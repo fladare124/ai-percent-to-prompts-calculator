@@ -8,12 +8,21 @@ interface SeoCalculatorPageProps {
   intro: string;
   platformFocus?: PlatformName;
   productFocus?: "ChatGPT chat" | "Codex";
+  guide?: ProviderGuide;
   extraFaq?: Array<{ question: string; answer: string }>;
+}
+
+interface ProviderGuide {
+  title: string;
+  summary: string;
+  points: string[];
+  sources: Array<{ label: string; href: string }>;
 }
 
 const links = [
   { href: "/", label: "AI Percent to Prompts Calculator" },
-  { href: "/chatgpt-limit-calculator", label: "ChatGPT / Codex Calculator" },
+  { href: "/chatgpt-limit-calculator", label: "ChatGPT Limit Calculator" },
+  { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
   { href: "/perplexity-usage-calculator", label: "Perplexity Usage Calculator" },
@@ -27,23 +36,28 @@ const links = [
 const popularLinks = [
   {
     href: "/chatgpt-limit-calculator",
-    label: "GPT-5.6 / Codex",
-    text: "Sol reasoning, Extra High, Max and Ultra agent modes.",
+    label: "ChatGPT limits",
+    text: "Estimate remaining messages from the usage meter.",
+  },
+  {
+    href: "/codex-usage-calculator",
+    label: "Codex task usage",
+    text: "Estimate coding tasks from your remaining allowance.",
   },
   {
     href: "/claude-usage-calculator",
-    label: "Claude Max / Fable 5",
-    text: "Pro, Max 5x, Max 20x and task-aware Fable 5 estimates.",
+    label: "Claude",
+    text: "Estimate messages or coding tasks from your usage meter.",
   },
   {
     href: "/gemini-usage-calculator",
-    label: "Gemini Ultra",
-    text: "AI Pro, Ultra tiers and Deep Think.",
+    label: "Gemini",
+    text: "Estimate prompts against a five-hour or weekly window.",
   },
   {
     href: "/cursor-usage-calculator",
-    label: "Cursor Ultra",
-    text: "Agent, background and Max Mode estimates.",
+    label: "Cursor",
+    text: "Estimate requests from your monthly included usage.",
   },
 ];
 
@@ -89,9 +103,11 @@ export default function SeoCalculatorPage({
   intro,
   platformFocus,
   productFocus,
+  guide,
   extraFaq = [],
 }: SeoCalculatorPageProps) {
-  const faqItems = [...extraFaq, ...globalFaq];
+  const isOverviewPage = !platformFocus;
+  const faqItems = isOverviewPage ? [...extraFaq, ...globalFaq] : extraFaq;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -140,13 +156,13 @@ export default function SeoCalculatorPage({
             </div>
             <div className="flex flex-wrap gap-2">
               <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
-                GPT-5.6 Sol
+                Free to use
               </span>
               <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-                Updated July 2026
+                No sign-in
               </span>
               <span className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
-                Max / Ultra / Extra High
+                Estimate only
               </span>
             </div>
           </div>
@@ -163,63 +179,69 @@ export default function SeoCalculatorPage({
           productFocus={productFocus}
         />
 
-        <section className="border-t border-zinc-200 pt-8 dark:border-zinc-800">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-              Popular setups
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
-              Jump straight to the estimate you need
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              These are the setups people most often compare when a provider shows a percentage instead of a simple count.
-            </p>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {popularLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="group rounded-md border border-zinc-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-800"
-              >
-                <span className="block text-sm font-semibold text-zinc-950 group-hover:text-cyan-700 dark:text-white dark:group-hover:text-cyan-300">
-                  {link.label}
-                </span>
-                <span className="mt-2 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">
-                  {link.text}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {guide ? <ProviderGuideSection guide={guide} /> : null}
 
-        <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <h2 className="text-2xl font-semibold text-zinc-950 dark:text-white">
-              From Percent To Prompts
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              The calculator turns a vague remaining percentage into an easier
-              estimate of prompts, messages, coding tasks or agent runs left.
-            </p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {estimateSteps.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-md border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
-                  {item.text}
+        {isOverviewPage ? (
+          <>
+            <section className="border-t border-zinc-200 pt-8 dark:border-zinc-800">
+              <div className="max-w-2xl">
+                <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
+                  Calculators
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
+                  Choose your AI platform
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                  Each provider tracks usage differently. Select the matching calculator and reset window to get a relevant planning estimate.
                 </p>
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {popularLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="group rounded-md border border-zinc-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-800"
+                  >
+                    <span className="block text-sm font-semibold text-zinc-950 group-hover:text-cyan-700 dark:text-white dark:group-hover:text-cyan-300">
+                      {link.label}
+                    </span>
+                    <span className="mt-2 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+                      {link.text}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </section>
 
+            <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <h2 className="text-2xl font-semibold text-zinc-950 dark:text-white">
+                  How the estimate works
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                  The calculator multiplies a reference amount for your selected plan and reset window by the remaining percentage and model or task factors. Those reference amounts are independent estimates, not live or guaranteed provider limits. The result includes an uncertainty range, and you can add two recent readings below the estimate to calculate your own usage pace.
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {estimateSteps.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-md border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
+                  >
+                    <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+                      {item.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
+        ) : null}
+
+        {faqItems.length > 0 ? (
         <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <h2 className="text-2xl font-semibold text-zinc-950 dark:text-white">
@@ -246,6 +268,7 @@ export default function SeoCalculatorPage({
             ))}
           </div>
         </section>
+        ) : null}
 
         <section className="grid gap-4 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
           <h2 className="text-xl font-semibold text-zinc-950 dark:text-white">
@@ -269,6 +292,55 @@ export default function SeoCalculatorPage({
         </p>
       </div>
     </main>
+  );
+}
+
+function ProviderGuideSection({ guide }: { guide: ProviderGuide }) {
+  return (
+    <section className="grid gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
+          Platform guide
+        </p>
+        <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
+          {guide.title}
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          {guide.summary}
+        </p>
+      </div>
+      <div>
+        <ul className="space-y-3">
+          {guide.points.map((point) => (
+            <li
+              key={point}
+              className="rounded-md border border-zinc-200 bg-white p-4 text-sm leading-6 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
+            >
+              {point}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950/40">
+          <h3 className="text-sm font-semibold text-zinc-950 dark:text-white">
+            Check the provider’s current usage rules
+          </h3>
+          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+            {guide.sources.map((source) => (
+              <li key={source.href}>
+                <a
+                  href={source.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-medium text-cyan-800 underline decoration-cyan-300 underline-offset-4 hover:text-cyan-600 dark:text-cyan-300 dark:decoration-cyan-800"
+                >
+                  {source.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }
 

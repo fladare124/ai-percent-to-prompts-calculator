@@ -15,7 +15,7 @@ import type {
 } from "@/types";
 
 export const DISCLAIMER =
-  "This tool is not affiliated with OpenAI, Anthropic, Google, Perplexity, Cursor, Windsurf or Devin. Results are unofficial estimates based on the remaining percentage and options you enter. Real limits can vary by plan, model, feature, system capacity, context length, files, task complexity and provider changes. API cost references are not subscription charges.";
+  "This tool is independent and does not connect to your provider account. Results are unofficial planning estimates, not live limits or guaranteed prompt counts. Actual usage varies by plan, model, context, features, task complexity and provider changes. API cost references are not subscription charges.";
 
 const statusMessages: Record<StatusLevel, string> = {
   Comfortable: "You have plenty of estimated usage left.",
@@ -241,6 +241,11 @@ function getApiCostEstimate(
 export function estimateUsage(input: EstimateInput): EstimateResult {
   const preset = platformPresets[input.platform];
   const planPreset = preset.planPresets.find((plan) => plan.label === input.plan);
+  const limitBasis =
+    input.platform === "Codex" &&
+    input.advancedSelections.product === "ChatGPT chat"
+      ? "ChatGPT chat uses model-specific message limits. This normalized reference is not a live account cap; actual limits vary by plan, model, feature and capacity."
+      : preset.limitBasis;
   const errors: string[] = [];
 
   if (!Number.isFinite(input.remainingPercent)) {
@@ -278,7 +283,7 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
       resetWindow: input.resetWindow,
       usageIntensity: input.usageIntensity,
       usageUnit: preset.usageUnit,
-      limitBasis: preset.limitBasis,
+      limitBasis,
       remainingPercent: safeRemainingPercent,
       usedPercent,
       baseLimit,
@@ -358,7 +363,7 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     resetWindow: input.resetWindow,
     usageIntensity: input.usageIntensity,
     usageUnit: preset.usageUnit,
-    limitBasis: preset.limitBasis,
+    limitBasis,
     remainingPercent: safeRemainingPercent,
     usedPercent,
     baseLimit,

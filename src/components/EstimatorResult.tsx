@@ -135,7 +135,7 @@ export default function EstimatorResult({
         />
         {result.apiCostEstimate ? (
           <Metric
-            label="Typical API reference per task"
+            label="Approx. API token cost (not plan cost)"
             value={`${moneyRange(
               result.apiCostEstimate.low,
               result.apiCostEstimate.high,
@@ -151,10 +151,14 @@ export default function EstimatorResult({
           className={statusStyles[result.status]}
         />
         <Badge
-          label={`Reliability: ${result.reliability}`}
+          label={`Preset confidence: ${result.reliability}`}
           className={reliabilityStyles[result.reliability]}
         />
       </div>
+      <p className="-mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+        Preset confidence describes the reference allowance, not a measured
+        accuracy score.
+      </p>
 
       <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">
         {result.statusMessage}

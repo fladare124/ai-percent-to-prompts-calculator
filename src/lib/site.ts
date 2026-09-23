@@ -7,15 +7,8 @@ export const calculatorRoutes = [
     path: "/",
     title: "AI Percent to Prompts Calculator",
     description:
-      "Estimate ChatGPT messages, Codex tasks, Claude Max messages and Gemini Ultra prompts from a remaining percentage.",
+      "Estimate remaining AI prompts, messages, searches or coding tasks from the percentage shown in your usage meter.",
     priority: 1,
-  },
-  {
-    path: "/ai-percent-to-prompts-calculator",
-    title: "AI Percent to Prompts Calculator",
-    description:
-      "Estimate AI prompts, messages and tasks left from your remaining usage percentage.",
-    priority: 0.9,
   },
   {
     path: "/codex-usage-calculator",
@@ -28,7 +21,7 @@ export const calculatorRoutes = [
     path: "/chatgpt-limit-calculator",
     title: "ChatGPT Limit Calculator",
     description:
-      "Estimate remaining ChatGPT messages from a remaining usage percentage.",
+      "Estimate remaining ChatGPT messages from your plan, model and usage percentage.",
     priority: 0.85,
   },
   {

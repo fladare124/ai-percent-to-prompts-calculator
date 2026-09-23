@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import EstimatorForm from "@/components/EstimatorForm";
 import EstimatorResult from "@/components/EstimatorResult";
+import UsageCalibration from "@/components/UsageCalibration";
 import {
   buildShareText,
   getMainFactorsSummary,
@@ -257,10 +258,10 @@ export default function UsageEstimator({
               Model: {selectedModelLabel ?? "Auto / not sure"}
             </span>
             <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-              Claude Fable 5 supported
+              Personal usage calibration
             </span>
             <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
-              Max / Ultra / Extra High
+              Model and task factors
             </span>
           </div>
         </div>
@@ -295,6 +296,10 @@ export default function UsageEstimator({
             shareStatus={shareStatus}
             onCopy={copyResult}
             onShare={shareResult}
+          />
+          <UsageCalibration
+            remainingPercent={Number(form.remainingPercent)}
+            unitLabel={unitLabel}
           />
         </div>
       </div>
