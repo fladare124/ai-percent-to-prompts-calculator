@@ -4,7 +4,7 @@ AI Percent to Prompts Calculator is a frontend-only Next.js MVP that converts a 
 
 Production site: [Percent to Prompts — AI usage percentage calculator](https://percenttoprompts.com/)
 
-It includes separate guides and calculators for ChatGPT, Codex, Claude, Gemini, Perplexity, GitHub Copilot, Cursor and Windsurf / Devin. The [GitHub Copilot AI credits calculator](https://percenttoprompts.com/github-copilot-usage-calculator) estimates token-based model costs and monthly credit use. The OpenAI selector separates ChatGPT chat from Codex and Work so message windows are not confused with the shared agentic credit pool. Presets are estimates rather than live provider limits.
+It includes separate guides and calculators for [ChatGPT Work and Codex message ranges](https://percenttoprompts.com/chatgpt-limit-calculator), Claude, Gemini, Perplexity, GitHub Copilot, Cursor and Windsurf / Devin. The [GitHub Copilot AI credits calculator](https://percenttoprompts.com/github-copilot-usage-calculator) estimates token-based model costs and monthly credit use. The OpenAI selector separates ChatGPT chat from Codex and Work so message windows are not confused with the shared agentic credit pool. Presets are estimates rather than live provider limits.
 
 Each provider calculator links to the public documentation behind its guidance. Usage rules and API prices can change; API prices shown in the calculator refer to token use, not subscription charges.
 

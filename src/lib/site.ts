@@ -31,9 +31,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/chatgpt-limit-calculator",
-    title: "ChatGPT Limit Calculator for GPT-6 Pro",
+    title: "ChatGPT Limit Calculator: Messages Left in 5 Hours",
     description:
-      "Calculate GPT-6 Pro messages left in ChatGPT Pro or Business, including shared GPT-5.6 Sol Pro limits.",
+      "Estimate ChatGPT Work and Codex local messages left from your plan, model and remaining usage percentage using OpenAI’s published five-hour ranges.",
     lastModified: contentUpdatedAt,
     priority: 0.85,
   },

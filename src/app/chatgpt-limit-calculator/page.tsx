@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Gpt6ProLimitCalculator from "@/components/Gpt6ProLimitCalculator";
+import ChatGPTUsageLimitCalculator from "@/components/ChatGPTUsageLimitCalculator";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
+import { chatGPTUsageSource } from "@/lib/chatgptUsageRanges";
 
 export const metadata: Metadata = {
-  title: "ChatGPT Limit Calculator for GPT-6 Pro",
+  title: "ChatGPT Limit Calculator: Messages Left in 5 Hours",
   description:
-    "Calculate GPT-6 Pro messages left in ChatGPT Pro or Business. Account for weekly, monthly and shared GPT-5.6 Sol Pro limits.",
+    "Estimate ChatGPT Work and Codex local messages left from your plan, model and remaining usage percentage using OpenAI’s published five-hour ranges.",
   alternates: {
     canonical: "/chatgpt-limit-calculator",
   },
@@ -14,55 +15,47 @@ export const metadata: Metadata = {
 export default function ChatGptLimitCalculatorPage() {
   return (
     <SeoCalculatorPage
-      h1="ChatGPT Limit Calculator: GPT-6 Pro Messages Left"
-      intro="Calculate the GPT-6 Pro messages left in your ChatGPT plan. Enter what you have used so far to account for weekly or monthly allowances shared with GPT-5.6 Sol Pro."
-      calculator={<Gpt6ProLimitCalculator />}
+      h1="ChatGPT Limit Calculator: Messages Left"
+      intro="Estimate a remaining message range for ChatGPT Work and Codex in a five-hour window. Choose your plan and model, then enter the remaining percentage shown in your usage dashboard."
+      calculator={<ChatGPTUsageLimitCalculator />}
       guide={{
-        title: "GPT-6 Pro message limits in ChatGPT",
+        title: "How ChatGPT Work and Codex usage limits work",
         summary:
-          "OpenAI publishes different GPT-6 Pro allowances by plan. Some of those messages share a limit with GPT-5.6 Sol Pro, so switching between the two models does not create a fresh allowance.",
+          "OpenAI publishes estimated local messages per five-hour period for ChatGPT Work and Codex. The ranges vary by plan and model; they are not fixed message limits or a live reading from your account.",
         points: [
-          "Pro $100 includes 50 messages per week shared across GPT-6 Pro and GPT-5.6 Sol Pro.",
-          "Pro $200 includes up to 200 GPT-6 Pro messages per week. GPT-5.6 Sol Pro has a separate daily allowance of 170 messages, and the two Pro models together are capped at 200 messages per day.",
-          "Business Standard includes 15 Pro-model messages per month; Business Premium includes 50 per week. Both allowances are shared across GPT-6 Pro and GPT-5.6 Sol Pro.",
-          "GPT-6 Pro is available in Chat on Pro, Business and eligible Enterprise plans. Plus includes GPT-6 Astra in Work and Codex, which use separate allowances.",
-          "This page subtracts the message counts you enter from the published plan limits. Check ChatGPT for your workspace permissions and exact reset times.",
+          "ChatGPT Work and Codex share usage, pricing and limits. The table on this page is specifically for local messages in a five-hour period.",
+          "The published ranges are not guaranteed caps. Model choice, context, reasoning, tool use, retrieval and caching can change how much allowance similar tasks consume.",
+          "OpenAI says cloud chats on ChatGPT plans use GPT-5.6 Sol and may use more of the allowance than local messages, so this local-message estimate may not match cloud usage.",
+          "A weekly limit may also apply. Use your ChatGPT usage dashboard for your current allowance and reset time; this calculator cannot access your account.",
+          "GPT-5.5 is listed in the current range table, with retirement from ChatGPT, Work and Codex scheduled for October 14, 2026. Check the official page for model changes.",
         ],
         sources: [
           {
-            label: "OpenAI: GPT-5.6 and GPT-6 Pro limits",
-            href: "https://help.openai.com/en/articles/20001354-gpt-5-6",
-          },
-          {
-            label: "OpenAI: ChatGPT Pro plans",
-            href: "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro",
-          },
-          {
-            label: "OpenAI: Codex usage and limits",
-            href: "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+            label: "OpenAI: ChatGPT Work and Codex pricing and usage ranges",
+            href: chatGPTUsageSource,
           },
         ],
       }}
       extraFaq={[
         {
-          question: "How many GPT-6 Pro messages do I get?",
+          question: "Are ChatGPT Work and Codex message limits fixed?",
           answer:
-            "OpenAI lists 50 per week on Pro $100, 200 per week on Pro $200, 15 per month on Business Standard, and 50 per week on Business Premium. The Pro-model allowance is shared with GPT-5.6 Sol Pro on Pro $100 and Business plans.",
+            "No. OpenAI publishes estimated ranges for local messages per five-hour period. Actual usage depends on the model, context, reasoning and tools, and a weekly limit may also apply. Check your usage dashboard for your current allowance and reset time.",
         },
         {
-          question: "Does GPT-6 Pro share its limit with GPT-5.6 Sol Pro?",
+          question: "How does the ChatGPT usage calculator work?",
           answer:
-            "Yes. Pro $100 and Business Standard/Premium use a shared allowance. Pro $200 has a separate GPT-6 Pro weekly limit and a shared daily cap across GPT-6 Pro and GPT-5.6 Sol Pro.",
+            "It multiplies OpenAI’s low and high local-message estimates for the selected plan and model by the remaining percentage you enter. Usage is not always linear by message, so treat the output as a planning range rather than an exact count.",
         },
         {
-          question: "Can ChatGPT Plus use GPT-6 Pro in Chat?",
+          question: "Does this estimate include cloud chats or API usage?",
           answer:
-            "OpenAI lists GPT-6 Pro for Pro, Business and Enterprise Chat plans. Plus includes GPT-6 Astra in Work and Codex, whose usage rules are separate from Chat.",
+            "The table covers OpenAI’s published local-message ranges for ChatGPT Work and Codex. OpenAI says cloud chats on ChatGPT plans use GPT-5.6 Sol and may use more allowance. API-key usage is usage-based and is not covered here.",
         },
         {
           question: "Does this calculator read my ChatGPT account?",
           answer:
-            "No. Enter the Pro-model messages you have used during the current period. ChatGPT remains the source for your account’s usage, workspace settings and reset time.",
+            "No. Enter the remaining percentage shown in your usage dashboard. Your account remains the source for current usage, workspace settings and reset time.",
         },
       ]}
     />

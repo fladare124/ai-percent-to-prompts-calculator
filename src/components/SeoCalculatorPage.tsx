@@ -26,7 +26,7 @@ const links = [
   { href: "/", label: "AI Usage Limit Calculator" },
   {
     href: "/chatgpt-limit-calculator",
-    label: "ChatGPT & GPT-6 Pro Limit Calculator",
+    label: "ChatGPT Usage Limit Calculator",
   },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   {
@@ -46,8 +46,8 @@ const links = [
 const popularLinks = [
   {
     href: "/chatgpt-limit-calculator",
-    label: "GPT-6 Pro message limit",
-    text: "Check the published weekly or monthly allowance and shared Pro-model usage.",
+    label: "ChatGPT messages left",
+    text: "Estimate local ChatGPT Work and Codex messages from the published five-hour ranges.",
   },
   {
     href: "/codex-usage-calculator",
