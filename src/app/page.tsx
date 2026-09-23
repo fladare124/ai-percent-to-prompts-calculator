@@ -2,32 +2,32 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "AI Percent to Prompts Calculator: Prompts Left",
+  title: "AI Percentage Calculator: Prompts Left",
   description:
-    "Convert the remaining percentage in your AI usage meter into estimated prompts, messages, searches or coding tasks. Choose your provider and usage window.",
+    "Estimate prompts, messages, searches or coding tasks left from your AI usage percentage. Choose a provider and reset window, or compare two recent readings for a pace-based estimate.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AI Percent to Prompts Calculator: Prompts Left",
+    title: "AI Percentage Calculator: Prompts Left",
     description:
-      "Convert remaining AI usage percentage into estimated prompts, messages, searches or coding tasks.",
+      "Estimate remaining prompts, messages, searches or coding tasks from an AI usage percentage.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "AI Percent to Prompts Calculator: Prompts Left",
+    title: "AI Percentage Calculator: Prompts Left",
     description:
-      "Convert remaining AI usage percentage into estimated prompts, messages, searches or coding tasks.",
+      "Estimate remaining prompts, messages, searches or coding tasks from an AI usage percentage.",
   },
 };
 
 export default function Home() {
   return (
     <SeoCalculatorPage
-      h1="AI Percent to Prompts Calculator"
-      intro="Enter the remaining percentage shown in your AI usage meter to estimate prompts, messages, searches or coding tasks left. Choose ChatGPT, Codex, Claude, Gemini, Cursor or another supported platform and match its usage window."
+      h1="AI Percentage Calculator: Prompts Left"
+      intro="Use the percentage remaining in an AI usage meter to estimate prompts, messages, searches or coding tasks left. Choose the provider and reset window, or compare two recent readings to estimate your personal usage pace."
       extraFaq={[
         {
           question: "How do I convert an AI usage percentage into prompts?",
