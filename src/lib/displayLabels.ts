@@ -55,9 +55,7 @@ export function getPlatformUnitLabel(
   }
 
   if (platform === "Gemini") {
-    if (selectedFeature === "Video generation") return "Gemini video generations";
-    if (selectedFeature === "Image generation") return "Gemini image generations";
-    return "Gemini prompts/actions";
+    return "Gemini usage units";
   }
 
   if (platform === "Perplexity") {
@@ -161,7 +159,7 @@ export function getMainFactorsSummary(result: EstimateResult) {
   }
 
   if (result.platform === "Gemini") {
-    return "Gemini uses Google's compute-based plan ratios, adjusted for model, thinking level, selected feature and task demand.";
+    return "Gemini usage is compute-based and depends on the model, prompt, features and chat length. Compare your current meter with your recent pace.";
   }
 
   if (result.platform === "Cursor") {

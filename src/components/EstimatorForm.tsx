@@ -155,6 +155,9 @@ export default function EstimatorForm({
 
   const criticalFields = getCriticalFields(form, preset);
   const hiddenAdvancedKeys = getHiddenAdvancedKeys(form, criticalFields);
+  const isCursor = form.platform === "Cursor";
+  const isGemini = form.platform === "Gemini";
+  const hasDedicatedPlanner = isCursor || isGemini;
 
   return (
     <form className="space-y-7" noValidate>
@@ -164,13 +167,15 @@ export default function EstimatorForm({
             Usage setup
           </p>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            {form.platform === "Cursor"
+            {isCursor
               ? "Cursor usage is tracked in separate monthly pools."
-              : "Match what your provider shows before reading the estimate."}
+              : isGemini
+                ? "Gemini usage depends on the limit and reset time shown in your account."
+                : "Match what your provider shows before reading the estimate."}
           </p>
         </div>
         <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
-          {form.platform === "Cursor" ? "Pool pace planner" : "Live estimate"}
+          {hasDedicatedPlanner ? "Usage pace planner" : "Live estimate"}
         </span>
       </div>
 
@@ -192,7 +197,7 @@ export default function EstimatorForm({
           </select>
         </label>
 
-        {form.platform === "Cursor" ? null : (
+        {hasDedicatedPlanner ? null : (
           <label className="flex flex-col gap-2">
             <span className={labelClass}>Plan</span>
             <select
@@ -212,18 +217,20 @@ export default function EstimatorForm({
         )}
       </div>
 
-      {form.platform === "Cursor" ? (
+      {hasDedicatedPlanner ? (
         <div className="rounded-md border border-cyan-200 bg-cyan-50 p-4 text-sm leading-6 text-cyan-950 dark:border-cyan-900/60 dark:bg-cyan-950/30 dark:text-cyan-100">
           <p>
-            Cursor does not have one fixed request count across models and tasks.
-            Compare your recent readings from each pool against the time left in
-            your billing cycle.
+            {isCursor
+              ? "Cursor does not have one fixed request count across models and tasks. Compare your recent readings from each pool against the time left in your billing cycle."
+              : "Gemini limits refresh every 5 hours until the weekly limit is reached. Use the limit reading and refresh time shown in Gemini Settings."}
           </p>
           <Link
-            href="/cursor-usage-calculator"
+            href={isCursor ? "/cursor-usage-calculator" : "/gemini-usage-calculator"}
             className="mt-2 inline-block font-semibold underline underline-offset-2"
           >
-            Open the Cursor Models and Other Models planners
+            {isCursor
+              ? "Open the Cursor Models and Other Models planners"
+              : "Open the Gemini 5-hour and weekly planner"}
           </Link>
         </div>
       ) : (
@@ -585,23 +592,6 @@ function getCriticalFields(
         helpText:
           "Fable 5 and 5.1 use different allowance rules by plan. The estimate cannot convert Fable usage credits into messages.",
         emphasized: true,
-      });
-    }
-  }
-
-  if (
-    form.platform === "Gemini" &&
-    (model === "Gemini 3 Pro" ||
-      model === "Gemini 3.1 Pro" ||
-      reasoning === "Deep Think")
-  ) {
-    const group = getGroup(preset, "reasoning");
-    if (group) {
-      fields.push({
-        group,
-        options: group.options,
-        fallbackValue: "Standard thinking",
-        helpText: "Higher thinking levels can use more of your limit.",
       });
     }
   }

@@ -65,7 +65,9 @@ export default function EstimatorResult({
           <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
             {result.platform === "Cursor"
               ? "Use your Cursor pool balance"
-              : "Add the missing limit details"}
+              : result.platform === "Gemini"
+                ? "Use your Gemini usage meter"
+                : "Add the missing limit details"}
           </h2>
         </div>
         <div className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-100">
@@ -78,6 +80,13 @@ export default function EstimatorResult({
               className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
             >
               Open the Cursor pool planner
+            </Link>
+          ) : result.platform === "Gemini" ? (
+            <Link
+              href="/gemini-usage-calculator"
+              className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
+            >
+              Open the Gemini 5-hour and weekly planner
             </Link>
           ) : null}
         </div>

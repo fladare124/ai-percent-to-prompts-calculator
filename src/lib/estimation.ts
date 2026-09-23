@@ -266,6 +266,12 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     );
   }
 
+  if (input.platform === "Gemini") {
+    errors.push(
+      "Gemini Apps limits are compute-based and refresh according to the limit shown in your account. Use the Gemini usage planner with a recent reading and reset time.",
+    );
+  }
+
   const safeRemainingPercent = Number.isFinite(input.remainingPercent)
     ? clamp(input.remainingPercent, 0, 100)
     : 0;
@@ -424,7 +430,7 @@ function getNotes(
 
   if (input.platform === "Gemini") {
     notes.push(
-      "Gemini app limits are compute-based; prompts can consume different amounts depending on model, feature, context and complexity.",
+      "Gemini Apps limits are compute-based. Compare readings from the same account limit and reset period in the Gemini usage planner.",
     );
   }
 

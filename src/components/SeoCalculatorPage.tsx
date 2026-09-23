@@ -57,8 +57,8 @@ const popularLinks = [
   },
   {
     href: "/gemini-usage-calculator",
-    label: "Gemini",
-    text: "Estimate prompts against a five-hour or weekly window.",
+    label: "Gemini usage until refresh",
+    text: "Compare your Gemini Usage Limits reading with recent pace and reset time.",
   },
   {
     href: "/cursor-usage-calculator",

@@ -26,6 +26,7 @@ type UsagePacePlannerProps = {
   platform:
     | "Claude"
     | "Codex"
+    | "Gemini usage"
     | "Cursor Models pool"
     | "Other Models pool";
   windowGuidance: string;

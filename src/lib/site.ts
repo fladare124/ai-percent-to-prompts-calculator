@@ -39,9 +39,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/gemini-usage-calculator",
-    title: "Gemini Usage Calculator",
+    title: "Gemini Usage Calculator: 5-Hour and Weekly Limit Planner",
     description:
-      "Estimate remaining Gemini prompts or actions from a remaining usage percentage.",
+      "Check whether Gemini Apps usage can last until refresh using your current limit reading and recent usage pace.",
     lastModified: contentUpdatedAt,
     priority: 0.8,
   },
