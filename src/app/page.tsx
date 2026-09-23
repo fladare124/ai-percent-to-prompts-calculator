@@ -16,10 +16,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "AI Percentage Calculator: Prompts Left",
     description:
       "Estimate remaining prompts, messages, searches or coding tasks from an AI usage percentage.",
+    images: ["/opengraph-image"],
   },
 };
 
