@@ -32,6 +32,7 @@ export default function CodexUsageCalculatorPage() {
           "Open Settings or your usage dashboard to check which allowance is active, its balance and any reset time. In an active Codex CLI session, run /status.",
           "On plans that use shared allowances or credits, Codex can share usage with ChatGPT Work, ChatGPT for Excel and Workspace Agents when those features are available. Regular ChatGPT messages use separate limits.",
           "Choose the task size and reasoning level that match your next job. A repository-wide change can use much more than a short code edit.",
+          "Example: if your Codex meter drops from 80% to 65% over four hours, the observed pace is 3.75 percentage points per hour. With 65% remaining and 10 hours until reset, the same pace projects about 27.5% remaining at reset. Enter 65, 10, 15 and 4 in the planner. This forecasts allowance pace, not a fixed number of coding tasks.",
           "This planner forecasts your recent pace in the usage window you select. It does not connect to your account or predict a fixed task count.",
         ],
         sources: [
