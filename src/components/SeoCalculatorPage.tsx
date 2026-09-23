@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import UsageEstimator from "@/components/UsageEstimator";
 import { DISCLAIMER } from "@/lib/estimation";
 import type { PlatformName } from "@/types";
@@ -8,6 +9,7 @@ interface SeoCalculatorPageProps {
   intro: string;
   platformFocus?: PlatformName;
   productFocus?: "ChatGPT chat" | "Codex";
+  extraTool?: ReactNode;
   guide?: ProviderGuide;
   extraFaq?: Array<{ question: string; answer: string }>;
 }
@@ -41,8 +43,8 @@ const popularLinks = [
   },
   {
     href: "/codex-usage-calculator",
-    label: "Codex task usage",
-    text: "Estimate coding tasks from your remaining allowance.",
+    label: "Codex usage until reset",
+    text: "Estimate tasks and compare your usage pace with the next reset.",
   },
   {
     href: "/claude-usage-calculator",
@@ -103,6 +105,7 @@ export default function SeoCalculatorPage({
   intro,
   platformFocus,
   productFocus,
+  extraTool,
   guide,
   extraFaq = [],
 }: SeoCalculatorPageProps) {
@@ -178,6 +181,8 @@ export default function SeoCalculatorPage({
           platformFocus={platformFocus}
           productFocus={productFocus}
         />
+
+        {extraTool}
 
         {guide ? <ProviderGuideSection guide={guide} /> : null}
 

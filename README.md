@@ -8,7 +8,7 @@ It includes separate guides and calculators for ChatGPT, Codex, Claude, Gemini, 
 
 Provider documentation and public API price references were reviewed on September 23, 2026. Prices shown in the calculator refer to API token use and are not subscription charges.
 
-The result includes an optional personal calibration tool. Compare two usage readings from the same reset window and estimate remaining work from your own recent usage rate.
+The result includes an optional personal calibration tool. Compare two usage readings from the same reset window and estimate remaining work from your own recent usage rate. The Codex page also compares a recent usage pace with the time left until reset; these entered values stay in the browser.
 
 ## Install
 

@@ -12,9 +12,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/codex-usage-calculator",
-    title: "Codex Usage Calculator",
+    title: "Codex Usage Calculator and Reset Planner",
     description:
-      "Estimate remaining Codex tasks from a remaining usage percentage.",
+      "Estimate remaining Codex tasks and check whether your recent usage pace may last until the next reset.",
     priority: 0.85,
   },
   {

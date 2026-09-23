@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import CodexPacePlanner from "@/components/CodexPacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "Codex Usage Calculator",
+  title: "Codex Usage Calculator and Reset Planner",
   description:
-    "Estimate how many Codex tasks your remaining usage percentage could cover. Adjust for plan, reset window, model and task size.",
+    "Estimate remaining Codex tasks and check whether your recent usage pace may last until the next reset.",
   alternates: {
     canonical: "/codex-usage-calculator",
   },
@@ -17,6 +18,7 @@ export default function CodexUsageCalculatorPage() {
       intro="Turn the remaining percentage in your Codex usage meter into a planning range for coding tasks. Choose your plan and reset window, then adjust for model, reasoning and task size."
       platformFocus="Codex"
       productFocus="Codex"
+      extraTool={<CodexPacePlanner />}
       guide={{
         title: "How Codex task usage varies",
         summary:
