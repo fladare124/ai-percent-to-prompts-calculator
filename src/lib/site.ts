@@ -3,6 +3,7 @@ export const SITE_NAME = "Percent to Prompts";
 export const SITE_URL = "https://percenttoprompts.com";
 
 const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
+const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 
 export const calculatorRoutes = [
   {
@@ -34,7 +35,7 @@ export const calculatorRoutes = [
     title: "ChatGPT Limit Calculator: Messages Left in 5 Hours",
     description:
       "Estimate ChatGPT Work and Codex local messages left from your plan, model and remaining usage percentage using OpenAI’s published five-hour ranges.",
-    lastModified: contentUpdatedAt,
+    lastModified: chatGPTContentUpdatedAt,
     priority: 0.85,
   },
   {
