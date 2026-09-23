@@ -126,7 +126,7 @@ export default function SeoCalculatorPage({
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AI Percent to Prompts Calculator",
+    name: "AI Usage Limit Calculator",
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,

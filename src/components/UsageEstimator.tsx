@@ -229,7 +229,7 @@ export default function UsageEstimator({
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "AI Percent to Prompts Calculator",
+          title: "AI Usage Limit Calculator",
           text: shareText,
           url: window.location.href,
         });
