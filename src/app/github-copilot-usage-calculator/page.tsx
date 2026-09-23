@@ -1,35 +1,27 @@
 import type { Metadata } from "next";
+import GitHubCopilotCreditCalculator from "@/components/GitHubCopilotCreditCalculator";
 import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
+import { GITHUB_COPILOT_PLANS } from "@/lib/githubCopilotPricing";
 
 export const metadata: Metadata = {
-  title: "GitHub Copilot Usage Calculator: AI Credit Pace",
+  title: "GitHub Copilot AI Credits Calculator & Planner",
   description:
-    "Forecast when your GitHub Copilot AI credits may run out using your current balance, recent usage and monthly reset.",
+    "Estimate credits per interaction and monthly Copilot usage by model, tokens, plan allowance and recent credit pace.",
   alternates: {
     canonical: "/github-copilot-usage-calculator",
   },
 };
 
-const monthlyCredits = [
-  { plan: "Copilot Pro", credits: "1,500" },
-  { plan: "Copilot Pro+", credits: "7,000" },
-  { plan: "Copilot Max", credits: "20,000" },
-  { plan: "Copilot Business", credits: "1,900 per licensed user" },
-  { plan: "Copilot Enterprise", credits: "3,900 per licensed user" },
-  {
-    plan: "Copilot Free and Student",
-    credits: "Allowance shown in your account",
-  },
-];
-
 export default function GitHubCopilotUsageCalculatorPage() {
   return (
     <SeoCalculatorPage
       h1="GitHub Copilot AI Credits Calculator"
-      intro="Compare your GitHub Copilot AI credit balance with your recent usage to forecast whether it may last until reset. Credit use changes with the model and tokens consumed, so this planner estimates your pace instead of converting credits into a fixed number of prompts."
+      intro="Estimate GitHub Copilot AI credits from model token rates, plan allowance and monthly workload, then compare the projection with your recent account usage. Credit use changes by model and tokens, so there is no fixed conversion from credits to prompts."
       calculator={
         <>
+          <GitHubCopilotCreditCalculator />
+
           <UsagePacePlanner
             platform="GitHub Copilot"
             windowGuidance="Included credits reset at 00:00 UTC on the first day of each calendar month. If you track a company-set budget or additional usage, use the reset for that specific meter."
@@ -60,16 +52,20 @@ export default function GitHubCopilotUsageCalculatorPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {monthlyCredits.map((item) => (
+                  {GITHUB_COPILOT_PLANS.map((item) => (
                     <tr
-                      key={item.plan}
+                      key={item.id}
                       className="border-b border-zinc-100 last:border-0 dark:border-zinc-800"
                     >
                       <th scope="row" className="px-3 py-2 font-medium">
-                        {item.plan}
+                        {item.label}
                       </th>
                       <td className="px-3 py-2 text-zinc-700 dark:text-zinc-300">
-                        {item.credits}
+                        {item.monthlyCredits === null
+                          ? "Allowance shown in your account"
+                          : item.sharedPool
+                            ? `${item.monthlyCredits.toLocaleString("en-US")} per licensed user, pooled`
+                            : item.monthlyCredits.toLocaleString("en-US")}
                       </td>
                     </tr>
                   ))}
@@ -90,7 +86,8 @@ export default function GitHubCopilotUsageCalculatorPage() {
           "GitHub AI Credits measure model usage from the tokens consumed. This calculator applies your recent observed credit spend to the time left in the current usage window.",
         points: [
           "For an individual plan, open GitHub Billing and licensing, then AI usage, or check Usage in Copilot settings. If you only see included credits used, subtract that from your plan allowance above to get the remaining included credits; keep additional usage separate.",
-          "Enter your current balance, hours until its reset, credits spent since an earlier reading, and the time between readings. Compare readings from the same cycle and the same account or pool.",
+          "The model calculator requires token counts for uncached input, cached input, cache writes and output. The preset scenarios are only examples when you do not know those counts; for an account-based forecast, enter two real credit readings in the pace planner below.",
+          "For the pace planner, enter your current balance, hours until its reset, credits spent since an earlier reading, and the time between readings. Compare readings from the same cycle and the same account or pool.",
           "A longer conversation, a complex agent task, more context, or a higher-cost model can consume more credits. The forecast assumes the recent pace continues, so treat it as a guide rather than a guarantee.",
           "Copilot Business and Enterprise contributions are pooled at the billing entity level. If your organization sets a personal budget, use that budget and its current-cycle usage. Otherwise, ask an administrator for the current shared-pool balance and usage.",
           "Code completions and next edit suggestions do not consume AI credits. Copilot Free and Student have an allowance, but GitHub does not publish one fixed total for those plans in its plan table.",
@@ -104,6 +101,10 @@ export default function GitHubCopilotUsageCalculatorPage() {
           {
             label: "GitHub guide to monitoring AI credit usage",
             href: "https://docs.github.com/en/copilot/how-tos/manage-and-track-spending/monitor-ai-usage",
+          },
+          {
+            label: "GitHub Copilot model pricing per token",
+            href: "https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing",
           },
           {
             label: "GitHub AI credit billing for individuals",
@@ -120,6 +121,16 @@ export default function GitHubCopilotUsageCalculatorPage() {
         ],
       }}
       extraFaq={[
+        {
+          question: "How does the GitHub Copilot credit estimate work?",
+          answer:
+            "Choose a model, enter uncached input, cached input, cache-write and output token counts per interaction, then set interactions per active day and active days per month. The calculator applies GitHub’s published per-token rates, converts dollars to AI credits, and compares the monthly projection with your plan allowance.",
+        },
+        {
+          question: "Where do I find my Copilot token counts?",
+          answer:
+            "GitHub’s AI usage page shows credits consumed by model, but may not provide token counts for each interaction. Use the example presets as rough scenarios if you do not have token counts. For an estimate based on your actual balance and spend, use the usage pace planner on this page.",
+        },
         {
           question: "How many GitHub Copilot prompts are left in my AI credits?",
           answer:

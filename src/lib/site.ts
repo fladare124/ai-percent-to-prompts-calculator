@@ -23,9 +23,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/github-copilot-usage-calculator",
-    title: "GitHub Copilot Usage Calculator: AI Credit Pace",
+    title: "GitHub Copilot AI Credits Calculator & Planner",
     description:
-      "Forecast when your GitHub Copilot AI credits may run out using your current balance, recent usage and monthly reset.",
+      "Estimate credits per interaction and monthly Copilot usage by model, tokens, plan allowance and recent credit pace.",
     lastModified: contentUpdatedAt,
     priority: 0.85,
   },
