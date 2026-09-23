@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import AdvancedOptions from "@/components/AdvancedOptions";
 import {
   PLATFORMS,
@@ -163,11 +164,13 @@ export default function EstimatorForm({
             Usage setup
           </p>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            Match what your provider shows before reading the estimate.
+            {form.platform === "Cursor"
+              ? "Cursor usage is tracked in separate monthly pools."
+              : "Match what your provider shows before reading the estimate."}
           </p>
         </div>
         <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
-          Live estimate
+          {form.platform === "Cursor" ? "Pool pace planner" : "Live estimate"}
         </span>
       </div>
 
@@ -189,24 +192,42 @@ export default function EstimatorForm({
           </select>
         </label>
 
-        <label className="flex flex-col gap-2">
-          <span className={labelClass}>Plan</span>
-          <select
-            value={form.plan}
-            onChange={(event) => update("plan", event.target.value)}
-            className={inputClass}
-          >
-            {(platformPresets[form.platform] ?? preset).planPresets.map(
-              (plan) => (
-                <option key={plan.label} value={plan.label}>
-                  {plan.label}
-                </option>
-              ),
-            )}
-          </select>
-        </label>
+        {form.platform === "Cursor" ? null : (
+          <label className="flex flex-col gap-2">
+            <span className={labelClass}>Plan</span>
+            <select
+              value={form.plan}
+              onChange={(event) => update("plan", event.target.value)}
+              className={inputClass}
+            >
+              {(platformPresets[form.platform] ?? preset).planPresets.map(
+                (plan) => (
+                  <option key={plan.label} value={plan.label}>
+                    {plan.label}
+                  </option>
+                ),
+              )}
+            </select>
+          </label>
+        )}
       </div>
 
+      {form.platform === "Cursor" ? (
+        <div className="rounded-md border border-cyan-200 bg-cyan-50 p-4 text-sm leading-6 text-cyan-950 dark:border-cyan-900/60 dark:bg-cyan-950/30 dark:text-cyan-100">
+          <p>
+            Cursor does not have one fixed request count across models and tasks.
+            Compare your recent readings from each pool against the time left in
+            your billing cycle.
+          </p>
+          <Link
+            href="/cursor-usage-calculator"
+            className="mt-2 inline-block font-semibold underline underline-offset-2"
+          >
+            Open the Cursor Models and Other Models planners
+          </Link>
+        </div>
+      ) : (
+        <>
       {criticalFields.length > 0 ? (
         <div className="space-y-3 border-t border-zinc-200 pt-5 dark:border-zinc-800">
           <div>
@@ -360,6 +381,8 @@ export default function EstimatorForm({
         onToggle={onAdvancedToggle}
         onChange={handleAdvancedChange}
       />
+        </>
+      )}
     </form>
   );
 }

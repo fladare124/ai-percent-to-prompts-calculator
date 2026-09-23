@@ -260,6 +260,12 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
     );
   }
 
+  if (input.platform === "Cursor") {
+    errors.push(
+      "Cursor tracks separate monthly pools, and request cost depends on the model and routed task. Use the Cursor pool planner to compare your recent usage readings.",
+    );
+  }
+
   const safeRemainingPercent = Number.isFinite(input.remainingPercent)
     ? clamp(input.remainingPercent, 0, 100)
     : 0;
@@ -424,7 +430,7 @@ function getNotes(
 
   if (input.platform === "Cursor") {
     notes.push(
-      "Cursor converts included monthly API usage into approximate request counts, so the selected model strongly affects the result.",
+      "Cursor tracks separate monthly usage pools, and consumption varies by model and task. Use the pool planner with readings from your account.",
     );
   }
 

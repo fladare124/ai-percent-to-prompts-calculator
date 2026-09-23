@@ -55,9 +55,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/cursor-usage-calculator",
-    title: "Cursor Usage Calculator",
+    title: "Cursor Usage Calculator: Pool Balance and Reset Pace",
     description:
-      "Estimate remaining Cursor requests or agent runs from a remaining usage percentage.",
+      "Check whether your Cursor Models or Other Models pool could last until reset using recent readings from your usage dashboard.",
     lastModified: contentUpdatedAt,
     priority: 0.75,
   },

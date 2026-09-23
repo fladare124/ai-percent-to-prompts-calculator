@@ -65,7 +65,7 @@ export function getPlatformUnitLabel(
   }
 
   if (platform === "Cursor") {
-    return "Cursor requests/agent runs";
+    return "Cursor pool units";
   }
 
   if (platform === "Windsurf / Devin") {
@@ -165,7 +165,7 @@ export function getMainFactorsSummary(result: EstimateResult) {
   }
 
   if (result.platform === "Cursor") {
-    return "Cursor converts the plan's monthly included API usage into model-specific request estimates, then adjusts for agent mode and context size.";
+    return "Cursor usage depends on the model and routed task. Compare readings from the same usage pool in the Cursor pool planner.";
   }
 
   if (result.platform === "Windsurf / Devin") {

@@ -251,18 +251,33 @@ export default function UsageEstimator({
             Build your estimate
           </p>
           <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
-            Pick a platform, match the window it shows, then read the likely range.
+            {form.platform === "Cursor"
+              ? "Compare both Cursor usage pools with your recent dashboard readings."
+              : "Pick a platform, match the window it shows, then read the likely range."}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
-              Model: {selectedModelLabel ?? "Auto / not sure"}
-            </span>
-            <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-              Personal usage calibration
-            </span>
-            <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
-              Model and task factors
-            </span>
+            {form.platform === "Cursor" ? (
+              <>
+                <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
+                  Cursor Models pool
+                </span>
+                <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                  Other Models pool
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
+                  Model: {selectedModelLabel ?? "Auto / not sure"}
+                </span>
+                <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                  Personal usage calibration
+                </span>
+                <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                  Model and task factors
+                </span>
+              </>
+            )}
           </div>
         </div>
         <button
@@ -297,10 +312,12 @@ export default function UsageEstimator({
             onCopy={copyResult}
             onShare={shareResult}
           />
-          <UsageCalibration
-            remainingPercent={Number(form.remainingPercent)}
-            unitLabel={unitLabel}
-          />
+          {form.platform === "Cursor" ? null : (
+            <UsageCalibration
+              remainingPercent={Number(form.remainingPercent)}
+              unitLabel={unitLabel}
+            />
+          )}
         </div>
       </div>
     </div>

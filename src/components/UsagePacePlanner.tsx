@@ -23,10 +23,15 @@ type Estimate =
     };
 
 type UsagePacePlannerProps = {
-  platform: "Claude" | "Codex";
+  platform:
+    | "Claude"
+    | "Codex"
+    | "Cursor Models pool"
+    | "Other Models pool";
   windowGuidance: string;
   sourceUrl: string;
   sourceLabel: string;
+  measurementUnit?: string;
 };
 
 const initialInputs: Inputs = {
@@ -41,8 +46,12 @@ export default function UsagePacePlanner({
   windowGuidance,
   sourceUrl,
   sourceLabel,
+  measurementUnit = "percentage points",
 }: UsagePacePlannerProps) {
-  const titleId = `${platform.toLowerCase()}-pace-title`;
+  const titleId = `${platform.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-pace-title`;
+  const maxMeasurement =
+    measurementUnit === "percentage points" ? 100 : undefined;
+  const isPercentage = measurementUnit === "percentage points";
   const [inputs, setInputs] = useState(initialInputs);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
   const [error, setError] = useState("");
@@ -66,13 +75,13 @@ export default function UsagePacePlanner({
         Number.isFinite,
       ) ||
       remaining < 0 ||
-      remaining > 100 ||
+      (maxMeasurement !== undefined && remaining > maxMeasurement) ||
       hoursUntilReset <= 0 ||
       pointsSpent < 0 ||
-      pointsSpent > 100 ||
+      (maxMeasurement !== undefined && pointsSpent > maxMeasurement) ||
       hoursObserved <= 0
     ) {
-      setError("Enter valid percentages and time periods to calculate a pace.");
+      setError("Enter valid readings and time periods to calculate a pace.");
       setEstimate(null);
       return;
     }
@@ -130,19 +139,19 @@ export default function UsagePacePlanner({
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
-            Remaining in this window (%)
+            Remaining in this window ({measurementUnit})
             <input
-              aria-label={`${platform} usage percentage remaining`}
+              aria-label={`${platform} usage remaining`}
               type="number"
               min="0"
-              max="100"
+              max={maxMeasurement}
               step="0.1"
               inputMode="decimal"
               required
               value={inputs.remaining}
               onChange={(event) => updateInput("remaining", event.target.value)}
               className="mt-1 h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-zinc-950 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-              placeholder="e.g. 65"
+              placeholder={isPercentage ? "e.g. 65" : "e.g. 240"}
             />
           </label>
 
@@ -165,22 +174,26 @@ export default function UsagePacePlanner({
           </label>
 
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
-            Percentage points used since your last reading
+            {isPercentage
+              ? "Percentage points used since your last reading"
+              : `Amount used since your last reading (${measurementUnit})`}
             <input
-              aria-label={`${platform} usage percentage points spent since the last reading`}
+              aria-label={`${platform} usage amount spent since the last reading`}
               type="number"
               min="0"
-              max="100"
+              max={maxMeasurement}
               step="0.1"
               inputMode="decimal"
               required
               value={inputs.pointsSpent}
               onChange={(event) => updateInput("pointsSpent", event.target.value)}
               className="mt-1 h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-zinc-950 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-              placeholder="e.g. 15"
+              placeholder={isPercentage ? "e.g. 15" : "e.g. 60"}
             />
             <span className="mt-1 block text-xs font-normal leading-5 text-zinc-500 dark:text-zinc-400">
-              If the meter fell from 80% to 65%, enter 15.
+              {isPercentage
+                ? "If the meter fell from 80% to 65%, enter 15."
+                : "Subtract the current balance from your earlier reading. Use the same unit as the balance above."}
             </span>
           </label>
 
@@ -230,14 +243,14 @@ export default function UsagePacePlanner({
                 period. To spread the current balance until reset, average use
                 would need to stay near or below{" "}
                 <strong>
-                  {estimate.sustainableRate.toFixed(1)} percentage points per hour
+                  {estimate.sustainableRate.toFixed(1)} {measurementUnit} per hour
                 </strong>
                 .
               </p>
             ) : estimate.runsOutInHours !== null ? (
               <p>
                 At the observed rate of{" "}
-                <strong>{estimate.observedRate.toFixed(1)} percentage points per hour</strong>,
+                <strong>{estimate.observedRate.toFixed(1)} {measurementUnit} per hour</strong>,
                 the remaining allowance could run out in about{" "}
                 <strong>{estimate.runsOutInHours.toFixed(1)} hours</strong>, roughly{" "}
                 <strong>
@@ -252,10 +265,10 @@ export default function UsagePacePlanner({
             ) : (
               <p>
                 At the observed rate of{" "}
-                <strong>{estimate.observedRate.toFixed(1)} percentage points per hour</strong>,
-                about{" "}
+                <strong>{estimate.observedRate.toFixed(1)} {measurementUnit} per hour</strong>,
+                  about{" "}
                 <strong>
-                  {estimate.projectedRemaining.toFixed(1)}% could remain at reset
+                  {estimate.projectedRemaining.toFixed(1)} {measurementUnit} could remain at reset
                 </strong>
                 .
               </p>
@@ -267,7 +280,7 @@ export default function UsagePacePlanner({
                 {estimate.hoursUntilReset.toFixed(1)} hours, average use would
                 need to stay near or below{" "}
                 <strong>
-                  {estimate.sustainableRate.toFixed(1)} percentage points per hour
+                  {estimate.sustainableRate.toFixed(1)} {measurementUnit} per hour
                 </strong>
                 .
               </p>

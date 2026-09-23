@@ -62,8 +62,8 @@ const popularLinks = [
   },
   {
     href: "/cursor-usage-calculator",
-    label: "Cursor",
-    text: "Estimate requests from your monthly included usage.",
+    label: "Cursor usage pools",
+    text: "Compare Cursor Models and Other Models balances with your recent usage pace.",
   },
 ];
 

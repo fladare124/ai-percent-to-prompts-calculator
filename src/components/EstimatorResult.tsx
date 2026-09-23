@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { DISCLAIMER, roundUsage } from "@/lib/estimation";
 import type { EstimateResult } from "@/types";
 
@@ -62,13 +63,23 @@ export default function EstimatorResult({
             Needs one fix
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white">
-            Add the missing limit details
+            {result.platform === "Cursor"
+              ? "Use your Cursor pool balance"
+              : "Add the missing limit details"}
           </h2>
         </div>
         <div className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-100">
           {result.errors.map((error) => (
             <p key={error}>{error}</p>
           ))}
+          {result.platform === "Cursor" ? (
+            <Link
+              href="/cursor-usage-calculator"
+              className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
+            >
+              Open the Cursor pool planner
+            </Link>
+          ) : null}
         </div>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           {DISCLAIMER}
