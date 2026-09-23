@@ -1,13 +1,13 @@
-export const SITE_NAME = "AI Percent to Prompts Calculator";
+export const SITE_NAME = "Percent to Prompts";
 
 export const SITE_URL = "https://percenttoprompts.com";
 
 export const calculatorRoutes = [
   {
     path: "/",
-    title: "AI Percent to Prompts Calculator",
+    title: "AI Usage Limit Calculator: Messages & Tasks Left",
     description:
-      "Estimate remaining AI prompts, messages, searches or coding tasks from the percentage shown in your usage meter.",
+      "Estimate remaining prompts, messages, searches or coding tasks from your AI usage meter, plan and selected reset window.",
     priority: 1,
   },
   {
@@ -26,9 +26,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/claude-usage-calculator",
-    title: "Claude Usage Calculator",
+    title: "Claude Usage Calculator and Reset Planner",
     description:
-      "Estimate remaining Claude messages or coding tasks from a remaining usage percentage.",
+      "Estimate Claude messages or Claude Code tasks and compare your usage pace with the next reset.",
     priority: 0.85,
   },
   {
