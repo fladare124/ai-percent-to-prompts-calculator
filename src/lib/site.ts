@@ -2,12 +2,15 @@ export const SITE_NAME = "Percent to Prompts";
 
 export const SITE_URL = "https://percenttoprompts.com";
 
+const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
+
 export const calculatorRoutes = [
   {
     path: "/",
     title: "AI Usage Limit Calculator: Messages & Tasks Left",
     description:
       "Estimate remaining prompts, messages, searches or coding tasks from your AI usage meter, plan and selected reset window.",
+    lastModified: contentUpdatedAt,
     priority: 1,
   },
   {
@@ -15,6 +18,7 @@ export const calculatorRoutes = [
     title: "Codex Usage Calculator and Reset Planner",
     description:
       "Estimate remaining Codex tasks and check whether your recent usage pace may last until the next reset.",
+    lastModified: contentUpdatedAt,
     priority: 0.85,
   },
   {
@@ -22,6 +26,7 @@ export const calculatorRoutes = [
     title: "ChatGPT Limit Calculator",
     description:
       "Estimate remaining ChatGPT messages from your plan, model and usage percentage.",
+    lastModified: contentUpdatedAt,
     priority: 0.85,
   },
   {
@@ -29,6 +34,7 @@ export const calculatorRoutes = [
     title: "Claude Usage Calculator and Reset Planner",
     description:
       "Estimate Claude messages or Claude Code tasks and compare your usage pace with the next reset.",
+    lastModified: contentUpdatedAt,
     priority: 0.85,
   },
   {
@@ -36,6 +42,7 @@ export const calculatorRoutes = [
     title: "Gemini Usage Calculator",
     description:
       "Estimate remaining Gemini prompts or actions from a remaining usage percentage.",
+    lastModified: contentUpdatedAt,
     priority: 0.8,
   },
   {
@@ -43,6 +50,7 @@ export const calculatorRoutes = [
     title: "Perplexity Usage Calculator",
     description:
       "Estimate remaining Perplexity searches or research tasks from a remaining usage percentage.",
+    lastModified: contentUpdatedAt,
     priority: 0.75,
   },
   {
@@ -50,6 +58,7 @@ export const calculatorRoutes = [
     title: "Cursor Usage Calculator",
     description:
       "Estimate remaining Cursor requests or agent runs from a remaining usage percentage.",
+    lastModified: contentUpdatedAt,
     priority: 0.75,
   },
   {
@@ -57,6 +66,7 @@ export const calculatorRoutes = [
     title: "Windsurf / Devin Usage Calculator",
     description:
       "Estimate remaining Windsurf or Devin quota units and agent runs from a remaining usage percentage.",
+    lastModified: contentUpdatedAt,
     priority: 0.75,
   },
 ];
