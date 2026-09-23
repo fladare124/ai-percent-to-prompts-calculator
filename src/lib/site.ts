@@ -3,7 +3,7 @@ export const SITE_NAME = "Percent to Prompts";
 export const SITE_URL = "https://percenttoprompts.com";
 
 const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
-const homeContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
+const homeContentUpdatedAt = new Date("2026-09-23T21:38:16.000Z");
 const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
@@ -11,9 +11,9 @@ const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
 export const calculatorRoutes = [
   {
     path: "/",
-    title: "AI Usage Calculator: Estimate Prompts Left",
+    title: "AI Percentage Calculator: Estimate Prompts Left",
     description:
-      "Turn the remaining percentage in an AI usage meter into an estimate of prompts, messages or coding tasks.",
+      "Convert the remaining percentage in an AI usage meter into estimated prompts, messages or coding tasks.",
     lastModified: homeContentUpdatedAt,
     priority: 1,
   },
