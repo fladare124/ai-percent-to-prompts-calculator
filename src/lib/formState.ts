@@ -23,7 +23,7 @@ export interface EstimatorFormState {
   advancedSelections: Partial<Record<AdvancedOptionKey, string>>;
 }
 
-export const DEFAULT_PLATFORM: PlatformName = "Codex";
+export const DEFAULT_PLATFORM: PlatformName = "Claude";
 export const DEFAULT_REMAINING_PERCENT = "65";
 
 function isPlatformName(value: unknown): value is PlatformName {
