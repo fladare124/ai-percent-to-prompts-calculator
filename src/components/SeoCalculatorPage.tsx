@@ -48,8 +48,8 @@ const popularLinks = [
   },
   {
     href: "/claude-usage-calculator",
-    label: "Claude",
-    text: "Estimate messages or coding tasks from your usage meter.",
+    label: "Claude usage until reset",
+    text: "Estimate remaining messages and compare your usage pace with the next reset.",
   },
   {
     href: "/gemini-usage-calculator",

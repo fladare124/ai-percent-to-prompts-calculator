@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import CodexPacePlanner from "@/components/CodexPacePlanner";
+import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
@@ -18,7 +18,14 @@ export default function CodexUsageCalculatorPage() {
       intro="Turn the remaining percentage in your Codex usage meter into a planning range for coding tasks. Choose your plan and reset window, then adjust for model, reasoning and task size."
       platformFocus="Codex"
       productFocus="Codex"
-      extraTool={<CodexPacePlanner />}
+      extraTool={
+        <UsagePacePlanner
+          platform="Codex"
+          windowGuidance="If your usage view shows both a short window and a weekly window, calculate them separately."
+          sourceUrl="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
+          sourceLabel="Check current Codex usage and reset details"
+        />
+      }
       guide={{
         title: "How Codex task usage varies",
         summary:

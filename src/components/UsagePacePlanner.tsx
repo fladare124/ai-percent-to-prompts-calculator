@@ -22,6 +22,13 @@ type Estimate =
       runsOutInHours: number | null;
     };
 
+type UsagePacePlannerProps = {
+  platform: "Claude" | "Codex";
+  windowGuidance: string;
+  sourceUrl: string;
+  sourceLabel: string;
+};
+
 const initialInputs: Inputs = {
   remaining: "",
   hoursUntilReset: "",
@@ -29,7 +36,12 @@ const initialInputs: Inputs = {
   hoursObserved: "",
 };
 
-export default function CodexPacePlanner() {
+export default function UsagePacePlanner({
+  platform,
+  windowGuidance,
+  sourceUrl,
+  sourceLabel,
+}: UsagePacePlannerProps) {
   const [inputs, setInputs] = useState(initialInputs);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
   const [error, setError] = useState("");
@@ -97,18 +109,17 @@ export default function CodexPacePlanner() {
     >
       <div className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
-          Codex usage planner
+          {platform} usage planner
         </p>
         <h2
           id="codex-pace-title"
           className="mt-2 text-2xl font-semibold text-zinc-950 dark:text-white"
         >
-          Will your Codex usage last until reset?
+          Will your {platform} usage last until reset?
         </h2>
         <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          Compare the allowance left in one Codex usage window with your recent
-          pace. If your usage view shows both a short window and a weekly window,
-          calculate them separately.
+          Compare the allowance left in one usage window with your recent pace.{" "}
+          {windowGuidance}
         </p>
       </div>
 
@@ -120,7 +131,7 @@ export default function CodexPacePlanner() {
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
             Remaining in this window (%)
             <input
-              aria-label="Codex usage percentage remaining"
+              aria-label={`${platform} usage percentage remaining`}
               type="number"
               min="0"
               max="100"
@@ -137,7 +148,7 @@ export default function CodexPacePlanner() {
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
             Hours until this window resets
             <input
-              aria-label="Hours until the selected Codex usage window resets"
+              aria-label={`Hours until the selected ${platform} usage window resets`}
               type="number"
               min="0.1"
               step="0.1"
@@ -155,7 +166,7 @@ export default function CodexPacePlanner() {
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
             Percentage points used since your last reading
             <input
-              aria-label="Codex usage percentage points spent since the last reading"
+              aria-label={`${platform} usage percentage points spent since the last reading`}
               type="number"
               min="0"
               max="100"
@@ -175,7 +186,7 @@ export default function CodexPacePlanner() {
           <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
             Hours between those readings
             <input
-              aria-label="Hours between Codex usage readings"
+              aria-label={`Hours between ${platform} usage readings`}
               type="number"
               min="0.1"
               step="0.1"
@@ -211,7 +222,7 @@ export default function CodexPacePlanner() {
             role="status"
           >
             {estimate.kind === "empty" ? (
-              <p>No allowance remains in this window. Check the reset time shown by Codex before planning more use.</p>
+              <p>No allowance remains in this window. Check the reset time shown by {platform} before planning more use.</p>
             ) : estimate.kind === "no-burn" ? (
               <p>
                 Your readings show no drop in this window during the observed
@@ -270,12 +281,12 @@ export default function CodexPacePlanner() {
         </p>
 
         <a
-          href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
+          href={sourceUrl}
           target="_blank"
           rel="noreferrer"
           className="mt-2 inline-block text-sm font-medium text-cyan-800 underline decoration-cyan-300 underline-offset-4 hover:text-cyan-600 dark:text-cyan-300 dark:decoration-cyan-800"
         >
-          Check current Codex usage and reset details
+          {sourceLabel}
         </a>
       </form>
     </section>
