@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import CodexTaskEstimator from "@/components/CodexTaskEstimator";
 import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "Codex Usage Calculator: Limit and Reset Planner",
+  title: "Codex Usage Calculator: Tasks Left & Reset Pace",
   description:
-    "Compare your Codex usage meter with recent readings to estimate whether the 5-hour or weekly allowance can last until reset.",
+    "Estimate how many similar Codex tasks your remaining usage could cover from your own task history, then check whether that pace could last until reset.",
   alternates: {
     canonical: "/codex-usage-calculator",
     languages: {
@@ -18,26 +19,29 @@ export const metadata: Metadata = {
 export default function CodexUsageCalculatorPage() {
   return (
     <SeoCalculatorPage
-      h1="Codex Usage Calculator"
-      intro="Compare the remaining percentage in your Codex usage meter with your recent pace to see whether that allowance could last until reset. Codex use varies by model, task, context and tools, so the planner uses your own readings instead of assuming a fixed number of coding tasks."
+      h1="Codex Usage Calculator: Tasks Left and Reset Pace"
+      intro="Estimate how many similar coding tasks your remaining Codex balance could cover from your own recent usage, then check whether that pace could last until the reset shown in your account."
       calculator={
-        <UsagePacePlanner
-          platform="Codex"
-          windowGuidance="Codex may show a short-window and a weekly allowance. Track each window separately and use its own reset time. Check Settings or your usage dashboard; in an active Codex CLI session, run /status."
-          sourceUrl="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
-          sourceLabel="Check current Codex usage and reset details"
-        />
+        <>
+          <CodexTaskEstimator />
+          <UsagePacePlanner
+            platform="Codex"
+            windowGuidance="Check Settings, your usage dashboard, or /status in an active Codex CLI session. If your account shows more than one allowance, calculate each one separately using its displayed reset time."
+            sourceUrl="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
+            sourceLabel="Check current Codex usage and reset details"
+          />
+        </>
       }
       guide={{
         title: "How Codex task usage varies",
         summary:
-          "A Codex usage percentage is not a fixed number of coding tasks. The amount consumed depends on the model, where the task runs, task complexity, context, reasoning, speed and tools used.",
+          "A Codex usage percentage does not map to a universal number of coding tasks. This page estimates a personal count from similar tasks in your own history; model, execution environment, task complexity, context, reasoning, speed and tools can change the amount consumed.",
         points: [
           "Open Settings or your usage dashboard to check which allowance is active, its balance and any reset time. In an active Codex CLI session, run /status.",
           "On plans that use shared allowances or credits, Codex can share usage with ChatGPT Work, ChatGPT for Excel and Workspace Agents when those features are available. Regular ChatGPT messages use separate limits.",
           "Choose the task size and reasoning level that match your next job. A repository-wide change can use much more than a short code edit.",
-          "Example: if your Codex meter drops from 80% to 65% over four hours, the observed pace is 3.75 percentage points per hour. With 65% remaining and 10 hours until reset, the same pace projects about 27.5% remaining at reset. Enter 65, 10, 15 and 4 in the planner. This forecasts allowance pace, not a fixed number of coding tasks.",
-          "This planner forecasts your recent pace in the usage window you select. It does not connect to your account or predict a fixed task count.",
+          "Example: if five similar tasks use 15 percentage points and 65% remains, the personal estimate is about 22 similar tasks. Enter 65, 15 and 5 in the task calculator. A different mix of work can change the estimate.",
+          "The reset planner forecasts your recent net meter change. Compare readings from the same allowance and active cycle; a reset or another change in the meter can skew that projection.",
         ],
         sources: [
           { label: "OpenAI guide to Codex usage", href: "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" },
@@ -47,9 +51,9 @@ export default function CodexUsageCalculatorPage() {
       }}
       extraFaq={[
         {
-          question: "Can this calculator tell me exactly how many Codex tasks I have left?",
+          question: "How many Codex tasks can I do with 65% remaining?",
           answer:
-            "No. Task usage varies with the model, where it runs, task complexity, context, reasoning, speed and tools. Compare your current meter with an earlier reading to estimate whether your recent pace may last until reset.",
+            "There is no universal conversion from 65% to a task count. Enter the percentage your own similar tasks used and how many tasks were in that sample to estimate a personal count.",
         },
         {
           question: "Where do I check my actual Codex usage?",
@@ -59,7 +63,7 @@ export default function CodexUsageCalculatorPage() {
         {
           question: "Does Codex share usage limits with ChatGPT?",
           answer:
-            "On plans with shared allowances or credits, Codex may share usage with ChatGPT Work, ChatGPT for Excel and Workspace Agents when those features are available. Regular ChatGPT messages use separate limits.",
+            "On plans with shared allowances or credits, Codex may share usage with ChatGPT Work, ChatGPT for Excel and Workspace Agents when those features are available. Regular ChatGPT messages use separate limits. Check your plan for the current setup.",
         },
       ]}
     />
