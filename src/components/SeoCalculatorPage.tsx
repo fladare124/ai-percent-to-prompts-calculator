@@ -29,6 +29,10 @@ const links = [
     label: "ChatGPT & GPT-6 Pro Limit Calculator",
   },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
+  {
+    href: "/github-copilot-usage-calculator",
+    label: "GitHub Copilot AI Credits Calculator",
+  },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
   { href: "/perplexity-usage-calculator", label: "Perplexity Usage Calculator" },
@@ -49,6 +53,11 @@ const popularLinks = [
     href: "/codex-usage-calculator",
     label: "Codex usage until reset",
     text: "Estimate tasks and compare your usage pace with the next reset.",
+  },
+  {
+    href: "/github-copilot-usage-calculator",
+    label: "GitHub Copilot AI credits",
+    text: "Forecast your remaining Copilot credits from your recent usage pace.",
   },
   {
     href: "/claude-usage-calculator",
@@ -207,7 +216,7 @@ export default function SeoCalculatorPage({
                   Each provider tracks usage differently. Select the matching calculator and reset window to get a relevant planning estimate.
                 </p>
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {popularLinks.map((link) => (
                   <Link
                     key={link.href}

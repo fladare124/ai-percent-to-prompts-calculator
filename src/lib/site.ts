@@ -22,6 +22,14 @@ export const calculatorRoutes = [
     priority: 0.85,
   },
   {
+    path: "/github-copilot-usage-calculator",
+    title: "GitHub Copilot Usage Calculator: AI Credit Pace",
+    description:
+      "Forecast when your GitHub Copilot AI credits may run out using your current balance, recent usage and monthly reset.",
+    lastModified: contentUpdatedAt,
+    priority: 0.85,
+  },
+  {
     path: "/chatgpt-limit-calculator",
     title: "ChatGPT Limit Calculator for GPT-6 Pro",
     description:

@@ -26,6 +26,7 @@ type UsagePacePlannerProps = {
   platform:
     | "Claude"
     | "Codex"
+    | "GitHub Copilot"
     | "Gemini usage"
     | "Cursor Models pool"
     | "Other Models pool"
