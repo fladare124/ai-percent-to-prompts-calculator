@@ -35,16 +35,23 @@ fetch("https://api.indexnow.org/indexnow", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=utf-8" },
   body: JSON.stringify({ host, key, keyLocation, urlList: urls }),
-})
+  })
   .then(async (response) => {
-    if (!response.ok) {
+    if (response.status === 202) {
+      console.log(
+        `IndexNow received ${urls.length} URLs; key verification is pending (HTTP 202). Retry after verification to confirm processing.`,
+      );
+      return;
+    }
+
+    if (response.status !== 200) {
       const detail = await response.text();
       console.error(`IndexNow returned HTTP ${response.status}: ${detail}`);
       process.exitCode = 1;
       return;
     }
 
-    console.log(`IndexNow accepted ${urls.length} URLs (HTTP ${response.status}).`);
+    console.log(`IndexNow processed ${urls.length} URLs (HTTP 200).`);
   })
   .catch((error) => {
     console.error(`IndexNow request failed: ${error.message}`);
