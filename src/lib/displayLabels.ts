@@ -67,7 +67,7 @@ export function getPlatformUnitLabel(
   }
 
   if (platform === "Windsurf / Devin") {
-    return "Windsurf prompt credits/agent usage";
+    return "Devin and Windsurf usage units";
   }
 
   return "AI usage units";
@@ -167,7 +167,7 @@ export function getMainFactorsSummary(result: EstimateResult) {
   }
 
   if (result.platform === "Windsurf / Devin") {
-    return "Windsurf starts from monthly prompt credits and applies each model's credit rate. Devin agent sessions remain less predictable.";
+    return "Devin and Windsurf quotas refresh daily and weekly. Model, task size and reasoning affect usage, so compare your account readings with your recent pace.";
   }
 
   if (result.platform === "Perplexity") {

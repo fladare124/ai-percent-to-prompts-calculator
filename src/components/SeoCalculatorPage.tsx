@@ -35,7 +35,7 @@ const links = [
   { href: "/cursor-usage-calculator", label: "Cursor Usage Calculator" },
   {
     href: "/windsurf-devin-usage-calculator",
-    label: "Windsurf / Devin Usage Calculator",
+    label: "Windsurf and Devin usage planner",
   },
 ];
 

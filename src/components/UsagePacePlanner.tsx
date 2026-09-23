@@ -28,7 +28,9 @@ type UsagePacePlannerProps = {
     | "Codex"
     | "Gemini usage"
     | "Cursor Models pool"
-    | "Other Models pool";
+    | "Other Models pool"
+    | "Windsurf / Devin daily quota"
+    | "Windsurf / Devin weekly quota";
   windowGuidance: string;
   sourceUrl: string;
   sourceLabel: string;

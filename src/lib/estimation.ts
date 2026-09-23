@@ -126,13 +126,6 @@ function getReliability(input: EstimateInput, baseLimitFallback: boolean) {
   }
 
   if (
-    input.platform === "Windsurf / Devin" &&
-    input.advancedSelections.mode === "Devin session"
-  ) {
-    reliability = "Low";
-  }
-
-  if (
     input.platform === "Codex" &&
     ["max", "ultra"].includes(input.advancedSelections.mode ?? "")
   ) {
@@ -269,6 +262,12 @@ export function estimateUsage(input: EstimateInput): EstimateResult {
   if (input.platform === "Gemini") {
     errors.push(
       "Gemini Apps limits are compute-based and refresh according to the limit shown in your account. Use the Gemini usage planner with a recent reading and reset time.",
+    );
+  }
+
+  if (input.platform === "Windsurf / Devin") {
+    errors.push(
+      "Devin and Windsurf usage allowances refresh daily and weekly, and consumption varies by model and task. Use the usage planner with readings from your account.",
     );
   }
 
@@ -442,7 +441,7 @@ function getNotes(
 
   if (input.platform === "Windsurf / Devin") {
     notes.push(
-      "Windsurf prompt credits are more predictable than Devin agent sessions, which use complexity-based quota.",
+      "Devin and Windsurf usage varies by model and task size. Compare readings from the same daily or weekly allowance in the pace planner.",
     );
   }
 

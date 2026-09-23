@@ -255,7 +255,9 @@ export default function UsageEstimator({
               ? "Compare both Cursor usage pools with your recent dashboard readings."
               : form.platform === "Gemini"
                 ? "Use the current limit reading and refresh time shown in Gemini Apps."
-                : "Pick a platform, match the window it shows, then read the likely range."}
+                : form.platform === "Windsurf / Devin"
+                  ? "Use your account's daily or weekly allowance and recent usage readings."
+                  : "Pick a platform, match the window it shows, then read the likely range."}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             {form.platform === "Cursor" ? (
@@ -274,6 +276,15 @@ export default function UsageEstimator({
                 </span>
                 <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
                   Weekly limit
+                </span>
+              </>
+            ) : form.platform === "Windsurf / Devin" ? (
+              <>
+                <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
+                  Daily allowance
+                </span>
+                <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                  Weekly allowance
                 </span>
               </>
             ) : (
@@ -323,7 +334,9 @@ export default function UsageEstimator({
             onCopy={copyResult}
             onShare={shareResult}
           />
-          {form.platform === "Cursor" || form.platform === "Gemini" ? null : (
+          {form.platform === "Cursor" ||
+          form.platform === "Gemini" ||
+          form.platform === "Windsurf / Devin" ? null : (
             <UsageCalibration
               remainingPercent={Number(form.remainingPercent)}
               unitLabel={unitLabel}

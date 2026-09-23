@@ -67,6 +67,8 @@ export default function EstimatorResult({
               ? "Use your Cursor pool balance"
               : result.platform === "Gemini"
                 ? "Use your Gemini usage meter"
+                : result.platform === "Windsurf / Devin"
+                  ? "Use your Devin or Windsurf allowance"
                 : "Add the missing limit details"}
           </h2>
         </div>
@@ -87,6 +89,13 @@ export default function EstimatorResult({
               className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
             >
               Open the Gemini 5-hour and weekly planner
+            </Link>
+          ) : result.platform === "Windsurf / Devin" ? (
+            <Link
+              href="/windsurf-devin-usage-calculator"
+              className="mt-3 inline-block font-semibold text-cyan-900 underline underline-offset-2 dark:text-cyan-100"
+            >
+              Open the daily and weekly usage planners
             </Link>
           ) : null}
         </div>

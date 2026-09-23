@@ -471,43 +471,19 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
   },
   "Windsurf / Devin": {
     platform: "Windsurf / Devin",
-    usageUnit: "prompt credits / agent usage",
-    resetWindows: ["Monthly"],
-    defaultResetWindow: "Monthly",
+    usageUnit: "usage allowance units",
+    resetWindows: ["Daily", "Weekly"],
+    defaultResetWindow: "Daily",
     limitBasis:
-      "Windsurf monthly prompt credits where published. Devin sessions use a separate complexity-based quota, so Devin estimates have lower confidence.",
+      "Devin and Windsurf plans provide usage allowances that refresh daily and weekly. Consumption depends on the model, task size and reasoning; use the readings in your account.",
     planPresets: [
-      { label: "Free", baseLimits: limits({ Monthly: 25 }) },
-      { label: "Pro", baseLimits: limits({ Monthly: 500 }) },
-      { label: "Teams", baseLimits: limits({ Monthly: 500 }) },
-      { label: "Enterprise", baseLimits: limits({ Monthly: 1000 }) },
+      { label: "Free", baseLimits: limits({}) },
+      { label: "Pro", baseLimits: limits({}) },
+      { label: "Max", baseLimits: limits({}) },
+      { label: "Teams", baseLimits: limits({}) },
+      { label: "Enterprise", baseLimits: limits({}) },
     ],
-    advancedGroups: [
-      {
-        key: "model",
-        label: "Model",
-        options: [
-          { label: "Adaptive", multiplier: 1 },
-          { label: "SWE-1.6", multiplier: 1.5, costReference: "Currently listed as a promotional zero-credit model; this can change." },
-          { label: "Claude Opus 4.6", multiplier: 1 / 6, costReference: "6 prompt credits per message." },
-          { label: "Claude Opus 4.7 Low", multiplier: 1 / 20, costReference: "20 prompt credits per message." },
-          { label: "Claude Opus 4.7 Medium", multiplier: 1 / 40, costReference: "40 prompt credits per message." },
-          { label: "Not sure", multiplier: 0.75 },
-        ],
-      },
-      {
-        key: "mode",
-        label: "Product / mode",
-        options: [
-          { label: "Cascade chat", multiplier: 1 },
-          { label: "Cascade tool calling", multiplier: 0.7 },
-          { label: "Cascade auto-continue", multiplier: 0.55 },
-          { label: "Repo-wide task", multiplier: 0.4 },
-          { label: "Cloud agent", multiplier: 0.35 },
-          { label: "Devin session", multiplier: 0.25 },
-        ],
-      },
-    ],
+    advancedGroups: [],
   },
   Other: {
     platform: "Other",

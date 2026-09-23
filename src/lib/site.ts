@@ -63,9 +63,9 @@ export const calculatorRoutes = [
   },
   {
     path: "/windsurf-devin-usage-calculator",
-    title: "Windsurf / Devin Usage Calculator",
+    title: "Windsurf and Devin Usage Calculator: Daily and Weekly Planner",
     description:
-      "Estimate remaining Windsurf or Devin quota units and agent runs from a remaining usage percentage.",
+      "Compare your Windsurf or Devin daily and weekly usage allowance with recent readings from your account.",
     lastModified: contentUpdatedAt,
     priority: 0.75,
   },
