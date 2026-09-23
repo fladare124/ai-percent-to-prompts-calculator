@@ -22,7 +22,7 @@ interface ProviderGuide {
 }
 
 const links = [
-  { href: "/", label: "AI Percent to Prompts Calculator" },
+  { href: "/", label: "AI Usage Limit Calculator" },
   { href: "/chatgpt-limit-calculator", label: "ChatGPT Limit Calculator" },
   { href: "/codex-usage-calculator", label: "Codex Usage Calculator" },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
