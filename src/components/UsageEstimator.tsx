@@ -12,6 +12,7 @@ import {
 import { estimateUsage } from "@/lib/estimation";
 import {
   createDefaultEstimatorForm,
+  createEstimatorShareUrl,
   createEstimatorFormFromSearch,
   normalizeStoredEstimatorForm,
   type EstimatorFormState,
@@ -158,7 +159,7 @@ export default function UsageEstimator({
     [locationSearch, platformFocus, productFocus],
   );
   const [draftForm, setDraftForm] = useState<EstimatorFormState | null>(null);
-  const form = draftForm ?? storedForm ?? queryForm ?? defaultForm;
+  const form = draftForm ?? queryForm ?? storedForm ?? defaultForm;
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [shareStatus, setShareStatus] = useState("");
   const [themeChoice, setThemeChoice] = useState<string | null>(null);
@@ -218,8 +219,11 @@ export default function UsageEstimator({
 
   const copyResult = async () => {
     try {
-      await navigator.clipboard.writeText(shareText);
-      setShareStatus("Result copied to clipboard.");
+      const shareUrl = createEstimatorShareUrl(form, window.location.href);
+      await navigator.clipboard.writeText(
+        `${shareText}\n\nOpen the same estimate: ${shareUrl}`,
+      );
+      setShareStatus("Result and shareable link copied.");
     } catch {
       setShareStatus("Copy failed. Select the result text manually.");
     }
@@ -227,16 +231,19 @@ export default function UsageEstimator({
 
   const shareResult = async () => {
     try {
+      const shareUrl = createEstimatorShareUrl(form, window.location.href);
       if (navigator.share) {
         await navigator.share({
-          title: "AI Usage Limit Calculator",
+          title: "AI Usage Estimate",
           text: shareText,
-          url: window.location.href,
+          url: shareUrl,
         });
-        setShareStatus("Share sheet opened.");
+        setShareStatus("Share sheet opened with your estimate link.");
       } else {
-        await navigator.clipboard.writeText(shareText);
-        setShareStatus("Web Share is not available, so the result was copied.");
+        await navigator.clipboard.writeText(
+          `${shareText}\n\nOpen the same estimate: ${shareUrl}`,
+        );
+        setShareStatus("Result and shareable link copied to clipboard.");
       }
     } catch {
       setShareStatus("Share was cancelled or unavailable.");

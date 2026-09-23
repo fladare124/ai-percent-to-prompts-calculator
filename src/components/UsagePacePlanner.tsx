@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 
 type Inputs = {
   remaining: string;
@@ -44,6 +44,61 @@ const initialInputs: Inputs = {
   hoursObserved: "",
 };
 
+function calculateUsagePace(inputs: Inputs, measurementUnit: string) {
+  const remaining = Number(inputs.remaining);
+  const hoursUntilReset = Number(inputs.hoursUntilReset);
+  const pointsSpent = Number(inputs.pointsSpent);
+  const hoursObserved = Number(inputs.hoursObserved);
+  const maxMeasurement =
+    measurementUnit === "percentage points" ? 100 : undefined;
+
+  if (
+    ![remaining, hoursUntilReset, pointsSpent, hoursObserved].every(
+      Number.isFinite,
+    ) ||
+    remaining < 0 ||
+    (maxMeasurement !== undefined && remaining > maxMeasurement) ||
+    hoursUntilReset <= 0 ||
+    pointsSpent < 0 ||
+    (maxMeasurement !== undefined && pointsSpent > maxMeasurement) ||
+    hoursObserved <= 0
+  ) {
+    return {
+      estimate: null,
+      error: "Enter valid readings and time periods to calculate a pace.",
+    };
+  }
+
+  if (remaining === 0) {
+    return { estimate: { kind: "empty" } as Estimate, error: "" };
+  }
+
+  const observedRate = pointsSpent / hoursObserved;
+  const sustainableRate = remaining / hoursUntilReset;
+
+  if (observedRate === 0) {
+    return {
+      estimate: { kind: "no-burn", remaining, sustainableRate } as Estimate,
+      error: "",
+    };
+  }
+
+  const projectedRemaining = remaining - observedRate * hoursUntilReset;
+  return {
+    estimate: {
+      kind: "forecast",
+      remaining,
+      hoursUntilReset,
+      observedRate,
+      sustainableRate,
+      projectedRemaining: Math.max(0, projectedRemaining),
+      runsOutInHours:
+        projectedRemaining <= 0 ? remaining / observedRate : null,
+    } as Estimate,
+    error: "",
+  };
+}
+
 export default function UsagePacePlanner({
   platform,
   windowGuidance,
@@ -58,61 +113,105 @@ export default function UsagePacePlanner({
   const [inputs, setInputs] = useState(initialInputs);
   const [estimate, setEstimate] = useState<Estimate | null>(null);
   const [error, setError] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.get("ptpPace") !== "1" ||
+      params.get("pacePlanner") !== platform
+    ) {
+      return;
+    }
+
+    const remaining = params.get("paceRemaining");
+    const hoursUntilReset = params.get("paceHours");
+    const pointsSpent = params.get("paceSpent");
+    const hoursObserved = params.get("paceObserved");
+    if (
+      remaining === null ||
+      hoursUntilReset === null ||
+      pointsSpent === null ||
+      hoursObserved === null
+    ) {
+      return;
+    }
+
+    const sharedInputs = {
+      remaining,
+      hoursUntilReset,
+      pointsSpent,
+      hoursObserved,
+    };
+    const calculation = calculateUsagePace(sharedInputs, measurementUnit);
+    if (calculation.error) return;
+
+    setInputs(sharedInputs);
+    setEstimate(calculation.estimate);
+  }, [measurementUnit, platform]);
 
   function updateInput(field: keyof Inputs, value: string) {
     setInputs((current) => ({ ...current, [field]: value }));
     setEstimate(null);
     setError("");
+    setShareStatus("");
   }
 
   function calculate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const calculation = calculateUsagePace(inputs, measurementUnit);
+    setError(calculation.error);
+    setEstimate(calculation.estimate);
+  }
 
-    const remaining = Number(inputs.remaining);
-    const hoursUntilReset = Number(inputs.hoursUntilReset);
-    const pointsSpent = Number(inputs.pointsSpent);
-    const hoursObserved = Number(inputs.hoursObserved);
+  function createShareUrl() {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams();
+    params.set("ptpPace", "1");
+    params.set("pacePlanner", platform);
+    params.set("paceRemaining", inputs.remaining);
+    params.set("paceHours", inputs.hoursUntilReset);
+    params.set("paceSpent", inputs.pointsSpent);
+    params.set("paceObserved", inputs.hoursObserved);
+    url.search = params.toString();
+    url.hash = "";
+    return url.toString();
+  }
 
-    if (
-      ![remaining, hoursUntilReset, pointsSpent, hoursObserved].every(
-        Number.isFinite,
-      ) ||
-      remaining < 0 ||
-      (maxMeasurement !== undefined && remaining > maxMeasurement) ||
-      hoursUntilReset <= 0 ||
-      pointsSpent < 0 ||
-      (maxMeasurement !== undefined && pointsSpent > maxMeasurement) ||
-      hoursObserved <= 0
-    ) {
-      setError("Enter valid readings and time periods to calculate a pace.");
-      setEstimate(null);
-      return;
+  async function copyShareLink() {
+    try {
+      const shareUrl = createShareUrl();
+      const shareText = `${platform} usage pace: ${inputs.remaining} ${measurementUnit} remaining; ${inputs.hoursUntilReset} hours until reset; recent usage ${inputs.pointsSpent} ${measurementUnit} over ${inputs.hoursObserved} hours.`;
+      await navigator.clipboard.writeText(
+        `${shareText}\n\nOpen this planner: ${shareUrl}`,
+      );
+      setShareStatus("Planner result and link copied.");
+    } catch {
+      setShareStatus("Copy failed. Use the browser address bar to share the link.");
     }
+  }
 
-    if (remaining === 0) {
-      setEstimate({ kind: "empty" });
-      return;
+  async function sharePace() {
+    const shareUrl = createShareUrl();
+    const shareText = `${platform} usage pace: ${inputs.remaining} ${measurementUnit} remaining; ${inputs.hoursUntilReset} hours until reset; recent usage ${inputs.pointsSpent} ${measurementUnit} over ${inputs.hoursObserved} hours.`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${platform} usage pace`,
+          text: shareText,
+          url: shareUrl,
+        });
+        setShareStatus("Share sheet opened with your planner link.");
+      } else {
+        await navigator.clipboard.writeText(
+          `${shareText}\n\nOpen this planner: ${shareUrl}`,
+        );
+        setShareStatus("Planner result and link copied to clipboard.");
+      }
+    } catch {
+      setShareStatus("Share was cancelled or unavailable.");
     }
-
-    const observedRate = pointsSpent / hoursObserved;
-    const sustainableRate = remaining / hoursUntilReset;
-
-    if (observedRate === 0) {
-      setEstimate({ kind: "no-burn", remaining, sustainableRate });
-      return;
-    }
-
-    const projectedRemaining = remaining - observedRate * hoursUntilReset;
-    setEstimate({
-      kind: "forecast",
-      remaining,
-      hoursUntilReset,
-      observedRate,
-      sustainableRate,
-      projectedRemaining: Math.max(0, projectedRemaining),
-      runsOutInHours:
-        projectedRemaining <= 0 ? remaining / observedRate : null,
-    });
   }
 
   return (
@@ -287,6 +386,35 @@ export default function UsagePacePlanner({
                   {estimate.sustainableRate.toFixed(1)} {measurementUnit} per hour
                 </strong>
                 .
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {estimate ? (
+          <div className="mt-4 space-y-2">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={copyShareLink}
+                className="min-h-10 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-800"
+              >
+                Copy planner result and link
+              </button>
+              <button
+                type="button"
+                onClick={sharePace}
+                className="min-h-10 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-800"
+              >
+                Share planner
+              </button>
+            </div>
+            <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+              The shareable link includes these four meter readings and opens this planner.
+            </p>
+            {shareStatus ? (
+              <p className="text-sm text-cyan-700 dark:text-cyan-300" role="status">
+                {shareStatus}
               </p>
             ) : null}
           </div>

@@ -238,16 +238,19 @@ export default function EstimatorResult({
           onClick={onCopy}
           className="h-11 rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
         >
-          Copy result
+          Copy result and link
         </button>
         <button
           type="button"
           onClick={onShare}
           className="h-11 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
         >
-          Share result
+          Share estimate
         </button>
       </div>
+      <p className="-mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+        The shareable link includes your selected platform, plan, usage percentage and estimate settings.
+      </p>
       {shareStatus ? (
         <p className="text-sm text-cyan-700 dark:text-cyan-300">
           {shareStatus}
