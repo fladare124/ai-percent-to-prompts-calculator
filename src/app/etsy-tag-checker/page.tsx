@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   description:
     "Check an Etsy listing's tags for the 13-tag limit, 20-character count, duplicates and unsupported characters. Your tags stay in your browser.",
   robots: { index: true, follow: true },
-  alternates: { canonical },
+  alternates: {
+    canonical,
+    languages: { en: canonical, "es-ES": "/es/comprobador-etiquetas-etsy" },
+  },
   openGraph: {
     title: "Free Etsy Tag Checker",
     description:
@@ -33,6 +36,7 @@ export default function EtsyTagCheckerPage() {
             <a href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</a>
             <a href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</a>
             <a href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</a>
+            <a href="/es/comprobador-etiquetas-etsy" lang="es" hrefLang="es-ES" className="underline underline-offset-4 hover:text-stone-950">Español</a>
           </nav>
         </header>
 

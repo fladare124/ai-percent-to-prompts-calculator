@@ -96,6 +96,7 @@ export default function ComprobadorCsvEtsyPage() {
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Navegación principal">
             <a href="#comprobador" className="transition hover:text-stone-950">Comprobador CSV</a>
+            <Link href="/es/comprobador-etiquetas-etsy" className="transition hover:text-stone-950">Comprobar etiquetas</Link>
             <a href="#como-exportar" className="transition hover:text-stone-950">Cómo descargar el CSV</a>
             <a href="#preguntas" className="transition hover:text-stone-950">Preguntas frecuentes</a>
             <Link href="/" lang="en" hrefLang="en" className="transition hover:text-stone-950">English</Link>
@@ -123,6 +124,11 @@ export default function ComprobadorCsvEtsyPage() {
         <div id="comprobador" className="scroll-mt-6">
           <EtsyCsvAuditor locale="es" />
         </div>
+
+        <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">¿Solo necesitas revisar las etiquetas de un anuncio?</h2>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Usa el <Link href="/es/comprobador-etiquetas-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">comprobador de etiquetas de Etsy</Link> para contar hasta 13, revisar el límite de 20 caracteres y detectar duplicados.</p>
+        </section>
 
         <section id="como-exportar" className="mt-14 grid gap-8 border-t border-stone-200 pt-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
