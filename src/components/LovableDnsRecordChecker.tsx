@@ -465,9 +465,9 @@ export default function LovableDnsRecordChecker({ locale = "en" }: { locale?: Lo
                     <ul className="mt-2 space-y-2 break-all text-sm leading-5 text-zinc-700">
                       {result.answers.map((answer, index) => (
                         <li key={`${answer.type}:${answer.data}:${index}`}>
-                          <span className="mr-2 text-xs text-zinc-500">{normalizeDnsName(answer.name)}</span>
-                          <span className="mr-2 rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs">{recordTypeLabel(answer.type)}</span>
-                          <span className="font-mono">{answer.data}</span>
+                          <span className="text-xs text-zinc-500">{normalizeDnsName(answer.name)} </span>
+                          <span className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs">[{recordTypeLabel(answer.type)}]</span>
+                          <span className="font-mono"> {answer.data}</span>
                           {answer.TTL !== undefined ? <span className="ml-2 text-xs text-zinc-500">TTL {answer.TTL}s</span> : null}
                         </li>
                       ))}
