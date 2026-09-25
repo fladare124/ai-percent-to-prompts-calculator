@@ -8,6 +8,7 @@ const usageCalculatorContentUpdatedAt = new Date("2026-09-25T03:20:00.000Z");
 const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
+const claudeContentUpdatedAt = new Date("2026-09-25T03:47:04.000Z");
 
 export const calculatorRoutes = [
   {
@@ -62,8 +63,8 @@ export const calculatorRoutes = [
     path: "/claude-usage-calculator",
     title: "Claude Usage Limit Calculator: Pace Until Reset",
     description:
-      "Compare your current Claude usage meter with your recent pace and get current guidance on weekly limits and Fable credits.",
-    lastModified: contentUpdatedAt,
+      "Estimate Claude usage until its five-hour or weekly reset. Check how Claude Code, usage credits and optional free limit resets affect your allowance.",
+    lastModified: claudeContentUpdatedAt,
     priority: 0.85,
   },
   {
