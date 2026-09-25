@@ -5,18 +5,18 @@ import EtsyPaymentStatementAnalyzer from "@/components/EtsyPaymentStatementAnaly
 const canonical = "/es/analizador-extracto-etsy";
 
 export const metadata: Metadata = {
-  title: "Analizador de extractos de Etsy en CSV | Gratis",
+  title: "Analizador anual y mensual de extractos Etsy CSV | Gratis",
   description:
-    "Resume el CSV del extracto mensual de Etsy por tipo de actividad y moneda. Consulta importes, tarifas e impuestos y neto sin subir el archivo.",
+    "Combina hasta 12 CSV de extractos mensuales de Etsy en totales anuales por actividad y moneda. Sin subir los archivos ni iniciar sesión.",
   robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: "/etsy-payment-statement-analyzer", "es-ES": canonical },
   },
   openGraph: {
-    title: "Analizador gratis del extracto mensual de Etsy",
+    title: "Analizador gratis de extractos mensuales y anuales de Etsy",
     description:
-      "Agrupa las líneas del extracto de Etsy por tipo de actividad y moneda. El CSV se procesa en tu navegador.",
+      "Combina CSV de extractos de Etsy por tipo de actividad y moneda. Los archivos se procesan en tu navegador.",
     url: canonical,
     type: "website",
   },
@@ -31,7 +31,7 @@ const faq = [
   {
     question: "¿Qué muestra el analizador de extractos de Etsy?",
     answer:
-      "Agrupa las filas por el tipo de actividad y la moneda que aparecen en el archivo y suma por separado los valores con signo de las columnas Importe, Tarifas e impuestos y Neto, cuando están disponibles.",
+      "Combina hasta 12 archivos, agrupa las filas por tipo de actividad y moneda, y suma por separado los valores con signo de Importe, Tarifas e impuestos y Neto, cuando están disponibles.",
   },
   {
     question: "¿Calcula el beneficio exacto por producto o pedido?",
@@ -46,7 +46,12 @@ const faq = [
   {
     question: "¿Se sube mi extracto mensual?",
     answer:
-      "No. El navegador lee el archivo localmente. El resumen y el CSV descargado contienen totales agrupados, no las filas originales, referencias de pedidos ni datos de compradores.",
+      "No. El navegador lee los archivos localmente. El resumen y el CSV descargado contienen totales agrupados, no las filas originales, referencias de pedidos ni datos de compradores.",
+  },
+  {
+    question: "¿Puedo combinar extractos para revisar todo el año?",
+    answer:
+      "Sí. Selecciona un CSV de Extractos mensuales por cada mes que quieras incluir, hasta 12 archivos. El resumen mantiene separadas las monedas y no calcula la renta imponible ni sustituye la contabilidad.",
   },
 ];
 
@@ -67,15 +72,15 @@ export default function EtsyPaymentStatementAnalyzerEsPage() {
       <EtsyPageShell
         locale="es"
         eyebrow="Resumen gratis de extractos de Etsy · Archivo privado"
-        title="Analiza tu extracto mensual de Etsy en CSV"
-        intro="Agrupa por tipo de actividad y moneda los importes, tarifas e impuestos y valores netos del extracto mensual. El archivo se procesa en tu navegador, sin iniciar sesión ni subirlo a un servidor."
+        title="Combina extractos mensuales de Etsy en un resumen anual"
+        intro="Selecciona hasta 12 CSV de Extractos mensuales para combinar importes, tarifas e impuestos y valores netos por tipo de actividad y moneda. Revisa varios meses o un año sin exponer las filas originales."
       >
         <EtsyPaymentStatementAnalyzer locale="es" />
 
         <section>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Qué muestra el resumen del extracto</h2>
           <p className="mt-3 text-base leading-7">
-            El informe agrupa las filas que comparten tipo de actividad y moneda, y suma por separado cada columna con importes. Las ventas, reembolsos, tarifas, marketing, envíos y depósitos quedan en categorías distintas; así no se mezcla una transferencia bancaria con los ingresos o el beneficio del negocio. Puedes descargar el resumen como CSV.
+            El informe agrupa las filas de todos los extractos seleccionados por tipo de actividad y moneda, y suma por separado cada columna con importes. Elige un archivo por mes para consultar el año completo. Las ventas, reembolsos, tarifas, marketing, envíos y depósitos quedan en categorías distintas; puedes descargar los totales combinados como CSV.
           </p>
         </section>
 

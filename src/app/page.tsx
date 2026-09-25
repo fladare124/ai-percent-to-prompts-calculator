@@ -78,7 +78,7 @@ const appSchema = {
     "Plan US-specific Etsy prices across listings using item costs and Etsy tariff estimates",
     "Audit Etsy active-listings CSV files locally in the browser",
     "Group Etsy Order Items CSV sales by product or SKU and estimate contribution locally in the browser",
-    "Summarize Etsy monthly statement CSV values by activity type and currency locally in the browser",
+    "Combine up to 12 Etsy monthly statement CSVs into annual totals by activity type and currency locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy listing title for character count, word count, and possible repetition",
@@ -148,9 +148,9 @@ export default function Home() {
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Payment account</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Monthly statement summary</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Group statement amounts, fees, and net values by activity type and currency.</p>
-              <Link href="/etsy-payment-statement-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize a statement CSV →</Link>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Monthly and annual statement summary</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Combine up to 12 monthly files to review amounts, fees, and net values by activity type and currency.</p>
+              <Link href="/etsy-payment-statement-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Combine statement CSVs →</Link>
               <Link href="/es/analizador-extracto-etsy" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Analizador en español →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">

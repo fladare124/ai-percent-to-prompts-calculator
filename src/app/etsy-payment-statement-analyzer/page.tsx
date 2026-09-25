@@ -5,18 +5,18 @@ import EtsyPaymentStatementAnalyzer from "@/components/EtsyPaymentStatementAnaly
 const canonical = "/etsy-payment-statement-analyzer";
 
 export const metadata: Metadata = {
-  title: "Etsy Monthly Statement CSV Analyzer | Free Summary",
+  title: "Etsy Annual & Monthly Statement CSV Analyzer | Free Tool",
   description:
-    "Summarize an Etsy Monthly Statement CSV by activity type and currency. Review Amount, Fees & Taxes, and Net totals privately in your browser.",
+    "Combine up to 12 Etsy monthly statement CSVs into annual totals by activity type and currency. Review Amount, Fees & Taxes, and Net privately in your browser.",
   robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": "/es/analizador-extracto-etsy" },
   },
   openGraph: {
-    title: "Free Etsy Monthly Statement CSV Analyzer",
+    title: "Free Etsy Annual and Monthly Statement CSV Analyzer",
     description:
-      "Group Etsy Payment account statement rows by activity type and currency without uploading the CSV.",
+      "Combine Etsy Payment account statement CSVs by activity type and currency without uploading the files.",
     url: canonical,
     type: "website",
   },
@@ -31,7 +31,7 @@ const faq = [
   {
     question: "What does the Etsy statement analyzer calculate?",
     answer:
-      "It groups rows by the activity type and currency in the file, then adds the signed values in the Amount, Fees & Taxes, and Net columns when those columns are present. It does not convert currencies or change the original statement.",
+      "It combines up to 12 selected statement files, groups rows by activity type and currency, then adds the signed values in the Amount, Fees & Taxes, and Net columns when those columns are present. It does not convert currencies or change the original statements.",
   },
   {
     question: "Does this show exact profit by product or order?",
@@ -46,7 +46,12 @@ const faq = [
   {
     question: "Is my monthly statement CSV uploaded?",
     answer:
-      "No. The browser reads the selected file locally. The report and its download contain grouped totals, not the original statement rows, order references, or buyer details.",
+      "No. The browser reads the selected files locally. The report and its download contain grouped totals, not the original statement rows, order references, or buyer details.",
+  },
+  {
+    question: "Can I combine statements for a full year?",
+    answer:
+      "Yes. Select one Monthly Statement CSV for each month you want to include, up to 12 files. The summary keeps currencies separate and does not calculate taxable income or replace accounting records.",
   },
 ];
 
@@ -66,8 +71,8 @@ export default function EtsyPaymentStatementAnalyzerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <EtsyPageShell
         eyebrow="Free Etsy statement CSV summary · Private in your browser"
-        title="Summarize your Etsy monthly statement by activity type"
-        intro="Group the signed Amount, Fees & Taxes, and Net values in an Etsy Monthly Statement CSV by activity type and currency. Use the summary to review the month without exposing the original statement rows."
+        title="Combine Etsy monthly statements into one activity summary"
+        intro="Select up to 12 Monthly Statement CSVs to combine Amount, Fees & Taxes, and Net values by activity type and currency. Review several months or a full year without exposing the original statement rows."
       >
         <EtsyPaymentStatementAnalyzer />
 
@@ -78,7 +83,7 @@ export default function EtsyPaymentStatementAnalyzerPage() {
         <section>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the statement summary shows</h2>
           <p className="mt-3 text-base leading-7">
-            The report groups rows with the same activity type and currency, then adds each signed value column independently. Sales, refunds, fees, marketing, postage, and deposits remain separate categories, so a bank transfer is not mixed into a sales or profit total. You can download the grouped results as a CSV.
+            The report groups rows from every selected statement with the same activity type and currency, then adds each signed value column independently. Select one file per month for an annual overview. Sales, refunds, fees, marketing, postage, and deposits remain separate categories, so a bank transfer is not mixed into a sales or profit total. You can download the combined results as a CSV.
           </p>
         </section>
 

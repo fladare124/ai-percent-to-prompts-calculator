@@ -13,6 +13,7 @@ type StatementLine = {
 type StatementReport = {
   lines: StatementLine[];
   skippedRows: number;
+  fileCount: number;
 };
 
 type ActivitySummary = {
@@ -28,7 +29,10 @@ type ActivitySummary = {
 };
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const MAX_FILES = 12;
+const MAX_TOTAL_FILE_BYTES = 30 * 1024 * 1024;
 const MAX_ROWS = 100_000;
+const MAX_COMBINED_ROWS = 300_000;
 
 type Locale = "en" | "es";
 
@@ -44,8 +48,10 @@ const copyByLocale: Record<Locale, {
   reading: string;
   sample: string;
   rowMetric: string;
+  fileMetric: string;
   typeMetric: string;
   currencyMetric: string;
+  combinedNotice: string;
   download: string;
   headers: string[];
   skippedRows: (count: string) => string;
@@ -56,85 +62,98 @@ const copyByLocale: Record<Locale, {
   privacy: string;
   errors: {
     fileTooLarge: string;
+    tooManyFiles: string;
+    totalTooLarge: string;
     readFailure: string;
     emptyFile: string;
     noActivityRows: string;
     headers: string;
     maxRows: (count: string) => string;
+    maxCombinedRows: (count: string) => string;
     noReadableRows: string;
     unclosedQuote: string;
   };
 }> = {
   en: {
-    badge: "Free · Private · No sign-in",
-    title: "Read your Etsy statement by activity type",
-    intro: "Choose a Monthly Statement CSV to total the Amount, Fees & Taxes, and Net columns by activity and currency. The report runs in this browser.",
+    badge: "Free · Private · Up to 12 monthly statements",
+    title: "Combine Etsy monthly statements by activity type",
+    intro: "Select up to 12 Etsy Monthly Statement CSVs to combine the Amount, Fees & Taxes, and Net totals by activity and currency. The summary runs in this browser.",
     clear: "Clear report",
-    demo: "Demo statement only. These figures are examples; choose your own Etsy CSV before relying on any total.",
-    chooseTitle: "Choose an Etsy Monthly Statement CSV",
-    fileLimit: "CSV up to 10 MB · one statement at a time",
-    chooseCsv: "Choose CSV",
-    reading: "Reading file…",
-    sample: "Try a sample statement",
+    demo: "Demo statements only. These figures are examples; choose your own Etsy CSVs before relying on any total.",
+    chooseTitle: "Choose Etsy Monthly Statement CSV files",
+    fileLimit: "Up to 12 files · 10 MB each · 30 MB total",
+    chooseCsv: "Choose CSV files",
+    reading: "Reading statements…",
+    sample: "Try two sample statements",
     rowMetric: "statement rows included",
+    fileMetric: "statement files combined",
     typeMetric: "activity types",
     currencyMetric: "currencies",
-    download: "Download activity summary CSV",
+    combinedNotice: "The summary combines all selected files by activity type and currency. For a year overview, choose one statement per month and avoid selecting the same month twice.",
+    download: "Download combined activity summary CSV",
     headers: ["Activity type", "Currency", "Rows", "Amount column total", "Fees & Taxes column total", "Net column total"],
     skippedRows: (count) => `${count} non-empty rows were skipped because they had no readable activity type or amount values.`,
     guideTitle: "Download the right report in Etsy",
     guideSteps: [
       "Open Shop Manager → Finances → Monthly statements.",
-      "Choose a month, select Generate CSV, then download the file from Etsy’s email.",
-      "Choose that statement above. The analyzer reads the CSV locally and does not upload it.",
+      "Choose a month, select Generate CSV, then download the file from Etsy’s email. Repeat for each month you want to include.",
+      "Select up to 12 monthly statements above. The analyzer combines the totals locally and does not upload the files.",
     ],
     guideLink: "Etsy’s monthly statement instructions ↗",
-    disclaimer: "This report groups the signed values from the CSV by its exact activity type and currency. It does not connect every fee to a specific order, calculate product costs, or reconcile bank deposits. Etsy deposits and payment-account net profit are different measures; do not treat these statement totals as business profit or tax advice.",
-    privacy: "Titles, buyer details, order references, and raw statement rows are not shown in the report or downloaded summary. The file stays in this browser.",
+    disclaimer: "This report groups the signed values from the selected CSVs by their exact activity type and currency. It does not connect every fee to a specific order, calculate product costs, or reconcile bank deposits. Etsy deposits and payment-account net profit are different measures; do not treat these statement totals as business profit or tax advice.",
+    privacy: "Titles, buyer details, order references, and raw statement rows are not shown in the report or downloaded summary. The files stay in this browser.",
     errors: {
-      fileTooLarge: "This file is over 10 MB. Export a smaller month and try again.",
+      fileTooLarge: "Each file must be 10 MB or smaller. Export a smaller month and try again.",
+      tooManyFiles: "Choose no more than 12 monthly statement files.",
+      totalTooLarge: "The selected files exceed 30 MB total. Choose fewer files and try again.",
       readFailure: "The CSV could not be read. Check the file and try again.",
       emptyFile: "The file is empty. Choose an Etsy Monthly Statement CSV export.",
       noActivityRows: "The CSV has a header but no activity rows.",
       headers: "I couldn’t find the Etsy statement columns for Type, Currency, and Amount, Fees & Taxes, or Net. Download the Monthly Statement CSV from Etsy and try again.",
-      maxRows: (count) => `This file has more than ${count} rows. Export one month and try again.`,
+      maxRows: (count) => `One file has more than ${count} rows. Export a smaller month and try again.`,
+      maxCombinedRows: (count) => `The selected statements contain more than ${count} rows. Choose fewer files and try again.`,
       noReadableRows: "No readable statement rows were found. Check that the file is an Etsy Monthly Statement CSV with activity types and currency codes.",
       unclosedQuote: "The CSV contains an unclosed quoted field. Re-download it from Etsy and try again.",
     },
   },
   es: {
-    badge: "Gratis · Privado · Sin iniciar sesión",
-    title: "Resume tu extracto de Etsy por tipo de actividad",
-    intro: "Elige un CSV de extracto mensual para sumar las columnas Importe, Tarifas e impuestos y Neto por tipo de actividad y moneda. El informe se procesa en este navegador.",
+    badge: "Gratis · Privado · Hasta 12 extractos mensuales",
+    title: "Combina extractos mensuales de Etsy por tipo de actividad",
+    intro: "Selecciona hasta 12 CSV de extractos mensuales de Etsy para combinar los totales de Importe, Tarifas e impuestos y Neto por actividad y moneda. El informe se procesa en este navegador.",
     clear: "Borrar informe",
-    demo: "Extracto de ejemplo. Estas cifras son ficticias; selecciona tu CSV antes de usar cualquier total.",
-    chooseTitle: "Selecciona un CSV de extracto mensual de Etsy",
-    fileLimit: "CSV de hasta 10 MB · un extracto cada vez",
-    chooseCsv: "Seleccionar CSV",
-    reading: "Leyendo archivo…",
-    sample: "Probar con un extracto de ejemplo",
+    demo: "Extractos de ejemplo. Estas cifras son ficticias; selecciona tus propios CSV antes de usar cualquier total.",
+    chooseTitle: "Selecciona archivos CSV de extractos mensuales de Etsy",
+    fileLimit: "Hasta 12 archivos · 10 MB cada uno · 30 MB en total",
+    chooseCsv: "Seleccionar archivos CSV",
+    reading: "Leyendo extractos…",
+    sample: "Probar dos extractos de ejemplo",
     rowMetric: "filas del extracto incluidas",
+    fileMetric: "extractos combinados",
     typeMetric: "tipos de actividad",
     currencyMetric: "monedas",
-    download: "Descargar resumen de actividad CSV",
+    combinedNotice: "El resumen combina los archivos seleccionados por tipo de actividad y moneda. Para revisar un año, selecciona un extracto por mes y evita repetir el mismo mes.",
+    download: "Descargar resumen combinado en CSV",
     headers: ["Tipo de actividad", "Moneda", "Filas", "Total en columna Importe", "Total en Tarifas e impuestos", "Total en columna Neto"],
     skippedRows: (count) => `Se omitieron ${count} filas con contenido porque no tenían un tipo de actividad o importes legibles.`,
     guideTitle: "Descarga el informe adecuado en Etsy",
     guideSteps: [
       "Abre el Administrador de la tienda → Finanzas → Extractos mensuales.",
-      "Elige un mes y selecciona Generar CSV. Etsy te enviará un correo cuando el archivo esté listo para descargar.",
-      "Selecciona el extracto aquí arriba. El CSV se lee en este navegador y no se sube a un servidor.",
+      "Elige un mes y selecciona Generar CSV. Etsy te enviará un correo cuando el archivo esté listo. Repite el proceso para cada mes que quieras incluir.",
+      "Selecciona hasta 12 extractos mensuales. El resumen se calcula en este navegador y los archivos no se suben.",
     ],
     guideLink: "Ayuda de Etsy sobre la cuenta de pagos ↗",
-    disclaimer: "Este informe agrupa los valores con signo del CSV por tipo de actividad y moneda. No asigna cada tarifa a un pedido, no calcula los costes del producto ni concilia depósitos bancarios. Etsy distingue los depósitos del beneficio neto de la cuenta de pagos; estos totales no son el beneficio contable de tu negocio ni asesoramiento fiscal.",
-    privacy: "El informe y el CSV descargado no muestran títulos, datos de compradores, referencias de pedido ni las filas originales del extracto. El archivo permanece en este navegador.",
+    disclaimer: "Este informe agrupa los valores con signo de los CSV seleccionados por tipo de actividad y moneda. No asigna cada tarifa a un pedido, no calcula los costes del producto ni concilia depósitos bancarios. Etsy distingue los depósitos del beneficio neto de la cuenta de pagos; estos totales no son el beneficio contable de tu negocio ni asesoramiento fiscal.",
+    privacy: "El informe y el CSV descargado no muestran títulos, datos de compradores, referencias de pedido ni las filas originales de los extractos. Los archivos permanecen en este navegador.",
     errors: {
-      fileTooLarge: "El archivo supera los 10 MB. Exporta un mes más pequeño e inténtalo de nuevo.",
+      fileTooLarge: "Cada archivo debe ocupar 10 MB o menos. Exporta un mes más pequeño e inténtalo de nuevo.",
+      tooManyFiles: "Selecciona como máximo 12 archivos de extracto mensual.",
+      totalTooLarge: "Los archivos seleccionados superan 30 MB en total. Selecciona menos archivos e inténtalo de nuevo.",
       readFailure: "No se pudo leer el CSV. Comprueba el archivo e inténtalo de nuevo.",
       emptyFile: "El archivo está vacío. Elige un CSV de extracto mensual de Etsy.",
       noActivityRows: "El CSV contiene encabezados, pero no filas de actividad.",
       headers: "No encuentro las columnas Tipo, Moneda e Importe, Tarifas e impuestos o Neto del extracto de Etsy. Descarga el CSV de Extractos mensuales e inténtalo de nuevo.",
-      maxRows: (count) => `El archivo tiene más de ${count} filas. Exporta un solo mes e inténtalo de nuevo.`,
+      maxRows: (count) => `Un archivo tiene más de ${count} filas. Exporta un mes más pequeño e inténtalo de nuevo.`,
+      maxCombinedRows: (count) => `Los extractos seleccionados superan las ${count} filas. Selecciona menos archivos e inténtalo de nuevo.`,
       noReadableRows: "No se encontraron filas legibles. Comprueba que sea un CSV de extracto mensual de Etsy con tipo de actividad y código de moneda.",
       unclosedQuote: "El CSV contiene un campo entre comillas sin cerrar. Descárgalo de nuevo desde Etsy e inténtalo otra vez.",
     },
@@ -184,17 +203,34 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
     );
   }, [report]);
 
-  const readFile = async (file: File | undefined) => {
-    if (!file) return;
+  const readFiles = async (files: File[]) => {
+    if (!files.length) return;
     setError("");
     setReport(null);
     setIsSample(false);
     setIsReading(true);
     try {
-      if (file.size > MAX_FILE_BYTES) {
+      if (files.length > MAX_FILES) {
+        throw new Error(copy.errors.tooManyFiles);
+      }
+      if (files.some((file) => file.size > MAX_FILE_BYTES)) {
         throw new Error(copy.errors.fileTooLarge);
       }
-      setReport(parseStatementCsv(await file.text(), locale));
+      const totalBytes = files.reduce((total, file) => total + file.size, 0);
+      if (totalBytes > MAX_TOTAL_FILE_BYTES) {
+        throw new Error(copy.errors.totalTooLarge);
+      }
+      const lines: StatementLine[] = [];
+      let skippedRows = 0;
+      for (const file of files) {
+        const parsed = parseStatementCsv(await file.text(), locale);
+        lines.push(...parsed.lines);
+        skippedRows += parsed.skippedRows;
+        if (lines.length > MAX_COMBINED_ROWS) {
+          throw new Error(copy.errors.maxCombinedRows(formatNumber(MAX_COMBINED_ROWS, locale)));
+        }
+      }
+      setReport({ lines, skippedRows, fileCount: files.length });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : copy.errors.readFailure);
     } finally {
@@ -203,14 +239,15 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
   };
 
   const onFileSelected = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.currentTarget.files?.[0];
+    const files = Array.from(event.currentTarget.files ?? []);
     event.currentTarget.value = "";
-    void readFile(file);
+    void readFiles(files);
   };
 
   const loadSample = () => {
-    const sample = locale === "es"
+    const samples = locale === "es"
       ? [
+        [
           "Fecha;Tipo;Título;Info;Moneda;Importe;Tarifas e impuestos;Neto",
           "2026-09-01;Venta;Collar Luna de Plata;Pedido #1001;EUR;48,00;-4,21;43,79",
           "2026-09-01;Transacción;Tarifa de transacción;Pedido #1001;EUR;0,00;-3,12;-3,12",
@@ -218,8 +255,14 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
           "2026-09-02;Reembolso;Pendientes de arcilla;Pedido #1004;EUR;-10,00;0,00;-10,00",
           "2026-09-03;Marketing;Anuncios de Etsy;Anuncios;EUR;0,00;-2,00;-2,00",
           "2026-09-04;Depósito;Depósito;Depósito 555;EUR;-30,00;0,00;-30,00",
-        ].join("\r\n")
+        ].join("\r\n"),
+        [
+          "Fecha;Tipo;Título;Info;Moneda;Importe;Tarifas e impuestos;Neto",
+          "2026-08-14;Venta;Jarrón de barro;Pedido #1006;EUR;30,00;-2,70;27,30",
+        ].join("\r\n"),
+      ]
       : [
+        [
           "Date,Type,Title,Info,Currency,Amount,Fees & Taxes,Net",
           "2026-09-01,Sale,Silver Moon Necklace,Order #1001,USD,48.00,-4.21,43.79",
           "2026-09-01,Transaction,Transaction fee,Order #1001,USD,0.00,-3.12,-3.12",
@@ -227,8 +270,18 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
           "2026-09-02,Refund,Clay Earrings,Order #1004,USD,-10.00,0.00,-10.00",
           "2026-09-03,Marketing,Etsy Ads,Ads,USD,0.00,-2.00,-2.00",
           "2026-09-04,Deposit,Deposit,Deposit 555,USD,-30.00,0.00,-30.00",
-        ].join("\r\n");
-    setReport(parseStatementCsv(sample, locale));
+        ].join("\r\n"),
+        [
+          "Date,Type,Title,Info,Currency,Amount,Fees & Taxes,Net",
+          "2026-08-14,Sale,Autumn Candle,Order #1006,USD,25.00,-2.50,22.50",
+        ].join("\r\n"),
+      ];
+    const parsedSamples = samples.map((sample) => parseStatementCsv(sample, locale));
+    setReport({
+      lines: parsedSamples.flatMap((sample) => sample.lines),
+      skippedRows: parsedSamples.reduce((total, sample) => total + sample.skippedRows, 0),
+      fileCount: parsedSamples.length,
+    });
     setIsSample(true);
     setError("");
   };
@@ -251,7 +304,7 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
       activity.netRows ? activity.net.toFixed(2) : "",
     ]);
     const csv = [headers, ...rows].map((row) => row.map(toCsvCell).join(",")).join("\r\n");
-    const filenamePrefix = locale === "es" ? "resumen-extracto-mensual-etsy" : "etsy-payment-statement-summary";
+    const filenamePrefix = locale === "es" ? "resumen-extractos-etsy" : "etsy-statement-summary";
     downloadCsv(csv, `${filenamePrefix}-${new Date().toISOString().slice(0, 10)}.csv`);
   };
 
@@ -278,7 +331,7 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
           <p className="mt-1 text-xs text-stone-500">{copy.fileLimit}</p>
           <label className="mt-5 inline-flex cursor-pointer items-center justify-center rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-emerald-700">
             {isReading ? copy.reading : copy.chooseCsv}
-            <input type="file" accept=".csv,text/csv" disabled={isReading} onChange={onFileSelected} className="sr-only" aria-label={copy.chooseTitle} />
+            <input type="file" accept=".csv,text/csv" multiple disabled={isReading} onChange={onFileSelected} className="sr-only" aria-label={copy.chooseTitle} />
           </label>
           <div className="mt-4">
             <button type="button" onClick={loadSample} className="text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">{copy.sample}</button>
@@ -286,11 +339,13 @@ export default function EtsyPaymentStatementAnalyzer({ locale = "en" }: { locale
         </div>
       ) : (
         <>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Metric value={formatNumber(report.lines.length, locale)} label={copy.rowMetric} />
+            <Metric value={formatNumber(report.fileCount, locale)} label={copy.fileMetric} />
             <Metric value={formatNumber(typeCount, locale)} label={copy.typeMetric} />
             <Metric value={formatNumber(currencies.length, locale)} label={copy.currencyMetric} />
           </div>
+          <p className="mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-6 text-sky-950">{copy.combinedNotice}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <button type="button" onClick={downloadSummary} className="rounded-xl bg-emerald-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-900">{copy.download}</button>
           </div>
@@ -350,7 +405,7 @@ function parseStatementCsv(csvText: string, locale: Locale = "en"): StatementRep
   const typeIndex = findColumn(headers, ["type", "activity", "activitytype", "transactiontype", "tipo", "actividad"]);
   const currencyIndex = findColumn(headers, ["currency", "currencycode", "moneda", "divisa"]);
   const amountIndex = findColumn(headers, ["amount", "grossamount", "importe", "monto"]);
-  const feesIndex = findColumn(headers, ["feesandtaxes", "feesandtax", "feeandtaxes", "chargesandtaxes", "feessuttaxes", "tasaseimpuestos", "tasasimpuestos", "tarifaseimpuestos"]);
+  const feesIndex = findColumn(headers, ["feesandtaxes", "feestaxes", "feesandtax", "feeandtaxes", "chargesandtaxes", "feessuttaxes", "tasaseimpuestos", "tasasimpuestos", "tarifaseimpuestos"]);
   const netIndex = findColumn(headers, ["net", "netamount", "netproceeds", "neto", "importeneto"]);
 
   if (typeIndex < 0 || currencyIndex < 0 || (amountIndex < 0 && feesIndex < 0 && netIndex < 0)) {
@@ -376,7 +431,7 @@ function parseStatementCsv(csvText: string, locale: Locale = "en"): StatementRep
   }
 
   if (lines.length === 0) throw new Error(errors.noReadableRows);
-  return { lines, skippedRows };
+  return { lines, skippedRows, fileCount: 1 };
 }
 
 function detectDelimiter(text: string): string {

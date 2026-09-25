@@ -173,8 +173,8 @@ export default function EtsyMonthlyStatementCsvGuideEsPage() {
 
         <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-900">Siguiente paso</p>
-          <h2 className="mt-2 text-xl font-semibold text-stone-950">Agrupa el extracto sin subirlo</h2>
-          <p className="mt-2 text-sm leading-6 text-stone-700">El analizador gratuito separa las cantidades de Importe, Tarifas e impuestos y Neto por tipo de actividad y moneda. El archivo se queda en tu navegador; el resultado es un resumen, no una conciliación contable.</p>
+          <h2 className="mt-2 text-xl font-semibold text-stone-950">Combina extractos mensuales sin subirlos</h2>
+          <p className="mt-2 text-sm leading-6 text-stone-700">El analizador gratuito combina hasta 12 archivos y separa Importe, Tarifas e impuestos y Neto por tipo de actividad y moneda. Puedes seleccionar un CSV por mes para ver un resumen anual. Los archivos se quedan en tu navegador; el resultado no es una conciliación contable.</p>
           <Link href="/es/analizador-extracto-etsy" className="mt-4 inline-flex rounded-xl bg-emerald-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
             Abrir el analizador de extractos →
           </Link>
