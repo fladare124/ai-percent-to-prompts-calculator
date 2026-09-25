@@ -369,8 +369,14 @@ export default function Home() {
           <p>Independent comparison. We do not read your provider accounts or receive payment for the ranking.</p>
           <nav className="flex flex-wrap gap-4" aria-label="Tools">
             <Link href="/ai-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">AI usage calculator</Link>
+            <Link href="/chatgpt-limit-calculator" className="font-medium text-zinc-700 underline underline-offset-4">ChatGPT message limits</Link>
             <Link href="/codex-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Codex reset planner</Link>
-            <Link href="/claude-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Claude usage planner</Link>
+            <Link href="/claude-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Claude Code session and weekly limits</Link>
+            <Link href="/github-copilot-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Copilot credits</Link>
+            <Link href="/cursor-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Cursor usage pools</Link>
+            <Link href="/gemini-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Gemini usage resets</Link>
+            <Link href="/perplexity-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Perplexity Pro Search and Research</Link>
+            <Link href="/windsurf-devin-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Windsurf and Devin quotas</Link>
           </nav>
         </footer>
       </div>
