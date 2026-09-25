@@ -17,8 +17,8 @@ export default function AboutPage() {
     >
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How recommendations are made</h2>
-        <p className="mt-3 text-base leading-7">The hosting finder compares the project shape, commercial use and setup preference. It gives a starting point, then links to the provider’s own plan or technical documentation so you can confirm current terms.</p>
-        <p className="mt-3 text-base leading-7">We distinguish static sites, Next.js apps and projects with a backend because they require different runtimes and services. We do not rank hosts using private benchmarks or promise a fixed monthly bill.</p>
+        <p className="mt-3 text-base leading-7">The hosting finder compares the project shape, commercial use and setup preference. It can identify common frameworks from an optional package.json pasted into the browser, then links to the provider’s own plan or technical documentation so you can confirm current terms.</p>
+        <p className="mt-3 text-base leading-7">We distinguish static frontends, Next.js apps and Node.js services because they can require different runtimes and services. A package manifest cannot reveal every route, database or runtime requirement, so treat the result as a starting point. We do not rank hosts using private benchmarks or promise a fixed monthly bill.</p>
       </section>
 
       <section>

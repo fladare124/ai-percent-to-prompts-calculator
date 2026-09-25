@@ -12,12 +12,12 @@ export default function PrivacyPage() {
   return (
     <SitePageShell
       eyebrow="Privacy notice · September 25, 2026"
-      title="The hosting finder does not need your accounts or code."
-      intro="Your selections are used in the open page to display a recommendation. Prompt to Production does not ask you to connect a code repository, hosting account or payment service."
+      title="The hosting finder does not need your accounts or source code."
+      intro="Your selections and optional package.json check run in this page to display a recommendation. Prompt to Production does not ask you to connect a code repository, hosting account or payment service."
     >
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Finder selections</h2>
-        <p className="mt-3 text-base leading-7">The finder processes your choices in the browser. It does not submit or store the framework, project type, commercial-use answer or hosting preference. The site does not receive source code, API keys, repository names or account credentials.</p>
+        <p className="mt-3 text-base leading-7">The finder processes your choices in the browser. It does not submit or store the framework, project type, commercial-use answer or hosting preference. If you paste a package.json file, the page checks dependency names in your browser and does not upload or store the text. Remove any private information before pasting; never paste API keys or other secrets. The site does not receive source code, repository names or account credentials.</p>
       </section>
 
       <section>

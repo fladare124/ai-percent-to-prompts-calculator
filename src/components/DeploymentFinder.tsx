@@ -5,6 +5,7 @@ import { useState } from "react";
 type Stack = "static" | "next" | "backend";
 type Priority = "easy" | "budget" | "services";
 type ProjectUse = "personal" | "commercial";
+type Detection = { stack: Stack; label: string };
 
 type Host = {
   name: string;
@@ -45,6 +46,33 @@ const hosts: Record<string, Host> = {
     linkLabel: "Check App Platform pricing",
   },
 };
+
+function detectProjectType(packageJson: string): Detection | null {
+  if (!packageJson.trim()) return null;
+
+  try {
+    const manifest = JSON.parse(packageJson) as {
+      dependencies?: Record<string, unknown>;
+      devDependencies?: Record<string, unknown>;
+    };
+    const dependencies = new Set([
+      ...Object.keys(manifest.dependencies ?? {}),
+      ...Object.keys(manifest.devDependencies ?? {}),
+    ]);
+
+    const serverFramework = ["express", "fastify", "@nestjs/core", "koa", "hono"].find((name) => dependencies.has(name));
+    if (serverFramework) return { stack: "backend", label: `${serverFramework} server` };
+    if (dependencies.has("next")) return { stack: "next", label: "Next.js app" };
+    if (dependencies.has("vite")) return { stack: "static", label: "Vite frontend" };
+
+    const frontendFramework = ["react", "vue", "svelte", "astro"].find((name) => dependencies.has(name));
+    if (frontendFramework) return { stack: "static", label: `${frontendFramework} frontend` };
+  } catch {
+    return null;
+  }
+
+  return null;
+}
 
 function getRecommendation(stack: Stack, priority: Priority, use: ProjectUse): Host {
   if (stack === "static") {
@@ -101,17 +129,61 @@ export default function DeploymentFinder() {
   const [stack, setStack] = useState<Stack>("next");
   const [priority, setPriority] = useState<Priority>("easy");
   const [use, setUse] = useState<ProjectUse>("personal");
-  const result = getRecommendation(stack, priority, use);
+  const [packageJson, setPackageJson] = useState("");
+  const [manualStack, setManualStack] = useState<Stack | null>(null);
+  const detected = detectProjectType(packageJson);
+  const activeStack = manualStack ?? detected?.stack ?? stack;
+  const result = getRecommendation(activeStack, priority, use);
 
   return (
     <section id="finder" className="scroll-mt-6 rounded-[1.75rem] border border-zinc-200 bg-white p-5 shadow-sm sm:p-8">
       <div className="grid gap-9 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="space-y-7">
+          <div>
+            <label htmlFor="package-json" className="text-sm font-semibold">Have a package.json? Paste it for a quick framework check.</label>
+            <textarea
+              id="package-json"
+              value={packageJson}
+              onChange={(event) => {
+                setPackageJson(event.target.value);
+                setManualStack(null);
+              }}
+              rows={5}
+              spellCheck={false}
+              autoComplete="off"
+              placeholder={'{\n  "dependencies": { "next": "..." }\n}'}
+              className="mt-3 block w-full resize-y rounded-xl border border-zinc-200 bg-white p-3 font-mono text-xs leading-5 text-zinc-800 outline-none transition placeholder:text-zinc-400 focus:border-cyan-700 focus:ring-2 focus:ring-cyan-700/20"
+            />
+            <p className="mt-2 text-xs leading-5 text-zinc-500">The manifest is checked in this browser and is not uploaded. Do not paste API keys or other secrets.</p>
+            {packageJson.trim() ? (
+              detected ? (
+                <p role="status" className="mt-2 text-xs font-medium text-cyan-800">
+                  Detected {detected.label}. This is a starting point; the manifest cannot show routes, databases or environment settings.
+                  {manualStack ? (
+                    <button type="button" className="ml-1 underline underline-offset-2" onClick={() => setManualStack(null)}>Use detected type</button>
+                  ) : null}
+                </p>
+              ) : (
+                <p role="status" className="mt-2 text-xs leading-5 text-amber-800">No familiar framework was detected. Choose the app type below, or check that you pasted a valid package.json.</p>
+              )
+            ) : null}
+          </div>
+
           <fieldset>
             <legend className="text-sm font-semibold">What did your AI builder create?</legend>
             <div className="mt-3 grid gap-2">
               {stackOptions.map((option) => (
-                <Choice key={option.id} value={option.id} current={stack} title={option.title} detail={option.detail} onClick={setStack} />
+                <Choice
+                  key={option.id}
+                  value={option.id}
+                  current={activeStack}
+                  title={option.title}
+                  detail={option.detail}
+                  onClick={(value) => {
+                    setStack(value);
+                    setManualStack(value);
+                  }}
+                />
               ))}
             </div>
           </fieldset>
