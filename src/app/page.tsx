@@ -106,6 +106,7 @@ export default function Home() {
           </Link>
           <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <a href="#auditor" className="transition hover:text-stone-950">CSV checker</a>
+            <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
             <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <a href="#method" className="transition hover:text-stone-950">Checks and limits</a>
             <Link href="/about" className="transition hover:text-stone-950">About</Link>

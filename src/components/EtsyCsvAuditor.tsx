@@ -261,6 +261,9 @@ const EtsyCsvAuditor = () => {
             <a href="https://help.etsy.com/hc/en-us/articles/360000343508-How-to-Download-Your-Listing-Information" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">
               Etsy’s export instructions ↗
             </a>
+            <a href="/etsy-listing-csv-guide" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">
+              Step-by-step CSV guide →
+            </a>
           </div>
         </div>
 
