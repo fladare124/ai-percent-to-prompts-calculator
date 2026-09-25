@@ -84,6 +84,7 @@ export default function ComprobadorEtiquetasEtsyPage() {
           </Link>
           <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600" aria-label="Navegación principal">
             <Link href="/es/comprobador-csv-etsy" className="underline underline-offset-4 hover:text-stone-950">Auditoría CSV de la tienda</Link>
+            <Link href="/es/comprobador-titulos-etsy" className="underline underline-offset-4 hover:text-stone-950">Comprobador de títulos</Link>
             <Link href="/etsy-tag-checker" lang="en" hrefLang="en" className="hover:text-stone-950">English</Link>
           </nav>
         </header>
@@ -136,7 +137,7 @@ export default function ComprobadorEtiquetasEtsyPage() {
             <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
               <h2 className="text-xl font-semibold text-stone-950">Comprueba un anuncio o toda la tienda</h2>
               <p className="mt-2 text-sm leading-6">
-                Usa esta página para revisar etiquetas de un anuncio. Para detectar patrones en varios productos, abre la <Link href="/es/comprobador-csv-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">auditoría masiva de anuncios desde un CSV de Etsy</Link>.
+                Usa esta página para revisar etiquetas de un anuncio y el <Link href="/es/comprobador-titulos-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">comprobador de títulos</Link> para revisar su longitud y legibilidad. Para detectar patrones en varios productos, abre la <Link href="/es/comprobador-csv-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">auditoría de anuncios desde un CSV de Etsy</Link>.
               </p>
             </section>
           </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import EtsyTagChecker from "@/components/EtsyTagChecker";
 
 const canonical = "/etsy-tag-checker";
@@ -33,10 +34,11 @@ export default function EtsyTagCheckerPage() {
             <p className="text-xs text-stone-500">Independent browser tools</p>
           </div>
           <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600" aria-label="Main navigation">
-            <a href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</a>
-            <a href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-950">Sales report</a>
-            <a href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</a>
-            <a href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</a>
+            <Link href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</Link>
+            <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-950">Sales report</Link>
+            <Link href="/etsy-title-checker" className="underline underline-offset-4 hover:text-stone-950">Title checker</Link>
+            <Link href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</Link>
+            <Link href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</Link>
             <a href="/es/comprobador-etiquetas-etsy" lang="es" hrefLang="es-ES" className="underline underline-offset-4 hover:text-stone-950">Español</a>
           </nav>
         </header>
@@ -90,7 +92,7 @@ export default function EtsyTagCheckerPage() {
             <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
               <h2 className="text-xl font-semibold text-stone-950">Continue with your shop data</h2>
               <p className="mt-2 text-sm leading-6">
-                Review titles and tags across active listings with the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</a>, or group sold items by product in the <a href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy sales report</a>. For a single US order, use the <a href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">fee and profit calculator</a>.
+                Review one title with the <Link href="/etsy-title-checker" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy title checker</Link>, or audit titles and tags across active listings with the <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</Link>. Group sold items in the <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy sales report</Link>, or estimate one US order with the <Link href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">fee and profit calculator</Link>.
               </p>
             </section>
           </div>

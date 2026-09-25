@@ -78,6 +78,7 @@ const appSchema = {
     "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
+    "Check one Etsy listing title for character count, word count, and possible repetition",
     "Check one Etsy tag list for count, character limits, and duplicates",
     "Estimate US Etsy fees, profit, and a target item price",
   ],
@@ -102,6 +103,7 @@ export default function Home() {
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
             <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
+            <Link href="/etsy-title-checker" className="transition hover:text-stone-950">Title checker</Link>
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
             <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
@@ -164,6 +166,12 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-stone-600">Count up to 13 tags, check the 20-character limit, and spot repeated tags before you save.</p>
               <Link href="/etsy-tag-checker" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Check Etsy tags →</Link>
             </article>
+            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Title clarity</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy title checker</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Count title characters and words, then review possible repetition against Etsy’s current guidance.</p>
+              <Link href="/etsy-title-checker" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Check an Etsy title →</Link>
+            </article>
           </div>
         </section>
 
@@ -196,7 +204,7 @@ export default function Home() {
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Transparent checks</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Useful checks, with the limits stated plainly.</h2>
-            <p className="mt-4 text-base leading-7 text-stone-600">The CSV audit is a local checklist, not an Etsy ranking score. The fee calculator is a planning estimate, not your final Payment account statement. Review every suggestion and check Etsy's latest seller guidance before changing a live listing.</p>
+            <p className="mt-4 text-base leading-7 text-stone-600">The CSV audit is a local checklist, not an Etsy ranking score. The fee calculator is a planning estimate, not your final Payment account statement. Review every suggestion and check Etsy&apos;s latest seller guidance before changing a live listing.</p>
           </div>
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">

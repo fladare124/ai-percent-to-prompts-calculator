@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import EtsyPageShell from "@/components/EtsyPageShell";
 import EtsySalesCsvAnalyzer from "@/components/EtsySalesCsvAnalyzer";
 
@@ -103,10 +104,10 @@ export default function EtsySalesCsvAnalyzerPage() {
         <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-stone-950">Want to review active listings too?</h2>
           <p className="mt-2 text-sm leading-6 text-stone-700">
-            Use the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy active-listings CSV checker</a> to review listing titles and tags across your shop. It reads the listing export locally and does not change your Etsy shop.
+            Use the <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy active-listings CSV checker</Link> to review listing titles and tags across your shop. It reads the listing export locally and does not change your Etsy shop.
           </p>
           <p className="mt-3 text-sm leading-6 text-stone-700">
-            To compare sold units with current listing quantities, open the <a href="/etsy-restock-planner" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy restock planner</a>.
+            To compare sold units with current listing quantities, open the <Link href="/etsy-restock-planner" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy restock planner</Link>.
           </p>
         </section>
 
