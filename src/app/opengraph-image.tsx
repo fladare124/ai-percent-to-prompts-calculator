@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "Compare AI coding subscriptions by workflow and monthly budget";
+export const alt = "Private Etsy listing CSV checker for titles and tags";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,151 +14,53 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "54px 64px",
-          color: "#f8fafc",
-          background:
-            "radial-gradient(circle at 82% 15%, #164e63 0, #101923 34%, #090d14 76%)",
+          padding: "58px 66px",
+          color: "#1c1917",
+          background: "linear-gradient(125deg, #f7f6f0 0%, #f7f6f0 62%, #dbe8da 100%)",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 14,
-              background: "#0e7490",
-              color: "#ecfeff",
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            AI
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontSize: 18,
-              fontWeight: 700,
-              letterSpacing: 2,
-            }}
-          >
-            <span>AI PLAN FINDER</span>
-            <span style={{ marginTop: 5, color: "#67e8f9", fontSize: 13 }}>
-              INDEPENDENT PLAN COMPARISON
-            </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ width: 52, height: 52, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 15, background: "#064e3b", color: "#d1fae5", fontSize: 22, fontWeight: 700 }}>P%</div>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 18, fontWeight: 700, letterSpacing: 1 }}>
+            <span>LISTING CHECKUP</span>
+            <span style={{ marginTop: 4, color: "#047857", fontSize: 13 }}>BY PERCENT TO PROMPTS</span>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 44 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 52 }}>
           <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-            <div
-              style={{
-                color: "#a5f3fc",
-                fontSize: 16,
-                fontWeight: 700,
-                letterSpacing: 2,
-              }}
-            >
-              CHOOSE BY WORKFLOW AND BUDGET
+            <div style={{ color: "#047857", fontSize: 16, fontWeight: 700, letterSpacing: 2 }}>FREE · PRIVATE IN YOUR BROWSER</div>
+            <div style={{ display: "flex", flexDirection: "column", marginTop: 18, fontSize: 58, lineHeight: 1.04, fontWeight: 700, letterSpacing: -2 }}>
+              <span>Check your Etsy</span>
+              <span>listing CSV.</span>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: 18,
-                fontSize: 62,
-                lineHeight: 1.06,
-                fontWeight: 700,
-                letterSpacing: -2,
-              }}
-            >
-              <span>Find your AI</span>
-              <span>coding plan.</span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                marginTop: 22,
-                maxWidth: 635,
-                color: "#cbd5e1",
-                fontSize: 22,
-                lineHeight: 1.35,
-              }}
-            >
-              Compare Claude Code, Codex, Cursor and GitHub Copilot with a
-              practical shortlist for your work.
+            <div style={{ display: "flex", marginTop: 22, maxWidth: 620, color: "#57534e", fontSize: 22, lineHeight: 1.35 }}>
+              Review titles and tags in your active shop export. No login or upload.
             </div>
           </div>
 
-          <div
-            style={{
-              width: 330,
-              display: "flex",
-              flexDirection: "column",
-              padding: 24,
-              border: "1px solid #334155",
-              borderRadius: 20,
-              background: "rgba(15, 23, 42, 0.9)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                color: "#cbd5e1",
-                fontSize: 16,
-              }}
-            >
-              <span>Compare your options</span>
-              <span style={{ color: "#67e8f9", fontWeight: 700 }}>01 / 04</span>
+          <div style={{ width: 340, display: "flex", flexDirection: "column", padding: 25, border: "1px solid #d6d3d1", borderRadius: 22, background: "#ffffff" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", color: "#44403c", fontSize: 16 }}>
+              <span>Example report</span>
+              <span style={{ color: "#047857", fontWeight: 700 }}>01 / 03</span>
             </div>
             {[
-              ["Claude Code", "Terminal workflows"],
-              ["Codex", "ChatGPT + coding"],
-              ["Cursor", "AI editor + agents"],
-              ["GitHub Copilot", "IDE + GitHub"],
+              ["Titles", "Clarity & repeats"],
+              ["Tags", "13 slots · 20 chars"],
+              ["Privacy", "File stays local"],
             ].map(([name, detail]) => (
-              <div
-                key={name}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: 14,
-                  padding: "12px 14px",
-                  border: "1px solid #334155",
-                  borderRadius: 12,
-                  background: "rgba(30, 41, 59, 0.7)",
-                }}
-              >
+              <div key={name} style={{ display: "flex", flexDirection: "column", marginTop: 14, padding: "13px 14px", border: "1px solid #e7e5e4", borderRadius: 12, background: "#f7f6f0" }}>
                 <span style={{ fontSize: 17, fontWeight: 700 }}>{name}</span>
-                <span style={{ marginTop: 4, color: "#94a3b8", fontSize: 13 }}>
-                  {detail}
-                </span>
+                <span style={{ marginTop: 4, color: "#78716c", fontSize: 13 }}>{detail}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderTop: "1px solid #334155",
-            paddingTop: 18,
-            color: "#94a3b8",
-            fontSize: 16,
-          }}
-        >
-          <span>Workflow fit · usage model · monthly budget</span>
-          <span style={{ color: "#67e8f9", fontWeight: 700 }}>
-            percenttoprompts.com
-          </span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #d6d3d1", paddingTop: 18, color: "#78716c", fontSize: 16 }}>
+          <span>CSV audit · Title checks · Tag checks</span>
+          <span style={{ color: "#047857", fontWeight: 700 }}>percenttoprompts.com</span>
         </div>
       </div>
     ),

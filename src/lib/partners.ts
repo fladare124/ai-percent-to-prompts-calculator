@@ -1,0 +1,10 @@
+const ERANK_AFFILIATE_HREF: string | null = null;
+
+export const ERANK_HREF = ERANK_AFFILIATE_HREF ?? "https://erank.com/";
+export const ERANK_IS_AFFILIATE = ERANK_AFFILIATE_HREF !== null;
+export const ERANK_REL = ERANK_IS_AFFILIATE
+  ? "sponsored nofollow noopener noreferrer"
+  : "noopener noreferrer";
+export const ERANK_DISCLOSURE = ERANK_IS_AFFILIATE
+  ? "This is an affiliate link. We may earn a commission if you subscribe, at no extra cost to you."
+  : "This is a regular link; we do not currently earn commission from it.";

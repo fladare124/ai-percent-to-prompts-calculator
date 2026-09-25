@@ -3,6 +3,7 @@ import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "Claude Code Usage Limit Calculator: 5-Hour & Weekly",
   description:
     "Check whether your Claude Code session or weekly allowance could last until reset. Compare both usage bars with your recent pace; no fixed prompt counts assumed.",

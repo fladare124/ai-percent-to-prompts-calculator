@@ -3,6 +3,7 @@ import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 import UsagePacePlanner from "@/components/UsagePacePlanner";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "Perplexity Usage Calculator: Pro Search & Research Limits",
   description:
     "Track your Perplexity Pro Search or Research balance against its reset time. See published Free and Enterprise limits and check dynamic paid-plan usage.",

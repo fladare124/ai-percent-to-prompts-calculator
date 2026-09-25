@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: SITE_NAME,
-    template: "%s | AI Plan Finder",
+    template: "%s | Percent to Prompts",
   },
   description:
-    "Compare AI coding plans by workflow and budget, then use independent tools to track your AI usage.",
+    "Private browser-based tools for reviewing Etsy listing titles and tags and creating careful prompts from your own product facts.",
   icons: {
     icon: "/icon.svg",
   },

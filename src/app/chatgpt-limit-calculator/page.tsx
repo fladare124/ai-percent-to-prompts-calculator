@@ -4,6 +4,7 @@ import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 import { chatGPTUsageSource } from "@/lib/chatgptUsageRanges";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "ChatGPT Limit Calculator: Messages Left in 5 Hours",
   description:
     "Estimate ChatGPT Work and Codex local messages left from your plan, model and remaining usage percentage using OpenAI’s published five-hour ranges.",
