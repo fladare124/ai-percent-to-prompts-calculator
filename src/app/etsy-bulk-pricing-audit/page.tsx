@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   description:
     "Plan US-specific Etsy prices across listings. Import a CSV, add unit costs and Etsy tariff estimates by SKU, and review target margins privately in your browser.",
   robots: { index: true, follow: true },
-  alternates: { canonical },
+  alternates: {
+    canonical,
+    languages: { en: canonical, "es-ES": "/es/planificador-precios-etsy-eeuu" },
+  },
   openGraph: {
     title: "Etsy US-Specific Price Planner",
     description:
@@ -127,6 +130,7 @@ export default function EtsyBulkPricingAuditPage() {
             <Link href="/etsy-fee-calculator" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Estimate fees for one Etsy order →</Link>
             <Link href="/etsy-restock-planner" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Plan Etsy inventory replenishment →</Link>
             <Link href="/etsy-listing-csv-guide" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Download your Etsy active-listings CSV →</Link>
+            <Link href="/es/planificador-precios-etsy-eeuu" hrefLang="es-ES" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Ver el planificador en español →</Link>
           </div>
         </section>
 

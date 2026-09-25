@@ -16,7 +16,7 @@ export default function EtsyPageShell({
 }) {
   const spanish = locale === "es";
   return (
-    <main className="min-h-screen bg-[#f7f6f0] text-stone-950">
+    <main lang={spanish ? "es" : "en"} className="min-h-screen bg-[#f7f6f0] text-stone-950">
       <div className="mx-auto max-w-4xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-5">
           <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="flex items-center gap-3" aria-label={spanish ? "Inicio de Listing Checkup" : "Listing Checkup home"}>
@@ -29,6 +29,7 @@ export default function EtsyPageShell({
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label={spanish ? "Navegación principal" : "Main navigation"}>
             <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="transition hover:text-stone-950">{spanish ? "Revisión CSV" : "CSV audit"}</Link>
             {!spanish && <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price plan</Link>}
+            {spanish && <Link href="/es/planificador-precios-etsy-eeuu" className="transition hover:text-stone-950">Precios EE. UU.</Link>}
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">{spanish ? "Informe de ventas" : "Sales report"}</Link>
             <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="transition hover:text-stone-950">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
             <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="transition hover:text-stone-950">{spanish ? "Título" : "Title checker"}</Link>
@@ -47,6 +48,7 @@ export default function EtsyPageShell({
         <footer className="flex flex-wrap gap-x-5 gap-y-2 border-t border-stone-200 pt-6 text-xs text-stone-500">
           <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Herramientas para Etsy" : "Etsy seller tools"}</Link>
           {!spanish && <Link href="/etsy-bulk-pricing-audit" className="underline underline-offset-4 hover:text-stone-900">US price planner</Link>}
+          {spanish && <Link href="/es/planificador-precios-etsy-eeuu" className="underline underline-offset-4 hover:text-stone-900">Precios para EE. UU.</Link>}
           <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Informe de ventas" : "Sales report"}</Link>
           <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
           <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Comprobador de títulos" : "Title checker"}</Link>
