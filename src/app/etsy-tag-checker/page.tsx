@@ -34,6 +34,7 @@ export default function EtsyTagCheckerPage() {
           </div>
           <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <a href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</a>
+            <a href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-950">Sales report</a>
             <a href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</a>
             <a href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</a>
             <a href="/es/comprobador-etiquetas-etsy" lang="es" hrefLang="es-ES" className="underline underline-offset-4 hover:text-stone-950">Español</a>
@@ -87,8 +88,10 @@ export default function EtsyTagCheckerPage() {
             </section>
 
             <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
-              <h2 className="text-xl font-semibold text-stone-950">Check a whole shop or estimate a sale</h2>
-              <p className="mt-2 text-sm leading-6">Use the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</a> to review titles and tags across active listings, or the <a href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy fee and profit calculator</a> to estimate the fees and costs on one US order.</p>
+              <h2 className="text-xl font-semibold text-stone-950">Continue with your shop data</h2>
+              <p className="mt-2 text-sm leading-6">
+                Review titles and tags across active listings with the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</a>, or group sold items by product in the <a href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy sales report</a>. For a single US order, use the <a href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">fee and profit calculator</a>.
+              </p>
             </section>
           </div>
         </article>
