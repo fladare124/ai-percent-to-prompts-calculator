@@ -73,6 +73,7 @@ export default function Home() {
             <a href="#troubleshoot" className="transition hover:text-zinc-950">Fix a deploy error</a>
             <a href="#finder" className="transition hover:text-zinc-950">Choose a host</a>
             <a href="#guides" className="transition hover:text-zinc-950">Guides</a>
+            <Link href="/es/arreglar-error-despliegue" lang="es" className="transition hover:text-zinc-950">Español</Link>
             <Link href="/about" className="transition hover:text-zinc-950">About</Link>
           </nav>
         </header>

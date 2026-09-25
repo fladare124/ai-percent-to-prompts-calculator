@@ -109,9 +109,104 @@ const genericDiagnosis: DeploymentDiagnosis = {
   ],
 };
 
-export function diagnoseDeploymentLog(log: string): DeploymentDiagnosis[] {
+const spanishDiagnoses: Record<string, DeploymentDiagnosis> = {
+  "environment-variable": {
+    id: "environment-variable",
+    title: "Puede faltar una variable de entorno",
+    explanation: "La compilación parece necesitar una configuración que no está disponible en este entorno de despliegue.",
+    steps: [
+      "Añade la variable necesaria en el panel del proveedor para el entorno que ha fallado (vista previa o producción).",
+      "Respeta exactamente el nombre indicado en el error y vuelve a desplegar.",
+      "No incluyas claves secretas en el código ni las pegues en esta herramienta.",
+    ],
+  },
+  "missing-build-script": {
+    id: "missing-build-script",
+    title: "El proyecto no tiene un script de compilación llamado build",
+    explanation: "La plataforma ha intentado ejecutar el comando habitual, pero package.json no define ese script.",
+    steps: [
+      "Abre package.json y busca el comando correcto en la sección scripts.",
+      "Configura el comando de compilación del proveedor o añade un script build válido.",
+      "Ejecuta ese comando desde la carpeta principal del proyecto antes de volver a desplegar.",
+    ],
+  },
+  "module-not-found": {
+    id: "module-not-found",
+    title: "No se encuentra un archivo o una dependencia",
+    explanation: "La compilación no puede resolver una importación. Puede faltar un paquete, un archivo o coincidir las mayúsculas y minúsculas de su ruta.",
+    steps: [
+      "Busca la primera importación que falta en el registro y confirma que el archivo está en el repositorio.",
+      "Comprueba que cada letra de la ruta coincide con el nombre del archivo; el servidor puede distinguir mayúsculas de minúsculas.",
+      "Si falta un paquete, añádelo a las dependencias y confirma el archivo de bloqueo actualizado.",
+    ],
+  },
+  typescript: {
+    id: "typescript",
+    title: "TypeScript ha detenido la compilación de producción",
+    explanation: "El compilador ha encontrado un error de tipos. La primera línea específica suele ser más útil que el mensaje final de fallo.",
+    steps: [
+      "Busca el primer error de TypeScript y anota el archivo y la línea.",
+      "Corrige ese error y ejecuta localmente el mismo comando de compilación de producción.",
+      "Vuelve a desplegar cuando la compilación local termine correctamente.",
+    ],
+  },
+  "node-version": {
+    id: "node-version",
+    title: "La versión de Node.js puede no coincidir con el proyecto",
+    explanation: "Una dependencia o herramienta de compilación indica que la versión de Node.js del despliegue no cumple sus requisitos.",
+    steps: [
+      "Comprueba la versión de Node.js que necesita el paquete indicado en el registro completo.",
+      "Selecciona una versión compatible en la configuración del proveedor y, si hace falta, indícala también en el repositorio.",
+      "Usa versiones compatibles en local y en el servidor y vuelve a compilar.",
+    ],
+  },
+  lockfile: {
+    id: "lockfile",
+    title: "package.json y el archivo de bloqueo pueden no coincidir",
+    explanation: "El instalador ha detectado diferencias entre las dependencias declaradas y el archivo de bloqueo guardado en el repositorio.",
+    steps: [
+      "Confirma qué gestor de paquetes usa el proyecto y conserva el archivo de bloqueo correspondiente.",
+      "Actualiza el archivo de bloqueo al cambiar dependencias y súbelo junto con package.json.",
+      "Configura el mismo comando de instalación en el proveedor de alojamiento.",
+    ],
+  },
+  "output-directory": {
+    id: "output-directory",
+    title: "No se ha encontrado la carpeta de publicación configurada",
+    explanation: "El proveedor no encuentra los archivos en la carpeta que debe publicar.",
+    steps: [
+      "Comprueba en local dónde genera los archivos la compilación de este framework.",
+      "Indica esa carpeta en el proveedor; no todos los proyectos usan dist.",
+      "Si la app usa renderizado en servidor, selecciona la configuración del framework en vez de publicarla como un sitio estático.",
+    ],
+  },
+  "browser-api-on-server": {
+    id: "browser-api-on-server",
+    title: "Se ha ejecutado código de navegador durante la compilación del servidor",
+    explanation: "La compilación ha llegado a código que necesita window, document o localStorage mientras se ejecutaba fuera del navegador.",
+    steps: [
+      "Busca el primer archivo mencionado junto al error y localiza el código que solo debe ejecutarse en el navegador.",
+      "En Next.js, sepáralo en un componente de cliente; otros frameworks tienen un patrón equivalente.",
+      "Ejecuta la compilación de producción en local para confirmar la corrección.",
+    ],
+  },
+  unrecognized: {
+    id: "unrecognized",
+    title: "El registro no coincide con un patrón conocido",
+    explanation: "Las herramientas de compilación suelen terminar con un mensaje genérico. La causa concreta suele aparecer antes, junto a la primera línea de error específica.",
+    steps: [
+      "Abre el registro completo y busca el primer error concreto, no solo la línea final de comando fallido.",
+      "Ejecuta localmente el comando de compilación de producción para averiguar si falla el código o solo la configuración del proveedor.",
+      "Consulta la guía oficial del proveedor y compara framework, carpeta raíz y comandos de compilación.",
+    ],
+  },
+};
+
+export function diagnoseDeploymentLog(log: string, locale: "en" | "es" = "en"): DeploymentDiagnosis[] {
   if (!log.trim()) return [];
 
   const matches = rules.filter((rule) => rule.pattern.test(log));
-  return matches.length > 0 ? matches.slice(0, 4).map(({ pattern: _pattern, ...diagnosis }) => diagnosis) : [genericDiagnosis];
+  const diagnoses = matches.length > 0 ? matches.slice(0, 4).map(({ pattern: _pattern, ...diagnosis }) => diagnosis) : [genericDiagnosis];
+
+  return locale === "es" ? diagnoses.map((diagnosis) => spanishDiagnoses[diagnosis.id] ?? diagnosis) : diagnoses;
 }

@@ -2,10 +2,31 @@ import type { MetadataRoute } from "next";
 import { publicRoutes, SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return publicRoutes.map((route) => ({
-    url: new URL(route.path, SITE_URL).toString(),
-    lastModified: route.lastModified,
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }));
+  const deploymentLanguageAlternates = {
+    en: new URL("/deploy-vibe-coded-app", SITE_URL).toString(),
+    es: new URL("/es/arreglar-error-despliegue", SITE_URL).toString(),
+  };
+  const privacyLanguageAlternates = {
+    en: new URL("/privacy", SITE_URL).toString(),
+    es: new URL("/es/privacidad", SITE_URL).toString(),
+  };
+
+  return publicRoutes.map((route) => {
+    const entry = {
+      url: new URL(route.path, SITE_URL).toString(),
+      lastModified: route.lastModified,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+    };
+
+    if (route.path === "/deploy-vibe-coded-app" || route.path === "/es/arreglar-error-despliegue") {
+      return { ...entry, alternates: { languages: deploymentLanguageAlternates } };
+    }
+
+    if (route.path === "/privacy" || route.path === "/es/privacidad") {
+      return { ...entry, alternates: { languages: privacyLanguageAlternates } };
+    }
+
+    return entry;
+  });
 }

@@ -33,6 +33,7 @@ The repository deploys to Vercel from the `main` branch. No backend, database, A
 - `src/components/DeploymentFinder.tsx` — interactive host recommendation.
 - `src/components/DeploymentErrorHelper.tsx` and `src/lib/deploymentDiagnostics.ts` — local build-log checks and troubleshooting suggestions.
 - `src/app/deploy-vibe-coded-app/` — AI app deployment troubleshooting guide.
+- `src/app/es/arreglar-error-despliegue/` — Spanish troubleshooting guide and translated browser-based checker.
 - `src/app/hostinger-nodejs-app/` — managed Node.js deployment requirements.
 - `src/app/digitalocean-app-platform/` — App Platform cost guide.
 - `src/lib/site.ts` and `src/app/sitemap.ts` — public route and sitemap definitions.

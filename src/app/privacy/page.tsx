@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Privacy Notice",
   description:
     "How Prompt to Production handles deployment logs, hosting-finder choices and site analytics.",
-  alternates: { canonical: "/privacy" },
+  alternates: {
+    canonical: "/privacy",
+    languages: { en: "/privacy", es: "/es/privacidad" },
+  },
 };
 
 export default function PrivacyPage() {

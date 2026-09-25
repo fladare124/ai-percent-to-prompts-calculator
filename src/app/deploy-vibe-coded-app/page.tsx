@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
   title: "How to Fix AI App Deployment and Build Errors",
   description:
     "Troubleshoot failed deployments for AI-built apps. Check build logs, missing packages, environment variables, Node.js versions and output settings.",
-  alternates: { canonical: "/deploy-vibe-coded-app" },
+  alternates: {
+    canonical: "/deploy-vibe-coded-app",
+    languages: { en: "/deploy-vibe-coded-app", es: "/es/arreglar-error-despliegue" },
+  },
 };
 
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
@@ -18,9 +22,15 @@ export default function DeployVibeCodedAppPage() {
       title="How to fix a failed AI app deployment"
       intro="When a project from Lovable, Bolt, Cursor, Claude Code or another AI coding tool fails to deploy, the last line in the log rarely explains the cause. Start with the first specific error, match it to the checks below, then run the production build again."
     >
-      <section>
+      <section id="unrecognized" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Start with the first specific error</h2>
         <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. <a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel's troubleshooting guide</a> recommends checking the lines before the generic failure and running the production build locally.</p>
+      </section>
+
+      <section id="diagnostics" className="scroll-mt-6">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Check your build log</h2>
+        <p className="mt-3 text-base leading-7">Paste a redacted build log to identify common patterns and get a short list of checks. The text is analyzed in your browser and is not uploaded or saved.</p>
+        <div className="mt-5"><DeploymentErrorHelper /></div>
       </section>
 
       <section>
@@ -30,11 +40,11 @@ export default function DeployVibeCodedAppPage() {
             <h3 className="text-lg font-semibold text-zinc-950">“Missing script: build”</h3>
             <p className="mt-2 text-sm leading-6">Open package.json and inspect the scripts section. Either add the correct build script for the project or change the hosting Build Command to the command it already defines. Run it from the project root to confirm it works.</p>
           </article>
-          <article id="missing-dependency" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+          <article id="module-not-found" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">“Module not found” or “Could not resolve”</h3>
             <p className="mt-2 text-sm leading-6">Check the import path letter by letter, confirm the file was committed, and make sure any package is listed in the project dependencies. A project that works on one computer can still fail on a case-sensitive build system if the import capitalization differs from the filename.</p>
           </article>
-          <article id="environment-variables" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+          <article id="environment-variable" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">“Missing environment variable” or an undefined value</h3>
             <p className="mt-2 text-sm leading-6">Add the named variable to the hosting dashboard for the environment that failed, then start a new deployment. Keep private keys out of client-side code and source control. Redact values before sharing a build log.</p>
           </article>
@@ -46,7 +56,7 @@ export default function DeployVibeCodedAppPage() {
             <h3 className="text-lg font-semibold text-zinc-950">Output or publish directory not found</h3>
             <p className="mt-2 text-sm leading-6">Check where the framework actually writes its build files and set the host's output directory to match. The right setting depends on the framework; server-rendered apps should use the matching framework preset instead of a static output folder.</p>
           </article>
-          <article id="browser-code" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+          <article id="browser-api-on-server" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">“window is not defined” or “document is not defined”</h3>
             <p className="mt-2 text-sm leading-6">The build is running browser-only code in a server context. Find the file in the first error, then move that code into the framework's client-only component or execution path.</p>
           </article>
