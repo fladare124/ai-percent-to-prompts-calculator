@@ -4,25 +4,25 @@ import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
 import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Free Etsy Bulk Pricing Audit & Seller Tools",
+  title: "Etsy US Price Planner & Seller Tools",
   description:
-    "Review Etsy prices, costs and target margins across active listings. Use free CSV audit and inventory tools that run privately in your browser.",
+    "Plan US-specific Etsy prices from active listings, product costs and Etsy tariff estimates. Free private CSV and inventory tools for international sellers.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
     languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
   },
   openGraph: {
-    title: "Free Etsy Bulk Pricing Audit & Seller Tools",
+    title: "Etsy US-Specific Price Planner",
     description:
-      "Compare Etsy listing prices with unit costs and a target margin in a private, browser-based CSV report.",
+      "Compare Etsy listing prices with unit costs and Etsy's US tariff estimates in a private bulk CSV report.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Etsy Bulk Pricing Audit & Seller Tools",
-    description: "Review Etsy listing prices and target margins across your catalogue.",
+    title: "Etsy US Price Planner & Seller Tools",
+    description: "Plan US-specific Etsy prices with a private, bulk CSV workflow.",
     images: ["/opengraph-image"],
   },
 };
@@ -74,7 +74,7 @@ const appSchema = {
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "Audit current prices, unit costs, estimated profit and target margins across an Etsy active-listings CSV",
+    "Plan US-specific Etsy prices across listings using item costs, Etsy tariff estimates and target margins",
     "Audit Etsy active-listings CSV files locally in the browser",
     "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
@@ -101,7 +101,7 @@ export default function Home() {
             </span>
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
-            <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">Bulk pricing audit</Link>
+            <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price planner</Link>
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
             <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
@@ -116,17 +116,17 @@ export default function Home() {
         <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Etsy bulk pricing audit · No Etsy login
+              Etsy US-specific prices · Bulk CSV · No Etsy login
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              See which Etsy listings need a price review.
+              Plan US-specific Etsy prices across your catalogue.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Compare current prices with a target margin across your active listings. Add product costs by SKU, then use companion tools to review listing details and stock. Your files stay in this browser.
+              For shops outside the US planning duty-paid shipments to US buyers: add product costs and Etsy’s tariff estimate for each item, then review a target price across active listings. Your files stay in this browser.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/etsy-bulk-pricing-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Audit prices across my shop
+                Plan US prices from my listings
               </Link>
               <a href="#csv-audit" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
                 Review titles and tags
@@ -139,10 +139,10 @@ export default function Home() {
 
           <div className="grid gap-3 sm:grid-cols-2">
             <article className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Whole catalogue</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Bulk Etsy pricing audit</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Compare estimated margin at current prices and calculate a target price for each listing.</p>
-              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Audit all listing prices →</Link>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">International Etsy sellers</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">US-specific price planner</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Add Etsy’s US tariff estimate and item costs to plan a target price across listings.</p>
+              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan US-specific prices →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>

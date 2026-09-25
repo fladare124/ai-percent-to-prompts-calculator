@@ -28,7 +28,7 @@ export default function EtsyPageShell({
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label={spanish ? "Navegación principal" : "Main navigation"}>
             <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="transition hover:text-stone-950">{spanish ? "Revisión CSV" : "CSV audit"}</Link>
-            {!spanish && <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">Bulk pricing</Link>}
+            {!spanish && <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price plan</Link>}
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">{spanish ? "Informe de ventas" : "Sales report"}</Link>
             <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="transition hover:text-stone-950">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
             <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="transition hover:text-stone-950">{spanish ? "Título" : "Title checker"}</Link>
@@ -46,7 +46,7 @@ export default function EtsyPageShell({
 
         <footer className="flex flex-wrap gap-x-5 gap-y-2 border-t border-stone-200 pt-6 text-xs text-stone-500">
           <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Herramientas para Etsy" : "Etsy seller tools"}</Link>
-          {!spanish && <Link href="/etsy-bulk-pricing-audit" className="underline underline-offset-4 hover:text-stone-900">Bulk pricing audit</Link>}
+          {!spanish && <Link href="/etsy-bulk-pricing-audit" className="underline underline-offset-4 hover:text-stone-900">US price planner</Link>}
           <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Informe de ventas" : "Sales report"}</Link>
           <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
           <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Comprobador de títulos" : "Title checker"}</Link>

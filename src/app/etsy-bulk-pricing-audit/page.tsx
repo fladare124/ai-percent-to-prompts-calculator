@@ -2,20 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import EtsyBulkPricingAudit from "@/components/EtsyBulkPricingAudit";
 import EtsyPageShell from "@/components/EtsyPageShell";
-import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 const canonical = "/etsy-bulk-pricing-audit";
 
 export const metadata: Metadata = {
-  title: "Etsy Bulk Pricing Audit | Profit Margin by Listing",
+  title: "Etsy US Price Planner | Bulk Tariff and Margin Report",
   description:
-    "Review estimated Etsy profit margins across active listings. Import a listings CSV, add unit costs by SKU, and compare current prices with a target margin privately in your browser.",
+    "Plan US-specific Etsy prices across listings. Import a CSV, add unit costs and Etsy tariff estimates by SKU, and review target margins privately in your browser.",
   robots: { index: true, follow: true },
   alternates: { canonical },
   openGraph: {
-    title: "Free Etsy Bulk Pricing Audit",
+    title: "Etsy US-Specific Price Planner",
     description:
-      "Review listing prices and estimated margins across your Etsy catalogue with a private, browser-based CSV report.",
+      "Build a bulk US-price plan from your listings, costs and Etsy's estimated tariff per item.",
     url: canonical,
     type: "website",
   },
@@ -28,9 +27,19 @@ const faq = [
       "Use the currently-for-sale listings CSV from Etsy Shop Manager. It includes listing titles, prices, quantities and currency, and can include SKUs when you have added them.",
   },
   {
-    question: "How do I add my product costs?",
+    question: "How do I add costs and US tariff estimates?",
     answer:
-      "Import a second CSV with SKU and Unit Cost columns, or enter the unit cost in the report table. Include the production, materials, packaging and labor costs you want to count for each item. Enter postage separately in the fee assumptions.",
+      "Import a CSV with SKU, Unit Cost and US Tariff Estimate columns, or enter both values in the report table. Include materials, packaging and labor in unit cost. Copy the US tariff estimate from Etsy's own estimator; enter 0 when no tariff applies. Enter postage separately in the fee assumptions.",
+  },
+  {
+    question: "Does this tool calculate customs duties or choose an HTS code?",
+    answer:
+      "No. It uses the tariff amount you enter from Etsy's US estimated tariffs calculator. Etsy says its estimator is for sellers outside the US and is currently unavailable for listings with price variations. This tool does not calculate duties, select or validate customs codes, or replace carrier or customs guidance.",
+  },
+  {
+    question: "Which currency should I enter?",
+    answer:
+      "Use one currency throughout: the currency shown for the listings CSV. If Etsy shows a tariff estimate in another currency, convert it before entering it. This tool does not convert currencies.",
   },
   {
     question: "Are the profit and target-price results exact?",
@@ -40,7 +49,7 @@ const faq = [
   {
     question: "Does this update my Etsy listing prices?",
     answer:
-      "No. It reads a copy of your active-listings CSV and creates a downloadable pricing report. It does not connect to or make changes in your Etsy shop.",
+      "No. It reads the price column in your active-listings CSV as a baseline and creates a downloadable US price plan. It does not connect to or make changes in your Etsy shop. Compare the result with any US-specific price already saved in Etsy before applying it.",
   },
   {
     question: "Are my shop files uploaded?",
@@ -64,45 +73,51 @@ export default function EtsyBulkPricingAuditPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <EtsyPageShell
-        eyebrow="Free Etsy pricing report · Multi-listing CSV · No upload"
-        title="Audit Etsy prices across your whole catalogue"
-        intro="Compare estimated profit per order at each current listing price, add your own SKU costs, and calculate a price for your target margin. The report runs in your browser and never changes your Etsy shop."
+        eyebrow="Free Etsy US price planner · Bulk listing CSV · For international sellers"
+        title="Plan Etsy US-specific prices for duty-paid orders"
+        intro="For Etsy shops outside the US shipping to US buyers with duties prepaid (Delivered Duty Paid, or DDP): add each item’s cost and Etsy’s US tariff estimate, then compare estimated profit with a suggested US-specific price for your target margin. The report stays in your browser and never changes your Etsy shop."
       >
         <EtsyBulkPricingAudit />
 
         <section>
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">How the Etsy bulk pricing audit works</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">How the Etsy US price plan works</h2>
           <ol className="mt-4 list-decimal space-y-2 pl-6 text-base leading-7">
             <li>Export your currently-for-sale listings from Etsy and choose the CSV in the report above.</li>
-            <li>Add a unit cost to each listing, or import a cost CSV with one <strong>SKU</strong> and <strong>Unit Cost</strong> per row.</li>
-            <li>Set the Etsy fee rates and typical shipping amounts for your shop and target margin.</li>
-            <li>Review the estimated profit, margin and suggested price, then download the report CSV if it helps your planning.</li>
+            <li>For each item, copy the US tariff estimate from Etsy’s listing editor when you plan to prepay duties. Etsy says its estimator is for sellers outside the US, is currently unavailable for listings with price variations, and can differ from the final duty amount.</li>
+            <li>Import a cost CSV with <strong>SKU</strong>, <strong>Unit Cost</strong> and <strong>US Tariff Estimate</strong> columns, or fill the values in the table. Use 0 when no tariff applies or you do not expect to pay it.</li>
+            <li>Keep costs, tariff estimates, shipping and fees in the listing currency. Set payment-processing fees for the country of your Etsy account, plus expected US-order shipping and postage.</li>
+            <li>Review the estimated margin and suggested US-specific price, then download the plan CSV. Apply any price change yourself in Etsy.</li>
           </ol>
           <p className="mt-4 text-sm leading-6 text-stone-600">
-            Etsy’s listing export includes title, price, currency, quantity and SKU when one is set. See Etsy’s current <a href="https://help.etsy.com/hc/en-us/articles/360000343508-How-to-Download-Your-Listing-Information" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">listing export instructions ↗</a> if the download steps or available fields change.
+            Etsy’s listing export includes title, price, currency, quantity and SKU when one is set. See Etsy’s current <a href="https://help.etsy.com/hc/en-us/articles/360000343508-How-to-Download-Your-Listing-Information" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">listing export instructions ↗</a>. For tariffs, follow Etsy’s <a href="https://help.etsy.com/hc/en-us/articles/40309848355735-How-to-Use-Etsy-s-US-Estimated-Tariffs-Calculator" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">US estimated tariffs guide ↗</a>.
           </p>
         </section>
 
         <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-stone-950">What the estimate includes</h2>
+          <h2 className="text-xl font-semibold text-stone-950">What the US price estimate includes</h2>
           <p className="mt-3 text-sm leading-6 text-stone-700">
-            The report starts with one item at the price in your listings CSV. It adds the buyer-paid shipping amount you enter, subtracts your unit and postage costs, and estimates percentage and fixed Etsy fees using the assumptions shown above the table. You can edit those assumptions for your payment-account country and shop.
+            The report uses the Price column in your listings CSV as the base price. It adds the buyer-paid shipping amount you enter, subtracts your unit cost, postage and entered US tariff estimate, then estimates percentage and fixed Etsy fees. The tariff estimate is treated as a seller-paid per-order cost; use it for a DDP plan or another setup where you expect to pay the duty. Set payment-processing fees for your Etsy account country, which can differ from the buyer’s country.
           </p>
           <p className="mt-3 text-sm leading-6 text-stone-700">
-            The target price solves for the margin you choose under those same assumptions. Review it before changing a live price; each order, discount, tax treatment and ad attribution can produce different fees.
+            The suggested US-specific price solves for the margin you choose under the same assumptions. The CSV’s base price may not be the separate US-specific price already saved in your shop, so compare those values before applying a change. Etsy’s current <a href="https://help.etsy.com/hc/en-us/articles/4403156582039-How-to-Add-Domestic-Global-and-US-Specific-Pricing-to-Your-Listings" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">regional pricing instructions ↗</a> explain how to manage domestic, global and US-specific prices.
           </p>
           <p className="mt-3 text-sm leading-6 text-stone-700">
-            Etsy’s transaction fee applies to the order amount, including buyer-paid shipping and gift wrap. Payment processing rates vary by seller country, and Etsy may apply other fees and taxes. Check Etsy’s official <a href="https://help.etsy.com/hc/en-us/articles/360035902374-Etsy-Fee-Basics" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">fee guidance ↗</a> and your Payment account before making business or tax decisions.
+            The tool does not estimate or validate tariffs, HTS codes, brokerage, carrier charges or customs requirements. If the buyer is expected to pay import charges on delivery, do not count those charges as your own cost in this planner. Etsy describes its US tariff results as estimates that may differ from the amount charged. Review Etsy’s official <a href="https://help.etsy.com/hc/en-us/articles/40309848355735-How-to-Use-Etsy-s-US-Estimated-Tariffs-Calculator" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">tariff guidance ↗</a> and current <a href="https://help.etsy.com/hc/en-us/articles/360035902374-Etsy-Fee-Basics" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">fee guidance ↗</a> before making shipping or pricing decisions.
           </p>
         </section>
 
         <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-stone-950">Pricing and search demand answer different questions</h2>
+          <h2 className="text-xl font-semibold text-stone-950">Keep the tariff estimate tied to the right item</h2>
           <p className="mt-2 text-sm leading-6 text-stone-700">
-            This report estimates whether your entered price and costs meet a margin target. It does not measure how often shoppers search for a phrase or predict Etsy placement. For keyword research, you can review an independent service such as eRank and check its data source and plan limits.
+            Etsy’s estimator depends on the item description or customs code, country of origin and shipping details. Use the estimate for the matching SKU, and recheck it if the item or shipping setup changes. This report treats your entered estimate as a per-order cost; it does not decide whether an item is subject to duty.
           </p>
-          <a href={ERANK_HREF} target="_blank" rel={ERANK_REL} className="mt-4 inline-flex rounded-lg border border-emerald-900/20 bg-white px-4 py-2.5 text-sm font-semibold text-emerald-950 hover:border-emerald-700">Explore eRank keyword tools ↗</a>
-          <p className="mt-2 text-xs leading-5 text-stone-600">{ERANK_DISCLOSURE}</p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Apply the plan in Etsy</h2>
+          <p className="mt-3 text-sm leading-6 text-stone-700">
+            This report prepares prices for review; it does not upload them. Etsy has its own bulk editing for domestic, global and US-specific listing prices, including edits for up to 500 listings at a time. Review Etsy’s <a href="https://help.etsy.com/hc/en-us/articles/4403156582039-How-to-Add-Domestic-Global-and-US-Specific-Pricing-to-Your-Listings" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">current bulk pricing instructions ↗</a> and verify each final price in your shop.
+          </p>
         </section>
 
         <section>

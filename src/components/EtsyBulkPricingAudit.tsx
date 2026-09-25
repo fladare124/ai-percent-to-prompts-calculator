@@ -28,6 +28,9 @@ type FeeSettings = {
 
 type AuditedListing = Listing & {
   unitCost: number;
+  usTariffEstimate: number;
+  tariffEstimateKnown: boolean;
+  pricingInputsKnown: boolean;
   orderRevenue: number;
   estimatedFees: number | null;
   estimatedProfit: number | null;
@@ -64,8 +67,10 @@ export default function EtsyBulkPricingAudit() {
   const [costImportNote, setCostImportNote] = useState("");
   const [isReading, setIsReading] = useState(false);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "below-target" | "missing-cost">("all");
+  const [filter, setFilter] = useState<"all" | "below-target" | "missing-cost" | "missing-tariff">("all");
   const [visibleCount, setVisibleCount] = useState(50);
+  const [usTariffEstimates, setUsTariffEstimates] = useState<Record<string, number>>({});
+  const [knownTariffEstimates, setKnownTariffEstimates] = useState<Set<string>>(new Set());
 
   const audited = useMemo(() => {
     const feeRate = (settings.transactionRate + settings.processingRate + settings.regulatoryRate + settings.offsiteRate) / 100;
@@ -76,17 +81,18 @@ export default function EtsyBulkPricingAudit() {
 
     return listings.map((listing): AuditedListing => {
       const unitCost = unitCosts[listing.key] ?? 0;
+      const usTariffEstimate = usTariffEstimates[listing.key] ?? 0;
       const orderRevenue = listing.price + settings.shippingCharged;
       const costKnown = knownCosts.has(listing.key);
-      const estimatedFees = costKnown
-        ? roundMoney(orderRevenue * feeRate * (1 + feeTaxRate) + fixedFees)
+      const tariffEstimateKnown = knownTariffEstimates.has(listing.key);
+      const pricingInputsKnown = costKnown && tariffEstimateKnown;
+      const estimatedFees = roundMoney(orderRevenue * feeRate * (1 + feeTaxRate) + fixedFees);
+      const totalCosts = unitCost + settings.postageCost + usTariffEstimate;
+      const estimatedProfit = pricingInputsKnown
+        ? roundMoney(orderRevenue - estimatedFees - totalCosts)
         : null;
-      const totalCosts = unitCost + settings.postageCost;
-      const estimatedProfit = estimatedFees === null
-        ? null
-        : roundMoney(orderRevenue - estimatedFees - totalCosts);
       const estimatedMargin = estimatedProfit !== null && orderRevenue > 0 ? estimatedProfit / orderRevenue : null;
-      const targetRevenue = costKnown && denominator > 0
+      const targetRevenue = pricingInputsKnown && denominator > 0
         ? (totalCosts + fixedFees) / denominator
         : null;
       const targetPrice = targetRevenue === null
@@ -95,6 +101,9 @@ export default function EtsyBulkPricingAudit() {
       return {
         ...listing,
         unitCost,
+        usTariffEstimate,
+        tariffEstimateKnown,
+        pricingInputsKnown,
         orderRevenue,
         estimatedFees,
         estimatedProfit,
@@ -108,22 +117,25 @@ export default function EtsyBulkPricingAudit() {
       const bMargin = b.estimatedMargin ?? Number.POSITIVE_INFINITY;
       return aMargin - bMargin || a.title.localeCompare(b.title);
     });
-  }, [knownCosts, listings, settings, unitCosts]);
+  }, [knownCosts, knownTariffEstimates, listings, settings, unitCosts, usTariffEstimates]);
 
   const filteredRows = useMemo(() => {
     const query = normalizeText(search);
     return audited.filter((item) => {
       const matchesSearch = !query || normalizeText(item.title).includes(query) || normalizeText(item.sku).includes(query);
       const matchesFilter = filter === "all"
-        || (filter === "below-target" && item.costKnown && (item.estimatedMargin === null || item.estimatedMargin < settings.targetMargin / 100))
+        || filter === "missing-tariff"
+        || (filter === "below-target" && item.pricingInputsKnown && (item.estimatedMargin === null || item.estimatedMargin < settings.targetMargin / 100))
         || (filter === "missing-cost" && !item.costKnown);
-      return matchesSearch && matchesFilter;
+      const matchesTariffFilter = filter !== "missing-tariff" || !item.tariffEstimateKnown;
+      return matchesSearch && matchesFilter && matchesTariffFilter;
     });
   }, [audited, filter, search, settings.targetMargin]);
 
   const summary = useMemo(() => ({
-    belowTarget: audited.filter((item) => item.costKnown && (item.estimatedMargin === null || item.estimatedMargin < settings.targetMargin / 100)).length,
+    belowTarget: audited.filter((item) => item.pricingInputsKnown && (item.estimatedMargin === null || item.estimatedMargin < settings.targetMargin / 100)).length,
     missingCosts: audited.filter((item) => !item.costKnown).length,
+    missingTariffs: audited.filter((item) => !item.tariffEstimateKnown).length,
   }), [audited, settings.targetMargin]);
 
   const onListingsSelected = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +153,8 @@ export default function EtsyBulkPricingAudit() {
       setHasCurrencyColumn(parsed.hasCurrencyColumn);
       setUnitCosts({});
       setKnownCosts(new Set());
+      setUsTariffEstimates({});
+      setKnownTariffEstimates(new Set());
       setSearch("");
       setFilter("all");
       setVisibleCount(50);
@@ -148,6 +162,8 @@ export default function EtsyBulkPricingAudit() {
       setListings([]);
       setUnitCosts({});
       setKnownCosts(new Set());
+      setUsTariffEstimates({});
+      setKnownTariffEstimates(new Set());
       setError(caught instanceof Error ? caught.message : "The listing CSV could not be read.");
     } finally {
       setIsReading(false);
@@ -164,11 +180,13 @@ export default function EtsyBulkPricingAudit() {
     try {
       if (file.size > MAX_FILE_BYTES) throw new Error("This file is over 10 MB. Choose a smaller cost file.");
       const parsed = parseCosts(await file.text());
-      const matchingListings = listings.filter((listing) => listing.skuKey && parsed.costs.has(listing.skuKey));
-      const unmatched = [...parsed.costs.keys()].filter((sku) => !listings.some((item) => item.skuKey === sku)).length;
+      const matchingCostListings = listings.filter((listing) => listing.skuKey && parsed.costs.has(listing.skuKey));
+      const matchingTariffListings = listings.filter((listing) => listing.skuKey && parsed.usTariffEstimates.has(listing.skuKey));
+      const unmatchedCosts = [...parsed.costs.keys()].filter((sku) => !listings.some((item) => item.skuKey === sku)).length;
+      const unmatchedTariffs = [...parsed.usTariffEstimates.keys()].filter((sku) => !listings.some((item) => item.skuKey === sku)).length;
       setUnitCosts((current) => {
         const next = { ...current };
-        for (const listing of matchingListings) {
+        for (const listing of matchingCostListings) {
           const value = parsed.costs.get(listing.skuKey);
           if (value === undefined) continue;
           next[listing.key] = value;
@@ -177,19 +195,35 @@ export default function EtsyBulkPricingAudit() {
       });
       setKnownCosts((current) => {
         const next = new Set(current);
-        for (const listing of listings) {
+        for (const listing of matchingCostListings) {
           if (listing.skuKey && parsed.costs.has(listing.skuKey)) next.add(listing.key);
         }
         return next;
       });
+      setUsTariffEstimates((current) => {
+        const next = { ...current };
+        for (const listing of matchingTariffListings) {
+          const value = parsed.usTariffEstimates.get(listing.skuKey);
+          if (value === undefined) continue;
+          next[listing.key] = value;
+        }
+        return next;
+      });
+      setKnownTariffEstimates((current) => {
+        const next = new Set(current);
+        for (const listing of matchingTariffListings) next.add(listing.key);
+        return next;
+      });
       const duplicateNote = parsed.duplicateSkus ? " Duplicate SKU rows were found; the last value in the file was used." : "";
-      setCostImportNote(
-        matchingListings.length === 0
-          ? "No cost rows matched a listing SKU. Check that both files use the same SKU values."
-          : "Loaded costs for " + matchingListings.length.toLocaleString() + " listings."
-            + (unmatched ? " " + unmatched.toLocaleString() + " cost SKUs did not match this listings file." : "")
-            + duplicateNote,
-      );
+      const importNotes = [];
+      if (matchingCostListings.length) importNotes.push("Loaded unit costs for " + matchingCostListings.length.toLocaleString() + " listings.");
+      if (matchingTariffListings.length) importNotes.push("Loaded US tariff estimates for " + matchingTariffListings.length.toLocaleString() + " listings.");
+      if (!matchingCostListings.length && parsed.costs.size) importNotes.push("No cost rows matched a listing SKU.");
+      if (!matchingTariffListings.length && parsed.usTariffEstimates.size) importNotes.push("No tariff rows matched a listing SKU.");
+      if (!parsed.hasTariffColumn) importNotes.push("This file has no US Tariff Estimate column; enter an estimate or 0 for each listing in the table.");
+      if (unmatchedCosts || unmatchedTariffs) importNotes.push((unmatchedCosts + unmatchedTariffs).toLocaleString() + " cost or tariff SKUs did not match this listings file.");
+      if (duplicateNote) importNotes.push(duplicateNote.trim());
+      setCostImportNote(importNotes.join(" "));
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "The cost CSV could not be read.");
     } finally {
@@ -217,6 +251,26 @@ export default function EtsyBulkPricingAudit() {
     setKnownCosts((current) => new Set(current).add(listing.key));
   };
 
+  const updateTariffEstimate = (listing: Listing, rawValue: string) => {
+    if (rawValue.trim() === "") {
+      setUsTariffEstimates((current) => {
+        const next = { ...current };
+        delete next[listing.key];
+        return next;
+      });
+      setKnownTariffEstimates((current) => {
+        const next = new Set(current);
+        next.delete(listing.key);
+        return next;
+      });
+      return;
+    }
+    const parsed = parseMoney(rawValue);
+    if (parsed === null || parsed < 0) return;
+    setUsTariffEstimates((current) => ({ ...current, [listing.key]: parsed }));
+    setKnownTariffEstimates((current) => new Set(current).add(listing.key));
+  };
+
   const updateSetting = (key: keyof FeeSettings, rawValue: string) => {
     const value = Number(rawValue);
     if (!Number.isFinite(value)) return;
@@ -235,11 +289,13 @@ export default function EtsyBulkPricingAudit() {
     setHasCurrencyColumn(true);
     setUnitCosts({ "listing:2": 11.25, "listing:3": 4.6, "listing:4": 0.8 });
     setKnownCosts(new Set(["listing:2", "listing:3", "listing:4"]));
+    setUsTariffEstimates({ "listing:2": 5.5, "listing:3": 2.15, "listing:4": 0 });
+    setKnownTariffEstimates(new Set(["listing:2", "listing:3", "listing:4"]));
     setSettings(defaultSettings);
     setSearch("");
     setFilter("all");
     setVisibleCount(50);
-    setCostImportNote("Sample product costs are included so you can preview the report.");
+    setCostImportNote("Sample costs and Etsy tariff estimates are illustrative. Replace them with your own item costs and Etsy estimates.");
     setError("");
   };
 
@@ -247,6 +303,8 @@ export default function EtsyBulkPricingAudit() {
     setListings([]);
     setUnitCosts({});
     setKnownCosts(new Set());
+    setUsTariffEstimates({});
+    setKnownTariffEstimates(new Set());
     setError("");
     setCostImportNote("");
     setSearch("");
@@ -257,7 +315,7 @@ export default function EtsyBulkPricingAudit() {
   const downloadCostTemplate = () => {
     downloadCsv(
       "etsy-unit-cost-template.csv",
-      [["SKU", "Unit Cost"], ["OAK-01", "11.25"], ["KEY-02", "4.60"]],
+      [["SKU", "Unit Cost", "US Tariff Estimate"], ["YOUR-SKU", "", ""]],
     );
   };
 
@@ -270,14 +328,15 @@ export default function EtsyBulkPricingAudit() {
       item.price.toFixed(2),
       item.quantity === null ? "" : String(item.quantity),
       item.costKnown ? item.unitCost.toFixed(2) : "",
+      item.tariffEstimateKnown ? item.usTariffEstimate.toFixed(2) : "",
       item.estimatedFees === null ? "" : item.estimatedFees.toFixed(2),
       item.estimatedProfit === null ? "" : item.estimatedProfit.toFixed(2),
       item.estimatedMargin === null ? "" : (item.estimatedMargin * 100).toFixed(1) + "%",
       item.targetPrice === null ? "" : item.targetPrice.toFixed(2),
       item.priceGap === null ? "" : item.priceGap.toFixed(2),
     ]);
-    downloadCsv("etsy-bulk-pricing-audit-" + new Date().toISOString().slice(0, 10) + ".csv", [
-      ["Listing", "SKU", "Currency", "Current Price", "Listed Quantity", "Unit Cost", "Estimated Etsy Fees", "Estimated Profit Per Order", "Estimated Margin", "Price for Target Margin", "Price Change to Target"],
+    downloadCsv("etsy-us-specific-price-plan-" + new Date().toISOString().slice(0, 10) + ".csv", [
+      ["Listing", "SKU", "Currency", "Base Price from Listings CSV", "Listed Quantity", "Unit Cost", "Etsy US Tariff Estimate Entered", "Estimated Etsy Fees", "Estimated Profit at Base Price", "Estimated Margin at Base Price", "Suggested US-Specific Price", "Change vs Base Price"],
       ...rows,
     ]);
   };
@@ -287,8 +346,8 @@ export default function EtsyBulkPricingAudit() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.15em] text-emerald-800">Free · Private · No Etsy login</p>
-          <h2 id="bulk-pricing-heading" className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">Audit prices across your Etsy listings</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600">Import your active-listings CSV, add a unit cost for each SKU, and compare an estimated per-order margin with a target price for your whole catalogue.</p>
+          <h2 id="bulk-pricing-heading" className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">Plan US-specific prices across Etsy listings</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600">Import your active-listings CSV, add each item’s cost and Etsy US tariff estimate, then compare estimated profit with a suggested US-specific price for your target margin.</p>
         </div>
         {listings.length > 0 && <button type="button" onClick={clear} className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs font-semibold text-stone-700 hover:border-stone-500">Clear report</button>}
       </div>
@@ -296,30 +355,31 @@ export default function EtsyBulkPricingAudit() {
       {listings.length === 0 ? (
         <div className="mt-6 rounded-2xl border-2 border-dashed border-stone-300 bg-[#fbfaf6] p-5 text-center sm:p-7">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-2xl text-emerald-900" aria-hidden="true">↥</div>
-          <p className="mt-4 font-semibold text-stone-900">Choose Etsy’s active-listings CSV</p>
-          <p className="mt-1 text-xs text-stone-500">CSV up to 10 MB · one shop currency · no upload</p>
+          <p className="mt-4 font-semibold text-stone-900">Start with your Etsy active-listings CSV</p>
+          <p className="mt-1 text-xs text-stone-500">Add Etsy’s US tariff estimate by SKU · one shop currency · no upload</p>
           <label className="mt-5 inline-flex cursor-pointer items-center justify-center rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-emerald-700">
             {isReading ? "Reading file…" : "Choose listings CSV"}
             <input type="file" accept=".csv,text/csv" disabled={isReading} onChange={onListingsSelected} className="sr-only" aria-label="Choose Etsy active listings CSV file" />
           </label>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-sm">
-            <button type="button" onClick={loadSample} disabled={isReading} className="font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">Preview a sample report</button>
+            <button type="button" onClick={loadSample} disabled={isReading} className="font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">Preview a sample US price plan</button>
             <a href="https://help.etsy.com/hc/en-us/articles/360000343508-How-to-Download-Your-Listing-Information" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4 hover:decoration-emerald-800">Where to get the listings CSV ↗</a>
           </div>
         </div>
       ) : (
         <>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Metric value={listings.length.toLocaleString()} label="active listings reviewed" />
             <Metric value={summary.belowTarget.toLocaleString()} label="below your target margin" />
             <Metric value={summary.missingCosts.toLocaleString()} label="unit costs still missing" />
+            <Metric value={summary.missingTariffs.toLocaleString()} label="US tariff estimates still missing" />
           </div>
 
           <div className="mt-5 rounded-2xl border border-stone-200 bg-[#fbfaf6] p-4 sm:p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h3 className="font-semibold text-stone-950">Set the fee assumptions for one typical order</h3>
-                <p className="mt-1 text-xs leading-5 text-stone-600">Defaults are common US Etsy fees. Edit every rate to match your payment-account country and shop.</p>
+                <h3 className="font-semibold text-stone-950">Set the fee assumptions for one US order</h3>
+                <p className="mt-1 text-xs leading-5 text-stone-600">Defaults are example US seller rates. Set payment-processing fees to the country of your Etsy payment account; tariff estimate is entered for each item below.</p>
               </div>
               <p className="rounded-lg bg-white px-3 py-2 text-xs font-semibold text-stone-700">Listing currency: {currency}{!hasCurrencyColumn ? " (assumed USD)" : ""}</p>
             </div>
@@ -339,18 +399,19 @@ export default function EtsyBulkPricingAudit() {
 
           <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-stone-200 p-4">
             <div className="mr-auto">
-              <h3 className="font-semibold text-stone-950">Add product costs</h3>
-              <p className="mt-1 text-xs leading-5 text-stone-600">Upload a CSV with SKU and Unit Cost, or edit costs in the table. Include materials, packaging and labor in each unit cost.</p>
+              <h3 className="font-semibold text-stone-950">Add product costs and US tariff estimates</h3>
+              <p className="mt-1 text-xs leading-5 text-stone-600">Upload a CSV with SKU, Unit Cost and US Tariff Estimate, or enter each value in the table. Get the estimate from Etsy for the item and its origin; use the listing currency shown above and enter 0 when none applies.</p>
             </div>
             <button type="button" onClick={downloadCostTemplate} className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs font-semibold text-stone-700 hover:border-stone-500">Download cost template</button>
             <label className="inline-flex cursor-pointer items-center justify-center rounded-lg bg-emerald-950 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-900">
-              {isReading ? "Reading…" : "Import SKU costs"}
+              {isReading ? "Reading…" : "Import costs & tariffs"}
               <input type="file" accept=".csv,text/csv" disabled={isReading} onChange={onCostsSelected} className="sr-only" aria-label="Choose SKU unit cost CSV file" />
             </label>
           </div>
           {costImportNote && <p role="status" className="mt-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-6 text-sky-950">{costImportNote}</p>}
           {!hasCurrencyColumn && <p role="status" className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950">This export has no currency column. The report assumes USD; confirm the fixed fees and currency before using the estimate.</p>}
           {summary.missingCosts > 0 && <p role="status" className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950">{summary.missingCosts.toLocaleString()} listings have no unit cost yet. Add a cost or mark a zero-cost digital item by entering 0 in its row before relying on its margin.</p>}
+          {summary.missingTariffs > 0 && <p role="status" className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950">{summary.missingTariffs.toLocaleString()} listings have no US tariff estimate. Enter Etsy’s estimate, or enter 0 if no tariff applies. Profit and target US prices stay blank until an estimate is provided.</p>}
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <label className="sr-only" htmlFor="bulk-pricing-search">Search listings by title or SKU</label>
@@ -360,21 +421,23 @@ export default function EtsyBulkPricingAudit() {
               <option value="all">All listings</option>
               <option value="below-target">Below target margin</option>
               <option value="missing-cost">Missing unit cost</option>
+              <option value="missing-tariff">Missing US tariff estimate</option>
             </select>
             <button type="button" onClick={downloadReport} className="min-h-10 rounded-lg bg-emerald-950 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900">Download pricing report CSV</button>
           </div>
 
           <div className="mt-4 overflow-x-auto rounded-2xl border border-stone-200">
-            <table className="w-full min-w-[940px] border-collapse text-left text-sm">
+            <table className="w-full min-w-[1160px] border-collapse text-left text-sm">
               <thead className="bg-[#f7f6f0] text-xs uppercase tracking-wide text-stone-600">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Listing / SKU</th>
-                  <th className="px-4 py-3 text-right font-semibold">Current price</th>
+                  <th className="px-4 py-3 text-right font-semibold">Base price</th>
                   <th className="px-4 py-3 text-right font-semibold">Unit cost</th>
-                  <th className="px-4 py-3 text-right font-semibold">Est. profit / order</th>
-                  <th className="px-4 py-3 text-right font-semibold">Est. margin</th>
-                  <th className="px-4 py-3 text-right font-semibold">Price at target</th>
-                  <th className="px-4 py-3 text-right font-semibold">Price change</th>
+                  <th className="px-4 py-3 text-right font-semibold">US tariff estimate ({currency})</th>
+                  <th className="px-4 py-3 text-right font-semibold">Est. profit at base price</th>
+                  <th className="px-4 py-3 text-right font-semibold">Margin at base price</th>
+                  <th className="px-4 py-3 text-right font-semibold">Suggested US price</th>
+                  <th className="px-4 py-3 text-right font-semibold">Change vs base</th>
                 </tr>
               </thead>
               <tbody>
@@ -389,10 +452,14 @@ export default function EtsyBulkPricingAudit() {
                       <label className="sr-only" htmlFor={"cost-" + item.key}>Unit cost for {item.title}</label>
                       <input id={"cost-" + item.key} type="number" min="0" step="0.01" value={unitCosts[item.key] ?? ""} onChange={(event) => updateCost(item, event.currentTarget.value)} className="w-28 rounded-lg border border-stone-300 px-2 py-1.5 text-right tabular-nums text-stone-900 focus:border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
                     </td>
-                    <td className={"px-4 py-3 text-right font-semibold tabular-nums " + ((item.estimatedProfit ?? 0) < 0 ? "text-rose-800" : "text-stone-900")}>{item.estimatedProfit === null ? "Add cost" : formatMoney(item.estimatedProfit, currency)}</td>
-                    <td className={"px-4 py-3 text-right tabular-nums " + (item.estimatedMargin !== null && item.estimatedMargin < settings.targetMargin / 100 ? "text-rose-800" : "text-emerald-900")}>{item.estimatedMargin === null ? "Add cost" : formatPercent(item.estimatedMargin)}</td>
-                    <td className="px-4 py-3 text-right font-medium tabular-nums text-stone-800">{!item.costKnown ? "Add cost" : item.targetPrice === null ? "Not possible" : formatMoney(item.targetPrice, currency)}</td>
-                    <td className={"px-4 py-3 text-right tabular-nums " + ((item.priceGap ?? 0) > 0 ? "text-amber-800" : "text-emerald-900")}>{!item.costKnown ? "Add cost" : item.priceGap === null ? "—" : formatSignedMoney(item.priceGap, currency)}</td>
+                    <td className="px-4 py-3 text-right">
+                      <label className="sr-only" htmlFor={"tariff-" + item.key}>US tariff estimate for {item.title}</label>
+                      <input id={"tariff-" + item.key} type="number" min="0" step="0.01" value={knownTariffEstimates.has(item.key) ? usTariffEstimates[item.key] ?? 0 : ""} onChange={(event) => updateTariffEstimate(item, event.currentTarget.value)} className="w-28 rounded-lg border border-stone-300 px-2 py-1.5 text-right tabular-nums text-stone-900 focus:border-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
+                    </td>
+                    <td className={"px-4 py-3 text-right font-semibold tabular-nums " + ((item.estimatedProfit ?? 0) < 0 ? "text-rose-800" : "text-stone-900")}>{item.estimatedProfit === null ? (!item.costKnown ? "Add cost" : "Add tariff") : formatMoney(item.estimatedProfit, currency)}</td>
+                    <td className={"px-4 py-3 text-right tabular-nums " + (item.estimatedMargin !== null && item.estimatedMargin < settings.targetMargin / 100 ? "text-rose-800" : "text-emerald-900")}>{item.estimatedMargin === null ? (!item.costKnown ? "Add cost" : "Add tariff") : formatPercent(item.estimatedMargin)}</td>
+                    <td className="px-4 py-3 text-right font-medium tabular-nums text-stone-800">{!item.pricingInputsKnown ? (!item.costKnown && !item.tariffEstimateKnown ? "Add cost & tariff" : !item.costKnown ? "Add cost" : "Add tariff") : item.targetPrice === null ? "Not possible" : formatMoney(item.targetPrice, currency)}</td>
+                    <td className={"px-4 py-3 text-right tabular-nums " + ((item.priceGap ?? 0) > 0 ? "text-amber-800" : "text-emerald-900")}>{!item.pricingInputsKnown ? (!item.costKnown && !item.tariffEstimateKnown ? "Add cost & tariff" : !item.costKnown ? "Add cost" : "Add tariff") : item.priceGap === null ? "—" : formatSignedMoney(item.priceGap, currency)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -402,7 +469,7 @@ export default function EtsyBulkPricingAudit() {
           {filteredRows.length > visibleCount && <button type="button" onClick={() => setVisibleCount((count) => count + 50)} className="mt-4 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-800 hover:border-stone-500">Show 50 more listings</button>}
 
           <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-950">
-            Estimates assume one item in an order, the entered buyer-paid shipping and postage, the fee rates above, no discounts, no buyer tax in the processing base, and no refunds or ad spend beyond the Offsite Ads rate. Listing renewal timing and country taxes can change actual charges. This report does not update live Etsy prices and is not an accounting or tax report.
+            The base price comes from the listings CSV. Estimates assume one US order, one entered Etsy tariff estimate per item, the buyer-paid shipping, postage and fee rates above, no discounts, no buyer tax in the processing base, and no refunds or ad spend beyond the Offsite Ads rate. Set processing fees for the country of your Etsy payment account. This report does not calculate duties, select customs codes, update Etsy prices, or replace an accounting or customs professional.
           </div>
           <p className="mt-4 text-xs leading-5 text-stone-500">Your selected listing and cost files are read in this browser and are not uploaded. Do not include buyer data in the cost CSV.</p>
         </>
@@ -484,7 +551,12 @@ function parseListings(csvText: string): { listings: Listing[]; currency: string
   return { listings: parsed, currency: [...currencies][0], hasCurrencyColumn: currencyIndex >= 0 };
 }
 
-function parseCosts(csvText: string): { costs: Map<string, number>; duplicateSkus: number } {
+function parseCosts(csvText: string): {
+  costs: Map<string, number>;
+  usTariffEstimates: Map<string, number>;
+  duplicateSkus: number;
+  hasTariffColumn: boolean;
+} {
   const text = csvText.replace(/^\uFEFF/, "").trim();
   if (!text) throw new Error("The cost file is empty.");
   const rows = parseCsv(text, detectDelimiter(text)).filter((row) => row.some((cell) => cell.trim() !== ""));
@@ -492,18 +564,27 @@ function parseCosts(csvText: string): { costs: Map<string, number>; duplicateSku
   const headers = rows[0].map(normalizeHeader);
   const skuIndex = findColumn(headers, ["sku", "listingsku", "itemsku", "productsku", "referencia"]);
   const costIndex = findColumn(headers, ["unitcost", "costperunit", "productcost", "materialcost", "cost", "costperitem", "costeunitario", "costeporunidad"]);
-  if (skuIndex < 0 || costIndex < 0) throw new Error("The cost CSV needs columns named SKU and Unit Cost.");
+  const tariffIndex = findColumn(headers, ["ustariffestimate", "ustariffcost", "estimatedustariff", "tariffestimate", "tariffcost", "estimatedduty", "customsdutyestimate"]);
+  if (skuIndex < 0 || (costIndex < 0 && tariffIndex < 0)) {
+    throw new Error("The CSV needs a SKU column and at least one of Unit Cost or US Tariff Estimate.");
+  }
   const costs = new Map<string, number>();
+  const usTariffEstimates = new Map<string, number>();
   let duplicateSkus = 0;
   for (const row of rows.slice(1)) {
     const sku = normalizeText(row[skuIndex] ?? "");
-    const value = parseMoney(row[costIndex] ?? "");
-    if (!sku || value === null || value < 0) continue;
-    if (costs.has(sku)) duplicateSkus += 1;
-    costs.set(sku, value);
+    if (!sku) continue;
+    const cost = costIndex >= 0 ? parseMoney(row[costIndex] ?? "") : null;
+    const tariff = tariffIndex >= 0 ? parseMoney(row[tariffIndex] ?? "") : null;
+    if ((cost === null || cost < 0) && (tariff === null || tariff < 0)) continue;
+    if (costs.has(sku) || usTariffEstimates.has(sku)) duplicateSkus += 1;
+    if (cost !== null && cost >= 0) costs.set(sku, cost);
+    if (tariff !== null && tariff >= 0) usTariffEstimates.set(sku, tariff);
   }
-  if (costs.size === 0) throw new Error("No cost rows with a SKU and non-negative unit cost were found.");
-  return { costs, duplicateSkus };
+  if (costs.size === 0 && usTariffEstimates.size === 0) {
+    throw new Error("No rows with a SKU and non-negative cost or US tariff estimate were found.");
+  }
+  return { costs, usTariffEstimates, duplicateSkus, hasTariffColumn: tariffIndex >= 0 };
 }
 
 function parseCsv(value: string, delimiter: string): string[][] {

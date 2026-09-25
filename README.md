@@ -2,7 +2,7 @@
 
 Production site: [percenttoprompts.com](https://percenttoprompts.com/)
 
-Listing Checkup is an independent set of free Etsy seller tools: a bulk active-listings price and margin audit, a local listing CSV audit, single-listing title and tag checkers, a sales-by-product report, an inventory restock planner, and an order fee estimator.
+Listing Checkup is an independent set of free Etsy seller tools: a US-specific bulk price planner for international shops, a local listing CSV audit, single-listing title and tag checkers, a sales-by-product report, an inventory restock planner, and an order fee estimator.
 
 The CSV tools and calculator run in the browser. The project does not connect to Etsy accounts, upload shop data, or claim access to Etsy search volume or rankings. Fee assumptions link to Etsy's current seller documentation and should be reviewed when policies change.
 
@@ -26,7 +26,7 @@ The repository deploys to Vercel from the `main` branch. The site uses no backen
 ## Main files
 
 - `src/app/page.tsx` — Etsy seller tools hub and shop-wide CSV audit.
-- `src/app/etsy-bulk-pricing-audit/` and `src/components/EtsyBulkPricingAudit.tsx` — local bulk price and margin audit using Etsy listing and SKU cost CSVs.
+- `src/app/etsy-bulk-pricing-audit/` and `src/components/EtsyBulkPricingAudit.tsx` — private bulk US-specific price planner using Etsy listing, SKU cost and seller-entered US tariff estimate CSVs.
 - `src/components/EtsyCsvAuditor.tsx` — private CSV parsing, title/tag checks, and report export.
 - `src/components/EtsyRestockPlanner.tsx` — local matching of active listings and order exports for stock coverage estimates.
 - `src/app/etsy-fee-calculator/` and `src/components/EtsyFeeCalculator.tsx` — US fee estimator and target-price calculation.
