@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Stack = "static" | "next" | "backend";
+type Stack = "static" | "next" | "tanstack" | "backend";
 type Priority = "easy" | "budget" | "services";
 type ProjectUse = "personal" | "commercial";
 type Detection = { stack: Stack; label: string };
@@ -21,8 +21,8 @@ const hosts: Record<string, Host> = {
   vercel: {
     name: "Vercel",
     plan: "Hobby for personal demos · Pro for commercial projects",
-    summary: "The simplest route for a Next.js app or a frontend that deploys from GitHub.",
-    reason: "It fits especially well when your AI builder created a Next.js project and you want preview deployments with little server setup.",
+    summary: "A documented deployment route for current Lovable/TanStack Start projects, Next.js apps and GitHub-based frontends.",
+    reason: "Current Lovable projects use TanStack Start and Vercel documents zero-configuration deployment when the framework helper meets its version requirement.",
     caveat: "Vercel says Hobby is for personal, non-commercial use. Choose a commercial plan before you use the app for business or revenue.",
     href: "https://vercel.com/pricing",
     linkLabel: "Check Vercel plans",
@@ -30,8 +30,8 @@ const hosts: Record<string, Host> = {
   hostinger: {
     name: "Hostinger",
     plan: "Business Web or a Cloud plan for managed Node.js apps",
-    summary: "A managed hosting route for Node.js and supported frameworks, connected to GitHub.",
-    reason: "It can fit a full-stack Node.js or Next.js project when you prefer a guided hosting dashboard over configuring a server yourself.",
+    summary: "A managed hosting route for eligible Node.js apps, with GitHub import and framework detection.",
+    reason: "It can fit an exported AI-built app when you prefer a guided hosting dashboard over configuring a server yourself.",
     caveat: "Node.js hosting requires an eligible Business or Cloud plan. Check the current plan price and app limits before moving a production project.",
     href: "https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/",
     linkLabel: "Check Node.js requirements",
@@ -62,6 +62,9 @@ function detectProjectType(packageJson: string): Detection | null {
 
     const serverFramework = ["express", "fastify", "@nestjs/core", "koa", "hono"].find((name) => dependencies.has(name));
     if (serverFramework) return { stack: "backend", label: `${serverFramework} server` };
+    if (dependencies.has("@tanstack/react-start") || dependencies.has("@lovable.dev/vite-tanstack-config")) {
+      return { stack: "tanstack", label: "TanStack Start app" };
+    }
     if (dependencies.has("next")) return { stack: "next", label: "Next.js app" };
     if (dependencies.has("vite")) return { stack: "static", label: "Vite frontend" };
 
@@ -75,6 +78,8 @@ function detectProjectType(packageJson: string): Detection | null {
 }
 
 function getRecommendation(stack: Stack, priority: Priority, use: ProjectUse): Host {
+  if (stack === "tanstack") return hosts.vercel;
+
   if (stack === "static") {
     if (use === "personal" && priority === "easy") return hosts.vercel;
     return hosts.digitalocean;
@@ -87,6 +92,7 @@ function getRecommendation(stack: Stack, priority: Priority, use: ProjectUse): H
 }
 
 const stackOptions: Array<{ id: Stack; title: string; detail: string }> = [
+  { id: "tanstack", title: "TanStack Start app", detail: "Current Lovable projects · Vite plus a server framework" },
   { id: "static", title: "Static site or React frontend", detail: "Pages, portfolio or client-side app" },
   { id: "next", title: "Next.js app", detail: "Server-rendered pages or API routes" },
   { id: "backend", title: "Full-stack Node app", detail: "Backend, worker or database too" },

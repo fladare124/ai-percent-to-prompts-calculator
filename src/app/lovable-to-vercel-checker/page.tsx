@@ -78,6 +78,7 @@ export default function LovableToVercelPage() {
         <p className="mt-4 text-base leading-7">
           Need help with a failed build log? Use the <Link className={linkClass} href="/deploy-vibe-coded-app">AI app deployment error checker</Link>. For the Spanish guide, open <Link className={linkClass} href={spanish} lang="es">publicar Lovable en Vercel</Link>.
         </p>
+        <p className="mt-3 text-base leading-7">Choosing a host for a Lovable app? See the <Link className={linkClass} href="/where-to-host-lovable-app">Vercel, Hostinger and DigitalOcean comparison</Link>.</p>
       </section>
 
       <section className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 sm:p-6">

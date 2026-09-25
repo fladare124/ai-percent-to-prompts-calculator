@@ -51,7 +51,7 @@ export default function DigitalOceanAppPlatformPage() {
       </section>
 
       <p className="text-xs leading-5 text-zinc-500">This page summarizes public documentation, not a quote. We do not currently earn commission from DigitalOcean.</p>
-      <p className="text-sm leading-6">Compare with the <Link href="/deploy-vibe-coded-app" className={sourceClass}>deployment guide</Link> or open the <Link href="/#finder" className={sourceClass}>hosting finder</Link>.</p>
+      <p className="text-sm leading-6">Compare with the <Link href="/where-to-host-lovable-app" className={sourceClass}>Vercel, Hostinger and DigitalOcean guide for Lovable apps</Link>, read the <Link href="/deploy-vibe-coded-app" className={sourceClass}>deployment guide</Link> or open the <Link href="/#finder" className={sourceClass}>hosting finder</Link>.</p>
     </SitePageShell>
   );
 }

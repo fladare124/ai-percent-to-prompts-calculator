@@ -14,6 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     en: new URL("/lovable-to-vercel-checker", SITE_URL).toString(),
     es: new URL("/es/publicar-lovable-en-vercel", SITE_URL).toString(),
   };
+  const lovableHostingLanguageAlternates = {
+    en: new URL("/where-to-host-lovable-app", SITE_URL).toString(),
+    es: new URL("/es/donde-alojar-app-lovable", SITE_URL).toString(),
+  };
 
   return publicRoutes.map((route) => {
     const entry = {
@@ -33,6 +37,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     if (route.path === "/lovable-to-vercel-checker" || route.path === "/es/publicar-lovable-en-vercel") {
       return { ...entry, alternates: { languages: lovableVercelLanguageAlternates } };
+    }
+
+    if (route.path === "/where-to-host-lovable-app" || route.path === "/es/donde-alojar-app-lovable") {
+      return { ...entry, alternates: { languages: lovableHostingLanguageAlternates } };
     }
 
     return entry;

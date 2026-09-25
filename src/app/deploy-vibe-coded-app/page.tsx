@@ -31,7 +31,7 @@ export default function DeployVibeCodedAppPage() {
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Check your build log</h2>
         <p className="mt-3 text-base leading-7">Paste a redacted build log to identify common patterns and get a short list of checks. The text is analyzed in your browser and is not uploaded or saved.</p>
         <div className="mt-5"><DeploymentErrorHelper /></div>
-        <p className="mt-4 text-base leading-7">Deploying a Lovable project to Vercel? Check the <Link className={linkClass} href="/lovable-to-vercel-checker">current version requirement and setup guide</Link>.</p>
+        <p className="mt-4 text-base leading-7">Deploying a Lovable project to Vercel? Check the <Link className={linkClass} href="/lovable-to-vercel-checker">current version requirement and setup guide</Link>, then <Link className={linkClass} href="/where-to-host-lovable-app">compare hosting options if you are still choosing a provider</Link>.</p>
       </section>
 
       <section>

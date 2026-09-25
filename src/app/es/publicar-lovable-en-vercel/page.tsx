@@ -80,6 +80,7 @@ export default function PublicarLovableEnVercelPage() {
         <p className="mt-4 text-base leading-7">
           ¿Ha fallado la compilación? Usa el <Link className={linkClass} href="/es/arreglar-error-despliegue">comprobador de errores de despliegue</Link>. Para la guía en inglés, abre <Link className={linkClass} href={english} lang="en">the Lovable to Vercel version checker</Link>.
         </p>
+        <p className="mt-3 text-base leading-7">¿Aún estás eligiendo proveedor? Consulta la <Link className={linkClass} href="/es/donde-alojar-app-lovable">comparativa de Vercel, Hostinger y DigitalOcean para Lovable</Link>.</p>
       </section>
 
       <section className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 sm:p-6">

@@ -4,20 +4,20 @@ import DeploymentFinder from "@/components/DeploymentFinder";
 import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
 
 export const metadata: Metadata = {
-  title: "Fix an AI App Deployment Error: Build Log Checker",
+  title: "Where to Host an AI-Built App? Find the Right Fit",
   description:
-    "Paste a failed build log to identify common AI app deployment errors. Get browser-based troubleshooting and a practical path to launch.",
+    "Compare Vercel, Hostinger and DigitalOcean for an AI-built app. Choose by framework, commercial use, backend needs and total hosting cost.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Fix an AI App Deployment Error",
-    description: "Diagnose common build failures in your browser and get a practical next step.",
+    title: "Where to Host an AI-Built App?",
+    description: "Compare hosting options by framework, backend needs, use and cost.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fix an AI App Deployment Error",
-    description: "Paste a failed build log for a browser-based first check.",
+    title: "Where to Host an AI-Built App?",
+    description: "Find a suitable host, then troubleshoot a failed deployment.",
     images: ["/opengraph-image"],
   },
 };
@@ -42,6 +42,16 @@ const faq = [
     question: "Will this checker automatically fix my app?",
     answer:
       "No. It recognizes a limited set of common build errors and suggests checks. Review the full log and your project settings to confirm the cause.",
+  },
+  {
+    question: "Where should I host a current Lovable app?",
+    answer:
+      "Vercel documents a direct GitHub deployment path for current Lovable projects using TanStack Start. Hostinger and DigitalOcean may fit other app and service needs; check the framework, data services, plan terms and full cost before switching.",
+  },
+  {
+    question: "Can I use Vercel Hobby for a business app?",
+    answer:
+      "Vercel restricts Hobby to personal, non-commercial use. Check the current Vercel plan terms before using it for a business, clients or revenue.",
   },
 ];
 
@@ -70,8 +80,8 @@ export default function Home() {
             </span>
           </Link>
           <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-zinc-600" aria-label="Main">
-            <a href="#troubleshoot" className="transition hover:text-zinc-950">Fix a deploy error</a>
             <a href="#finder" className="transition hover:text-zinc-950">Choose a host</a>
+            <a href="#troubleshoot" className="transition hover:text-zinc-950">Fix a deploy error</a>
             <a href="#guides" className="transition hover:text-zinc-950">Guides</a>
             <Link href="/es/arreglar-error-despliegue" lang="es" className="transition hover:text-zinc-950">Español</Link>
             <Link href="/about" className="transition hover:text-zinc-950">About</Link>
@@ -80,23 +90,23 @@ export default function Home() {
 
         <section className="grid gap-10 py-12 sm:py-16 lg:grid-cols-[1fr_0.72fr] lg:items-center">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-800">From failed build to working launch</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">AI app won’t deploy? Find the first useful clue.</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">Paste a failed build log to check for common deployment problems in your browser. Then use the hosting finder and step-by-step guides to get the app ready to launch.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-800">Hosting and launch advice for AI-built apps</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">Where should you host your AI-built app?</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">Compare Vercel, Hostinger and DigitalOcean by framework, app services and commercial use. Get a practical recommendation, then check the real plan requirements before you launch.</p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#troubleshoot" className="rounded-lg bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">Check a failed build log</a>
-              <a href="#finder" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Choose where to deploy</a>
+              <a href="#finder" className="rounded-lg bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">Find a host for my app</a>
+              <a href="/where-to-host-lovable-app" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Compare Lovable hosting</a>
             </div>
-            <p className="mt-4 text-xs leading-5 text-zinc-500">No account connection. Analysis stays in your browser; remove secrets from logs before pasting.</p>
+            <p className="mt-4 text-xs leading-5 text-zinc-500">No account connection. Your package file is checked in your browser and is not uploaded.</p>
           </div>
 
           <div className="rounded-3xl bg-zinc-950 p-6 text-white sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-300">A practical route to launch</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-300">Choose with the app in mind</p>
             <div className="mt-5 space-y-4">
               {[
-                ["01", "Find the first real error", "Look above the generic final build-failed message"],
-                ["02", "Check the project settings", "Build command, dependencies, runtime and environment"],
-                ["03", "Choose a matching host", "Compare framework support, services and plan terms"],
+                ["01", "Identify the framework", "Lovable, Next.js, Vite or a Node.js backend"],
+                ["02", "List the app services", "Database, authentication, storage and workers"],
+                ["03", "Check price and plan terms", "Personal or commercial use, full monthly cost"],
               ].map(([number, title, detail]) => (
                 <div key={number} className="flex gap-4 border-t border-white/10 pt-4">
                   <span className="text-sm font-bold text-cyan-300">{number}</span>
@@ -110,31 +120,37 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="troubleshoot" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="troubleshoot-heading">
+        <section className="border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="finder-heading">
           <div className="mb-7 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Free browser-based first check</p>
-            <h2 id="troubleshoot-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Why did the AI-built app deployment fail?</h2>
-            <p className="mt-3 text-base leading-7 text-zinc-600">Paste the build log from your hosting dashboard. The checker recognizes common error patterns and gives you a short list of things to verify.</p>
-          </div>
-          <DeploymentErrorHelper />
-        </section>
-
-        <section id="finder" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="finder-heading">
-          <div className="mb-7 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">The next step after the build works</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Free hosting recommendation</p>
             <h2 id="finder-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Find a host that fits your app</h2>
-            <p className="mt-3 text-base leading-7 text-zinc-600">Choose the framework or app shape, your priority and whether the project is commercial. We show the trade-offs and link to the provider’s current requirements.</p>
+            <p className="mt-3 text-base leading-7 text-zinc-600">Paste package.json or choose your app type. Compare framework support, ease of setup, commercial use and the services your project needs. The package check stays in your browser.</p>
           </div>
           <DeploymentFinder />
         </section>
 
+        <section id="troubleshoot" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="troubleshoot-heading">
+          <div className="mb-7 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Free browser-based troubleshooting</p>
+            <h2 id="troubleshoot-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Already deployed and hitting a build error?</h2>
+            <p className="mt-3 text-base leading-7 text-zinc-600">Paste the build log from your hosting dashboard. The checker looks for common errors and suggests what to verify first. Remove secrets before pasting.</p>
+          </div>
+          <DeploymentErrorHelper />
+        </section>
+
         <section id="guides" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="guides-heading">
           <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">From generated code to a live app</p>
-            <h2 id="guides-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Deployment guides that cover the last mile</h2>
-            <p className="mt-3 text-base leading-7 text-zinc-600">Choosing a provider is only part of launch. Check framework support, build commands, environment variables, domains and the costs that appear after the first deployment.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Choose, publish and troubleshoot</p>
+            <h2 id="guides-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Hosting comparisons and deployment guides</h2>
+            <p className="mt-3 text-base leading-7 text-zinc-600">Check framework compatibility, commercial terms, build settings and the services that remain attached to your app.</p>
           </div>
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
+          <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <Link href="/where-to-host-lovable-app" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
+              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Hosting comparison</p>
+              <h3 className="mt-3 text-xl font-semibold">Where to host a Lovable app?</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Compare Vercel, Hostinger and DigitalOcean for your framework, use and app services.</p>
+              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Compare hosts →</span>
+            </Link>
             <Link href="/deploy-vibe-coded-app" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Troubleshooting</p>
               <h3 className="mt-3 text-xl font-semibold">Fix a failed AI app deployment</h3>
@@ -155,9 +171,9 @@ export default function Home() {
             </Link>
             <Link href="/lovable-to-vercel-checker" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Lovable + Vercel</p>
-              <h3 className="mt-3 text-xl font-semibold">Check your Lovable deployment version</h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-600">Verify the current framework requirement before importing the GitHub repository.</p>
-              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Check the setup →</span>
+              <h3 className="mt-3 text-xl font-semibold">Fix a Lovable deployment 404</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Check the framework version and distinguish a current TanStack app from an older Vite SPA.</p>
+              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Check the project →</span>
             </Link>
           </div>
         </section>

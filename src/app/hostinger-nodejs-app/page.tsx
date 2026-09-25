@@ -51,7 +51,7 @@ export default function HostingerNodejsAppPage() {
       </section>
 
       <p className="text-xs leading-5 text-zinc-500">This guide summarizes Hostinger’s public documentation checked September 25, 2026. We have not deployed a customer app to Hostinger as part of this guide, and we do not currently earn commission from Hostinger.</p>
-      <p className="text-sm leading-6">Compare this route with the <Link href="/deploy-vibe-coded-app" className={sourceClass}>full hosting guide</Link> or use the <Link href="/#finder" className={sourceClass}>launch finder</Link>.</p>
+      <p className="text-sm leading-6">Compare this route with the <Link href="/where-to-host-lovable-app" className={sourceClass}>Vercel, Hostinger and DigitalOcean guide for Lovable apps</Link>, use the <Link href="/deploy-vibe-coded-app" className={sourceClass}>deployment guide</Link> or open the <Link href="/#finder" className={sourceClass}>hosting finder</Link>.</p>
     </SitePageShell>
   );
 }
