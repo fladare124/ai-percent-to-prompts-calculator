@@ -6,8 +6,10 @@ const PACKAGE_NAME = "@lovable.dev/vite-tanstack-config";
 const MAX_INPUT_LENGTH = 12_000;
 
 type Locale = "en" | "es";
-type ResultStatus = "ready" | "below" | "check-lockfile" | "missing" | "invalid";
+type ResultStatus = "ready" | "below" | "check-lockfile" | "tanstack-start" | "vite-spa" | "missing" | "invalid";
 type VersionSource = "lockfile" | "manifest" | "version";
+
+type DependencyMap = Record<string, string | { version?: string }>;
 
 type CheckResult = {
   status: ResultStatus;
@@ -16,10 +18,27 @@ type CheckResult = {
 };
 
 type PackageJsonLike = {
-  packages?: Record<string, { version?: string }>;
-  dependencies?: Record<string, string | { version?: string }>;
-  devDependencies?: Record<string, string | { version?: string }>;
+  packages?: Record<string, { version?: string; dependencies?: DependencyMap; devDependencies?: DependencyMap }>;
+  dependencies?: DependencyMap;
+  devDependencies?: DependencyMap;
 };
+
+function hasPackage(data: PackageJsonLike, name: string): boolean {
+  const rootPackage = data.packages?.[""];
+  return Boolean(
+    data.dependencies?.[name] ||
+      data.devDependencies?.[name] ||
+      rootPackage?.dependencies?.[name] ||
+      rootPackage?.devDependencies?.[name] ||
+      data.packages?.[`node_modules/${name}`],
+  );
+}
+
+function missingFrameworkStatus(data: PackageJsonLike): ResultStatus {
+  if (hasPackage(data, "@tanstack/react-start")) return "tanstack-start";
+  if (hasPackage(data, "vite") && hasPackage(data, "react")) return "vite-spa";
+  return "missing";
+}
 
 const copy = {
   en: {
@@ -34,6 +53,8 @@ const copy = {
       ready: "The version meets Vercel’s documented threshold",
       below: "The resolved version is below the threshold",
       "check-lockfile": "Check the resolved version before changing config",
+      "tanstack-start": "TanStack Start detected — check the Lovable helper version",
+      "vite-spa": "Vite + React detected — check whether this is a client-side SPA",
       missing: "No Lovable framework package found",
       invalid: "Could not read a version",
     } satisfies Record<ResultStatus, string>,
@@ -41,6 +62,8 @@ const copy = {
       ready: "Vercel documents zero-configuration detection for Lovable projects with @lovable.dev/vite-tanstack-config version 2.6.2 or later. Sync the current project to GitHub, import that repository into Vercel, and confirm the latest commit is the one being deployed.",
       below: "This exact version is below the minimum Vercel documents for automatic Lovable framework detection. Update the dependency to 2.6.2 or later, sync the change to GitHub, and redeploy. A lower version does not by itself prove the project cannot be deployed with a different setup.",
       "check-lockfile": "This input does not establish the exact installed version. Check the resolved version in your lockfile. If it is below 2.6.2, update the dependency and commit the updated lockfile.",
+      "tanstack-start": "This manifest includes @tanstack/react-start but not @lovable.dev/vite-tanstack-config. If this is a Lovable project, check its resolved framework-helper version and current Vercel setup. Do not apply the Vite SPA fallback to TanStack Start.",
+      "vite-spa": "This manifest includes Vite and React but not TanStack Start or Lovable’s framework helper. If the home page works but refreshing a nested URL returns 404, and this is a client-side SPA, Vercel documents a rewrite to /index.html. Use that only for this SPA case.",
       missing: "This text does not show @lovable.dev/vite-tanstack-config. It may be an older Vite/React project, a different framework, or an incomplete manifest. Identify the framework in the repository before applying a TanStack Start configuration.",
       invalid: "Enter a version such as 2.6.2 or ^2.6.2, the dependency line from package.json, or the JSON contents of package.json/package-lock.json.",
     } satisfies Record<ResultStatus, string>,
@@ -59,6 +82,8 @@ const copy = {
       ready: "La versión cumple el requisito documentado por Vercel",
       below: "La versión resuelta es inferior al requisito",
       "check-lockfile": "Comprueba la versión resuelta antes de cambiar la configuración",
+      "tanstack-start": "Se detectó TanStack Start: comprueba el paquete auxiliar de Lovable",
+      "vite-spa": "Se detectó Vite + React: comprueba si es una SPA del lado del cliente",
       missing: "No se encontró el paquete de Lovable",
       invalid: "No se pudo leer la versión",
     } satisfies Record<ResultStatus, string>,
@@ -66,6 +91,8 @@ const copy = {
       ready: "Vercel documenta la detección automática de proyectos Lovable con @lovable.dev/vite-tanstack-config versión 2.6.2 o posterior. Sincroniza el proyecto actual con GitHub, importa ese repositorio en Vercel y confirma que se despliega el último commit.",
       below: "Esta versión exacta está por debajo del mínimo que Vercel documenta para detectar automáticamente el framework de Lovable. Actualiza la dependencia a 2.6.2 o posterior, sincroniza el cambio con GitHub y vuelve a desplegar. Una versión inferior no demuestra por sí sola que el proyecto no pueda desplegarse con otra configuración.",
       "check-lockfile": "Este dato no confirma la versión exacta instalada. Comprueba la versión resuelta en el archivo de bloqueo. Si es inferior a 2.6.2, actualiza la dependencia y sube también el archivo de bloqueo.",
+      "tanstack-start": "El manifiesto incluye @tanstack/react-start, pero no @lovable.dev/vite-tanstack-config. Si es un proyecto de Lovable, comprueba la versión resuelta del paquete auxiliar y la configuración actual de Vercel. No apliques el fallback de rutas para SPA a TanStack Start.",
+      "vite-spa": "El manifiesto incluye Vite y React, pero no TanStack Start ni el paquete auxiliar de Lovable. Si funciona la portada pero al recargar una ruta interna aparece un 404, y es una SPA del lado del cliente, Vercel documenta una regla que reescribe a /index.html. Úsala solo en ese caso.",
       missing: "El texto no muestra @lovable.dev/vite-tanstack-config. Puede ser un proyecto antiguo de Vite/React, usar otro framework o faltar parte del manifiesto. Identifica el framework del repositorio antes de aplicar una configuración de TanStack Start.",
       invalid: "Escribe una versión como 2.6.2 o ^2.6.2, pega la línea de la dependencia de package.json o pega el JSON de package.json/package-lock.json.",
     } satisfies Record<ResultStatus, string>,
@@ -92,7 +119,7 @@ function readVersion(input: string): { version?: string; source?: VersionSource;
       return { version: declaredVersion.version, source: "manifest" };
     }
 
-    return { status: "missing" };
+    return { status: missingFrameworkStatus(data) };
   } catch {
     // A single dependency line or version string is also accepted below.
   }

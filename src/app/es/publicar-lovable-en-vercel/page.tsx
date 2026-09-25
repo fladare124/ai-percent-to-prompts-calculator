@@ -8,16 +8,16 @@ const english = "/lovable-to-vercel-checker";
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 
 export const metadata: Metadata = {
-  title: "Publicar Lovable en Vercel: comprueba la versión",
+  title: "Lovable en Vercel muestra 404: comprueba el tipo de proyecto",
   description:
-    "Comprueba si tu proyecto de Lovable cumple el requisito actual de detección automática de Vercel y sigue los pasos de GitHub a Vercel.",
+    "Distingue un error de rutas en una SPA antigua de Vite de un problema de configuración en TanStack Start antes de cambiar Vercel.",
   alternates: {
     canonical,
     languages: { en: english, es: canonical },
   },
   openGraph: {
-    title: "Publicar una app de Lovable en Vercel",
-    description: "Comprueba la versión del framework y sigue los pasos de despliegue actuales.",
+    title: "¿Lovable en Vercel muestra un error 404?",
+    description: "Identifica el tipo de proyecto antes de cambiar sus rutas.",
     url: canonical,
     locale: "es_ES",
     type: "article",
@@ -29,8 +29,8 @@ export default function PublicarLovableEnVercelPage() {
     <SitePageShell
       locale="es"
       eyebrow="Despliegue de Lovable · revisado el 25 de septiembre de 2026"
-      title="Publicar una app de Lovable en Vercel: comprueba primero la versión"
-      intro={<>Vercel ya documenta el despliegue automático de proyectos de Lovable, pero exige una versión mínima del paquete del framework. Comprueba el proyecto en tu navegador y sigue los pasos de GitHub a Vercel.</>}
+      title="¿Tu app de Lovable muestra 404 en Vercel? Comprueba primero el proyecto"
+      intro={<>La solución depende de si tu app usa TanStack Start (la configuración actual) o una SPA antigua de Vite. Comprueba sus archivos de paquetes antes de cambiar las rutas de Vercel.</>}
     >
       <section id="comprobador-version" className="scroll-mt-6 rounded-2xl border border-cyan-100 bg-cyan-50 p-5 sm:p-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Comprueba la versión del framework de Lovable</h2>
@@ -53,6 +53,22 @@ export default function PublicarLovableEnVercelPage() {
         </p>
       </section>
 
+      <section id="spa-vite-404" className="scroll-mt-6">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">SPA antigua de Vite: funciona la portada, pero recargar una ruta da 404</h2>
+        <p className="mt-3 text-base leading-7">
+          La guía de Vite de Vercel indica que los enlaces internos necesitan una ruta alternativa cuando el proyecto es una aplicación de una sola página controlada por el navegador. Si ese es tu caso, crea <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">vercel.json</code> en la raíz del proyecto:
+        </p>
+        <pre className="mt-4 overflow-x-auto rounded-xl bg-zinc-950 p-4 text-sm leading-6 text-cyan-100"><code>{`{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}`}</code></pre>
+        <p className="mt-4 text-base leading-7">
+          Úsalo solo si es una SPA de Vite y el navegador gestiona sus rutas internas. Vercel documenta esta regla para las SPA de Vite; los proyectos actuales de Lovable usan TanStack Start y siguen la configuración de ese framework. Si también falla la dirección principal, revisa primero la carpeta raíz, la salida de compilación y la rama desplegada en Vercel.
+        </p>
+      </section>
+
       <section id="vercel-no-detecta" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Si Vercel no detecta el framework</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7">
@@ -70,6 +86,7 @@ export default function PublicarLovableEnVercelPage() {
         <h2 className="text-xl font-semibold text-zinc-950">Documentación oficial</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
           <li><a className={linkClass} href="https://vercel.com/docs/frameworks/full-stack/tanstack-start" target="_blank" rel="noopener noreferrer">Vercel: TanStack Start y versión requerida para Lovable</a></li>
+          <li><a className={linkClass} href="https://vercel.com/docs/frameworks/frontend/vite" target="_blank" rel="noopener noreferrer">Vercel: rutas internas en una SPA de Vite</a></li>
           <li><a className={linkClass} href="https://docs.lovable.dev/integrations/github" target="_blank" rel="noopener noreferrer">Lovable: sincronizar un proyecto con GitHub</a></li>
           <li><a className={linkClass} href="https://vercel.com/changelog/you-can-now-deploy-lovable-apps-to-vercel" target="_blank" rel="noopener noreferrer">Vercel: anuncio del despliegue de Lovable</a></li>
         </ul>

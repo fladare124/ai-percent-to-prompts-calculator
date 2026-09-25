@@ -8,16 +8,16 @@ const spanish = "/es/publicar-lovable-en-vercel";
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 
 export const metadata: Metadata = {
-  title: "Deploy Lovable to Vercel: Version Checker and Setup Guide",
+  title: "Lovable App on Vercel Showing 404? Check the Framework",
   description:
-    "Check whether your Lovable project meets Vercel’s current zero-configuration version requirement, then follow the GitHub deployment steps.",
+    "Find out whether a Lovable app’s Vercel 404 comes from an older Vite SPA route or its current TanStack Start setup, then check the right fix.",
   alternates: {
     canonical,
     languages: { en: canonical, es: spanish },
   },
   openGraph: {
-    title: "Deploy a Lovable app to Vercel",
-    description: "Check the framework version and follow the current deployment path.",
+    title: "Lovable app on Vercel showing 404?",
+    description: "Identify the project type before changing its Vercel routes.",
     url: canonical,
     type: "article",
   },
@@ -27,8 +27,8 @@ export default function LovableToVercelPage() {
   return (
     <SitePageShell
       eyebrow="Lovable deployment · reviewed September 25, 2026"
-      title="Deploy a Lovable app to Vercel: check the version first"
-      intro={<>Vercel now documents zero-configuration deployment for Lovable projects, with a minimum framework package version. Check your project locally, then follow the GitHub-to-Vercel steps below.</>}
+      title="Lovable app on Vercel showing 404? Check the project type first"
+      intro={<>The right fix depends on whether your project is a current TanStack Start app or an older Vite single-page app. Check its package files before changing Vercel routing.</>}
     >
       <section id="version-checker" className="scroll-mt-6 rounded-2xl border border-cyan-100 bg-cyan-50 p-5 sm:p-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Check the Lovable framework version</h2>
@@ -51,6 +51,22 @@ export default function LovableToVercelPage() {
         </p>
       </section>
 
+      <section id="vite-spa-404" className="scroll-mt-6">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Older Vite SPA: the home page works, but a route refresh gives 404</h2>
+        <p className="mt-3 text-base leading-7">
+          Vercel’s Vite guide says deep links need a fallback when a project is configured as a client-side single-page app. If that matches your project, create <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">vercel.json</code> in the project root:
+        </p>
+        <pre className="mt-4 overflow-x-auto rounded-xl bg-zinc-950 p-4 text-sm leading-6 text-cyan-100"><code>{`{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}`}</code></pre>
+        <p className="mt-4 text-base leading-7">
+          Use this only for a Vite SPA where the client router handles the nested paths. Vercel documents this rewrite for Vite SPAs; current Lovable projects use TanStack Start and follow that framework’s setup. If the root URL also returns 404, first check the Vercel project’s root directory, build output and deployed branch.
+        </p>
+      </section>
+
       <section id="version-not-detected" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">If Vercel does not detect the framework</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7">
@@ -68,6 +84,7 @@ export default function LovableToVercelPage() {
         <h2 className="text-xl font-semibold text-zinc-950">Official documentation</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
           <li><a className={linkClass} href="https://vercel.com/docs/frameworks/full-stack/tanstack-start" target="_blank" rel="noopener noreferrer">Vercel: TanStack Start and Lovable version requirement</a></li>
+          <li><a className={linkClass} href="https://vercel.com/docs/frameworks/frontend/vite" target="_blank" rel="noopener noreferrer">Vercel: Vite single-page app deep-link rewrite</a></li>
           <li><a className={linkClass} href="https://docs.lovable.dev/integrations/github" target="_blank" rel="noopener noreferrer">Lovable: sync a project with GitHub</a></li>
           <li><a className={linkClass} href="https://vercel.com/changelog/you-can-now-deploy-lovable-apps-to-vercel" target="_blank" rel="noopener noreferrer">Vercel: Lovable deployment announcement</a></li>
         </ul>
