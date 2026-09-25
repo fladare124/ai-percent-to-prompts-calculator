@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
-import { publicRoutes, SITE_URL } from "@/lib/site";
+import { calculatorRoutes, SITE_URL, siteInfoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return publicRoutes.map((route) => ({
+  return [...calculatorRoutes, ...siteInfoRoutes].map((route) => ({
     url: new URL(route.path, SITE_URL).toString(),
-    lastModified: new Date("2026-09-25T00:00:00.000Z"),
-    changeFrequency: route.changeFrequency,
+    lastModified: route.lastModified,
+    changeFrequency: "weekly",
     priority: route.priority,
   }));
 }

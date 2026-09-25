@@ -7,7 +7,6 @@ const pageDescription =
   "Calcula si tu porcentaje de uso de Codex te durará hasta el próximo restablecimiento. Compara tu saldo actual, tu ritmo reciente y las horas que faltan.";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: pageTitle,
   description: pageDescription,
   alternates: {

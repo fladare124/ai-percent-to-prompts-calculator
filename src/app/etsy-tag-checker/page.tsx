@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Check Etsy tags for the 13-tag limit, 20-character count, duplicates and unsupported characters. Paste tags privately; your text stays in your browser.",
   alternates: { canonical: "/etsy-tag-checker" },
+  robots: { index: false, follow: false },
   openGraph: {
     title: "Free Etsy Tag Checker",
     description:

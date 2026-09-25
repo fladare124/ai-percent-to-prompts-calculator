@@ -1,58 +1,48 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
-import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
+import AIPlanFinder from "@/components/AIPlanFinder";
 
 export const metadata: Metadata = {
-  title: "Etsy Listing CSV Checker",
+  title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
   description:
-    "Check Etsy listing titles and tags from your shop CSV. Find repeated wording, missing tag slots and tags over 20 characters; your file stays in your browser.",
+    "Compare Claude Code, Codex, Cursor and GitHub Copilot prices, usage limits and reset patterns, then find a plan that fits your coding workflow and budget.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Free Etsy Listing CSV Checker & Tag Audit",
+    title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
     description:
-      "Review active Etsy listings in one private, browser-based audit. No login, no shop connection and no search-volume claims.",
+      "Find a coding assistant plan that fits your tools, workload and monthly budget.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Etsy Listing CSV Checker",
-    description: "A private title and tag audit for your Etsy shop export.",
+    title: "AI Coding Plan Finder",
+    description:
+      "Compare AI coding plans by workflow, usage style and monthly budget.",
     images: ["/opengraph-image"],
   },
 };
 
 const faq = [
   {
-    question: "What does the Etsy CSV checker review?",
+    question: "Which AI coding plan gives the most usage for $20?",
     answer:
-      "It checks title length and repeated or promotional wording, tag count and tag length, repeated tags within a listing, tag reuse across listings, and exact duplicate titles across the shop export. These are review prompts, not an Etsy ranking score.",
+      "There is no fair universal count of coding tasks or prompts across plans. At around $20 per month, ChatGPT Plus combines general ChatGPT access with Codex, Claude Pro includes Claude Code, and Cursor Pro focuses on agentic work in its editor. Pick by workflow, then check the usage meter for your own account.",
   },
   {
-    question: "Does the checker upload or save my Etsy file?",
+    question: "Does ChatGPT Plus include Codex?",
     answer:
-      "No. The CSV is read and checked in your browser. Its title, description, materials and tags are not sent to our server. The site analytics record page and interaction events without listing content.",
+      "OpenAI currently lists Codex as part of ChatGPT plans including Plus. The available models and amount of usage depend on the plan, task, model and account. Check the current plan page before subscribing.",
   },
   {
-    question: "Does this tool find Etsy search volume or predict rankings?",
+    question: "Does Claude Pro include Claude Code?",
     answer:
-      "No. It does not connect to Etsy search data or estimate ranking, demand or sales. Use Etsy Shop Stats or a keyword research service to check actual performance and search data.",
+      "Anthropic currently includes Claude Code with paid Pro and Max plans. Claude and Claude Code share plan usage, and the number of tasks varies with model, task size and other factors.",
   },
   {
-    question: "Is this an official Etsy tool?",
+    question: "Can I compare AI plans by a fixed number of prompts?",
     answer:
-      "No. Percent to Prompts is an independent tool and is not affiliated with or endorsed by Etsy. The checks are based on public Etsy seller guidance, which can change.",
-  },
-  {
-    question: "How do I download my Etsy listing CSV?",
-    answer:
-      "In Etsy Shop Manager, open Settings, then Options, then Download Data, and choose Download CSV under your active listings. Etsy's help page has the current steps.",
-  },
-  {
-    question: "Can I use the copied prompt with an AI assistant?",
-    answer:
-      "Yes. The prompt is copied only when you choose the button. Review it first: when you paste listing details into another AI service, that service's own privacy terms apply. The checker itself does not call an AI model.",
+      "Not reliably. Providers meter usage differently, and longer agent tasks can consume very different amounts. This finder compares published plan features and your stated workflow; it does not promise a fixed number of messages or tasks.",
   },
 ];
 
@@ -66,188 +56,331 @@ const faqSchema = {
   })),
 };
 
-const appSchema = {
+const applicationSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Etsy Listing CSV Checker",
+  name: "AI Coding Plan Finder",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  featureList: [
-    "Review title wording against current public Etsy title guidance",
-    "Check up to 13 tags and the 20-character limit",
-    "Find normalized tag reuse across active listings",
-    "Audit an active-listings CSV locally in the browser",
-    "Download the report or copy an optional AI review prompt",
-  ],
 };
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f7f6f0] text-stone-950">
+    <main className="min-h-screen bg-[#f7f7f4] text-zinc-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(applicationSchema) }}
       />
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-5">
-          <Link href="/" className="flex items-center gap-3" aria-label="Percent to Prompts home">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-950 text-base font-bold text-emerald-100">P%</span>
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+          <Link href="/" className="flex items-center gap-3" aria-label="AI Plan Finder home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-950 text-lg font-bold text-cyan-300">
+              P
+            </span>
             <span>
-              <span className="block text-sm font-bold tracking-tight">Listing Checkup</span>
-              <span className="block text-xs text-stone-500">by Percent to Prompts</span>
+              <span className="block text-sm font-bold tracking-tight">AI Plan Finder</span>
+              <span className="block text-xs text-zinc-500">A Percent to Prompts project</span>
             </span>
           </Link>
-          <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-stone-600" aria-label="Main navigation">
-            <a href="#auditor" className="transition hover:text-stone-950">CSV checker</a>
-            <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
-            <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
-            <a href="#method" className="transition hover:text-stone-950">Checks and limits</a>
-            <Link href="/about" className="transition hover:text-stone-950">About</Link>
+          <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-zinc-600" aria-label="Main navigation">
+            <a href="#compare" className="transition hover:text-zinc-950">Compare plans</a>
+            <a href="#method" className="transition hover:text-zinc-950">How we compare</a>
+            <Link href="/ai-usage-calculator" className="transition hover:text-zinc-950">Usage calculator</Link>
           </nav>
         </header>
 
-        <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-16">
+        <section className="grid gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Free Etsy CSV checker · Private in your browser
+            <p className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-900">
+              Independent plan finder · Updated September 25, 2026
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Find listing issues hiding in your Etsy CSV.
+              Pick an AI coding plan that fits your work.
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Check titles and tags across your active shop in one go. Get a readable report, then make an AI review prompt for the listings you choose. No account connection and no file upload.
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+              Compare Claude Code, Codex, Cursor and GitHub Copilot by your workflow, workload and monthly budget. Get a practical shortlist without pretending every plan gives the same number of prompts.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#auditor" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Check my listings
+              <a href="#finder" className="rounded-xl bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">
+                Find my plan
               </a>
-              <a href="#method" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
-                See what it checks
+              <a href="#compare" className="rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">
+                See the comparison
               </a>
             </div>
-            <p className="mt-5 max-w-2xl text-xs leading-5 text-stone-500">
-              This is a checklist, not an Etsy ranking score. It does not know search volume, listing performance or which terms buyers use.
+            <p className="mt-5 text-xs leading-5 text-zinc-500">
+              Free to use. No account connection. Prices are public list prices and can vary by country, tax and billing term.
             </p>
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-emerald-200/70 via-transparent to-amber-100/70 blur-xl" />
-            <div className="relative rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-[0_24px_80px_-40px_rgba(24,24,27,0.3)] sm:p-7">
+            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-cyan-200/70 via-transparent to-amber-100/70 blur-xl" />
+            <div className="relative rounded-[1.75rem] border border-zinc-200 bg-white p-5 shadow-[0_24px_80px_-40px_rgba(24,24,27,0.35)] sm:p-7">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Example report</p>
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight">One shop, clear next steps</h2>
+                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Three quick inputs</p>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight">Get your shortlist</h2>
                 </div>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">No sign-in</span>
+                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">No sign-in</span>
               </div>
-              <div className="mt-6 grid grid-cols-3 gap-2">
-                <div className="rounded-xl bg-[#f7f6f0] p-3"><span className="block text-xl font-semibold">128</span><span className="mt-1 block text-xs text-stone-500">listings scanned</span></div>
-                <div className="rounded-xl bg-amber-50 p-3"><span className="block text-xl font-semibold">23</span><span className="mt-1 block text-xs text-stone-500">to review</span></div>
-                <div className="rounded-xl bg-rose-50 p-3"><span className="block text-xl font-semibold">7</span><span className="mt-1 block text-xs text-stone-500">tag checks</span></div>
+              <p className="mt-3 text-sm leading-6 text-zinc-600">
+                Start with the way you code. The finder ranks plans that fit your budget and points out what to verify before upgrading.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <span className="rounded-lg bg-zinc-100 px-3 py-2 text-xs font-medium">IDE / editor</span>
+                <span className="rounded-lg bg-zinc-100 px-3 py-2 text-xs font-medium">Terminal</span>
+                <span className="rounded-lg bg-zinc-100 px-3 py-2 text-xs font-medium">GitHub workflow</span>
+                <span className="rounded-lg bg-zinc-100 px-3 py-2 text-xs font-medium">General work + code</span>
               </div>
-              <div className="mt-4 rounded-xl border border-stone-200 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-stone-500">CSV row 14 · Example only</p>
-                <p className="mt-1 font-medium text-stone-900">Beautiful Moon Necklace, Perfect Gift for Her…</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-950">Review title wording</span>
-                  <span className="rounded-full bg-rose-100 px-2.5 py-1 text-xs font-medium text-rose-950">Repeated tag</span>
+              <div className="mt-6 border-t border-zinc-100 pt-5">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-medium text-zinc-700">The comparison starts with your needs</span>
+                  <span className="text-zinc-400">01 / 03</span>
+                </div>
+                <div className="mt-3 flex gap-1.5" aria-hidden="true">
+                  <span className="h-1.5 flex-1 rounded-full bg-cyan-500" />
+                  <span className="h-1.5 flex-1 rounded-full bg-zinc-200" />
+                  <span className="h-1.5 flex-1 rounded-full bg-zinc-200" />
                 </div>
               </div>
-              <p className="mt-4 text-xs leading-5 text-stone-500">Numbers and listing text above are an illustration, not live shop data.</p>
             </div>
           </div>
         </section>
 
-        <EtsyCsvAuditor />
+        <AIPlanFinder />
 
-        <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-7">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Checking one listing?</p>
-            <h2 className="mt-2 text-xl font-semibold tracking-tight text-stone-950">Use the single-listing Etsy tag checker.</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">Paste tags to count characters, spot duplicates and see how many of Etsy’s 13 tag slots you have used.</p>
-          </div>
-          <Link href="/etsy-tag-checker" className="mt-4 inline-flex shrink-0 rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700 sm:mt-0">
-            Check Etsy tags →
-          </Link>
-        </section>
-
-        <section id="method" className="scroll-mt-8 border-t border-stone-200 pt-12 sm:pt-16">
+        <section id="compare" className="scroll-mt-8 border-t border-zinc-200 pt-12 sm:pt-16">
           <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">How the check works</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Checks based on Etsy’s guidance, with the limits stated plainly.</h2>
-            <p className="mt-4 text-base leading-7 text-stone-600">
-              Etsy recommends clear titles that are easy to scan, with the item and its key objective details stated once. It suggests considering fewer than 15 words and moving subjective or sales language out of the title. This audit marks those patterns for review; it never edits a listing or predicts search position.
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Plans at a glance</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Compare the plans people actually use for coding</h2>
+            <p className="mt-4 text-base leading-7 text-zinc-600">
+              Monthly prices below are the providers’ US list prices checked on September 25, 2026. Each plan meters usage differently, so compare the workflow and included features before comparing capacity.
             </p>
           </div>
 
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Titles</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Review titles over 140 characters, titles with 15 or more words, repeated terms, subjective adjectives, and sales or gifting phrases.</p>
-              <a href="https://www.etsy.com/seller-handbook/article/1399426136697" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Etsy title guidance ↗</a>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Tags</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Check for up to 13 tags, empty slots, repeated tags within a listing and tags longer than Etsy’s 20-character limit.</p>
-              <a href="https://help.etsy.com/hc/en-us/articles/360000336307-How-to-Use-Tags-to-Get-Found-in-Search" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Etsy tag guidance ↗</a>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Shop-wide patterns</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Spot exact duplicate titles and tags reused across listings. Reuse is not automatically wrong; confirm every phrase fits that item.</p>
-              <p className="mt-4 text-xs leading-5 text-stone-500">Guidance checked September 25, 2026. Etsy can update its rules.</p>
-            </article>
+          <div className="mt-7 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[760px] border-collapse text-left text-sm">
+                <thead className="bg-zinc-100 text-xs uppercase tracking-wide text-zinc-600">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Plan</th>
+                    <th className="px-5 py-4 font-semibold">Monthly price</th>
+                    <th className="px-5 py-4 font-semibold">Strongest fit</th>
+                    <th className="px-5 py-4 font-semibold">Usage model</th>
+                    <th className="px-5 py-4 font-semibold">Provider details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">GitHub Copilot Free</th>
+                    <td className="px-5 py-4">$0</td>
+                    <td className="px-5 py-4 text-zinc-600">Try completions and limited chat or agent use</td>
+                    <td className="px-5 py-4 text-zinc-600">Monthly AI credit allowance</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">Copilot plans</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">GitHub Copilot Pro</th>
+                    <td className="px-5 py-4">$10</td>
+                    <td className="px-5 py-4 text-zinc-600">VS Code, GitHub and agent workflows on a lower budget</td>
+                    <td className="px-5 py-4 text-zinc-600">Completions plus AI credits for chat and agents</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">Copilot plans</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">GitHub Copilot Pro+</th>
+                    <td className="px-5 py-4">$39</td>
+                    <td className="px-5 py-4 text-zinc-600">Premium models and more GitHub agent use</td>
+                    <td className="px-5 py-4 text-zinc-600">Larger monthly AI-credit allowance</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">Copilot plans</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">GitHub Copilot Max</th>
+                    <td className="px-5 py-4">$100</td>
+                    <td className="px-5 py-4 text-zinc-600">Sustained, high-volume work across GitHub and IDEs</td>
+                    <td className="px-5 py-4 text-zinc-600">Highest included AI-credit allowance</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">Copilot plans</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">ChatGPT Plus with Codex</th>
+                    <td className="px-5 py-4">$20</td>
+                    <td className="px-5 py-4 text-zinc-600">One subscription for general ChatGPT work and coding</td>
+                    <td className="px-5 py-4 text-zinc-600">Plan usage varies with task and model</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://chatgpt.com/pricing" target="_blank" rel="noreferrer">ChatGPT pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">ChatGPT Pro with Codex</th>
+                    <td className="px-5 py-4">$100</td>
+                    <td className="px-5 py-4 text-zinc-600">Frequent ChatGPT and Codex use across a workday</td>
+                    <td className="px-5 py-4 text-zinc-600">OpenAI lists 5x Plus usage; model limits still apply</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://chatgpt.com/pricing" target="_blank" rel="noreferrer">ChatGPT pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Claude Pro with Claude Code</th>
+                    <td className="px-5 py-4">$20 monthly</td>
+                    <td className="px-5 py-4 text-zinc-600">Claude in the terminal plus the web and desktop apps</td>
+                    <td className="px-5 py-4 text-zinc-600">Shared five-hour and weekly limits</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://claude.com/pricing" target="_blank" rel="noreferrer">Claude pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Claude Max 5x</th>
+                    <td className="px-5 py-4">$100</td>
+                    <td className="px-5 py-4 text-zinc-600">Regular Claude Code and Claude use throughout the day</td>
+                    <td className="px-5 py-4 text-zinc-600">5x Pro's session allowance; weekly limits apply</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://claude.com/pricing" target="_blank" rel="noreferrer">Claude pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Claude Max 20x</th>
+                    <td className="px-5 py-4">$200</td>
+                    <td className="px-5 py-4 text-zinc-600">Heavy Claude Code use across long work sessions</td>
+                    <td className="px-5 py-4 text-zinc-600">20x Pro's session allowance; weekly limits apply</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://claude.com/pricing" target="_blank" rel="noreferrer">Claude pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Cursor Pro</th>
+                    <td className="px-5 py-4">$20</td>
+                    <td className="px-5 py-4 text-zinc-600">Agent-first work inside Cursor’s editor</td>
+                    <td className="px-5 py-4 text-zinc-600">Model choice affects how included usage is consumed</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://cursor.com/pricing" target="_blank" rel="noreferrer">Cursor pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Cursor Pro+</th>
+                    <td className="px-5 py-4">$60</td>
+                    <td className="px-5 py-4 text-zinc-600">Daily agent use in Cursor</td>
+                    <td className="px-5 py-4 text-zinc-600">3x Pro agent limits; model choice affects usage</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://cursor.com/pricing" target="_blank" rel="noreferrer">Cursor pricing</a></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Cursor Ultra</th>
+                    <td className="px-5 py-4">$200</td>
+                    <td className="px-5 py-4 text-zinc-600">Heavy, sustained agent work in Cursor</td>
+                    <td className="px-5 py-4 text-zinc-600">20x Pro agent limits; model choice affects usage</td>
+                    <td className="px-5 py-4"><a className="font-medium text-cyan-800 underline underline-offset-4" href="https://cursor.com/pricing" target="_blank" rel="noreferrer">Cursor pricing</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-zinc-500">
+            Pricing and plan features change. Higher tiers exist for heavy use, but a higher price does not translate into a universal count of coding tasks. Confirm your local checkout price and current usage meter before you buy.
+          </p>
+        </section>
+
+        <section className="mt-12 border-t border-zinc-200 pt-12 sm:mt-16 sm:pt-16">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Usage and reset patterns</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">The same monthly price can buy very different usage</h2>
+            <p className="mt-4 text-base leading-7 text-zinc-600">
+              A coding request is not a shared unit across these services. Compare what each plan meters, when its allowance refreshes and what happens when you reach the limit.
+            </p>
           </div>
 
-          <div className="mt-7 grid gap-4 lg:grid-cols-[1fr_0.8fr]">
-            <article className="rounded-2xl border border-stone-200 bg-[#eeede4] p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Know what this can’t tell you</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-tight">No keyword volumes or ranking promises.</h3>
-              <p className="mt-3 text-sm leading-6 text-stone-700">
-                The audit reads your exported titles and tags. It cannot see what Etsy shoppers search for, your shop’s impressions, clicks, orders or conversion rate. Use Shop Stats or a keyword research service before changing terms; then watch your own results over time.
-              </p>
-              <a href={ERANK_HREF} target="_blank" rel={ERANK_REL} className="mt-4 inline-flex rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 hover:border-emerald-700">Explore eRank keyword research ↗</a>
-              <p className="mt-2 text-xs leading-5 text-stone-500">{ERANK_DISCLOSURE}</p>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Independent project</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-tight">Your listing stays yours.</h3>
-              <p className="mt-3 text-sm leading-6 text-stone-600">The checker works from the CSV you select, in this browser. It does not connect to your Etsy account, save your file, or send listing text to an AI service.</p>
-              <p className="mt-3 text-sm leading-6 text-stone-600">If you copy a review prompt into ChatGPT, Claude, Gemini or another assistant, review that provider’s privacy terms first.</p>
-              <Link href="/privacy" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Read the privacy note</Link>
-            </article>
+          <div className="mt-7 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[850px] border-collapse text-left text-sm">
+                <thead className="bg-zinc-100 text-xs uppercase tracking-wide text-zinc-600">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Service</th>
+                    <th className="px-5 py-4 font-semibold">What usage means</th>
+                    <th className="px-5 py-4 font-semibold">Reset or billing pattern</th>
+                    <th className="px-5 py-4 font-semibold">Personal calculator</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">GitHub Copilot</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">AI credits are used by chat, agents and CLI; model and task affect the credit cost. Paid code completions are separate.</td>
+                    <td className="px-5 py-4 text-zinc-600">Monthly credit allowance. Current usage and any extra-usage setting appear in your account.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/github-copilot-usage-calculator">Copilot credit planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="noreferrer">OpenAI Codex</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Plan allowance or credits vary with model, task size, context and where the task runs.</td>
+                    <td className="px-5 py-4 text-zinc-600">The account dashboard shows your active balance and reset. Some plans also use separate time windows.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/codex-usage-calculator">Codex task and reset planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank" rel="noreferrer">Claude Code</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Claude Code shares Claude’s pool across web, desktop and mobile. Model, context and effort change consumption.</td>
+                    <td className="px-5 py-4 text-zinc-600">Rolling five-hour sessions; paid plans also have weekly limits. Check your account for its current reset.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/claude-usage-calculator">Claude usage planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://cursor.com/docs/models-and-pricing" target="_blank" rel="noreferrer">Cursor</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Separate model pools; third-party model use is charged at that model’s API rate.</td>
+                    <td className="px-5 py-4 text-zinc-600">Pools refresh with the monthly billing cycle; paid on-demand usage is available after included usage.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/cursor-usage-calculator">Cursor pool planner</Link></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-zinc-500">
+            Sources: <a className="underline underline-offset-2" href="https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals" target="_blank" rel="noreferrer">GitHub billing</a>, <a className="underline underline-offset-2" href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="noreferrer">OpenAI Codex usage</a>, <a className="underline underline-offset-2" href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank" rel="noreferrer">Claude usage limits</a> and <a className="underline underline-offset-2" href="https://cursor.com/docs/models-and-pricing" target="_blank" rel="noreferrer">Cursor usage pools</a>. Checked September 25, 2026.
+          </p>
+        </section>
+
+        <section id="method" className="mt-12 grid gap-8 rounded-3xl bg-zinc-950 p-7 text-white sm:mt-16 sm:p-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-300">How we compare</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">Features are comparable. Task counts usually are not.</h2>
+          </div>
+          <div className="space-y-4 text-sm leading-6 text-zinc-300">
+            <p>Claude, Codex, Cursor and Copilot meter different products in different ways. A completion, an agent turn and a multi-file coding task are not equivalent units.</p>
+            <p>We rank plans by workflow fit, monthly budget and expected intensity. We link to official plan pages and avoid promising a fixed number of prompts when the provider does not publish one.</p>
+            <p>For your own account, compare two usage-meter readings after similar work. <Link className="font-semibold text-cyan-300 underline underline-offset-4" href="/ai-usage-calculator">Use the personal usage calculator</Link> to estimate your own pace.</p>
           </div>
         </section>
 
-        <section className="border-t border-stone-200 pt-12 sm:pt-16" aria-labelledby="faq-heading">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Frequently asked questions</p>
-            <h2 id="faq-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Before you run the audit</h2>
+        <section className="mt-12 grid gap-8 border-t border-zinc-200 pt-12 sm:mt-16 sm:grid-cols-[0.75fr_1.25fr]">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Questions</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">Choosing an AI coding subscription</h2>
           </div>
-          <div className="mt-7 grid gap-3 md:grid-cols-2">
+          <div className="space-y-3">
             {faq.map((item) => (
-              <details key={item.question} className="group rounded-2xl border border-stone-200 bg-white p-5">
-                <summary className="cursor-pointer list-none pr-6 font-semibold text-stone-950 marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-700">
-                  {item.question}<span aria-hidden="true" className="float-right text-emerald-800 transition group-open:rotate-45">＋</span>
+              <details key={item.question} className="group rounded-xl border border-zinc-200 bg-white p-5">
+                <summary className="cursor-pointer list-none pr-6 text-base font-semibold marker:hidden">
+                  <span className="flex items-center justify-between gap-4">
+                    {item.question}
+                    <span className="text-xl font-normal text-zinc-400 transition group-open:rotate-45">+</span>
+                  </span>
                 </summary>
-                <p className="mt-3 text-sm leading-6 text-stone-600">{item.answer}</p>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-600">{item.answer}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <footer className="mt-14 flex flex-col gap-4 border-t border-stone-200 pt-6 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>Percent to Prompts · Independent Etsy listing checker · Guidance checked September 25, 2026.</p>
-          <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
-            <Link href="/about" className="underline underline-offset-4 hover:text-stone-900">About</Link>
-            <Link href="/privacy" className="underline underline-offset-4 hover:text-stone-900">Privacy</Link>
-            <Link href="/affiliate-disclosure" className="underline underline-offset-4 hover:text-stone-900">Affiliate disclosure</Link>
+        <footer className="mt-14 flex flex-col gap-4 border-t border-zinc-200 pt-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>Independent comparison. We do not read your provider accounts or receive payment for the ranking.</p>
+          <nav className="flex flex-wrap gap-4" aria-label="Tools">
+            <Link href="/ai-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">AI usage calculator</Link>
+            <Link href="/chatgpt-limit-calculator" className="font-medium text-zinc-700 underline underline-offset-4">ChatGPT message limits</Link>
+            <Link href="/codex-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Codex reset planner</Link>
+            <Link href="/es/calculadora-uso-codex" className="font-medium text-zinc-700 underline underline-offset-4">Calculadora de uso de Codex en español</Link>
+            <Link href="/claude-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Claude Code session and weekly limits</Link>
+            <Link href="/github-copilot-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Copilot credits</Link>
+            <Link href="/cursor-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Cursor usage pools</Link>
+            <Link href="/gemini-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Gemini usage resets</Link>
+            <Link href="/perplexity-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Perplexity Pro Search and Research</Link>
+            <Link href="/windsurf-devin-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Windsurf and Devin quotas</Link>
+            <Link href="/about" className="font-medium text-zinc-700 underline underline-offset-4">About</Link>
+            <Link href="/privacy" className="font-medium text-zinc-700 underline underline-offset-4">Privacy</Link>
+            <Link href="/affiliate-disclosure" className="font-medium text-zinc-700 underline underline-offset-4">Affiliate disclosure</Link>
           </nav>
         </footer>
       </div>

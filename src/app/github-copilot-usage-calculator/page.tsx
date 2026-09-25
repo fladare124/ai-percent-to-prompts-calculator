@@ -5,7 +5,6 @@ import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 import { GITHUB_COPILOT_PLANS } from "@/lib/githubCopilotPricing";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: "GitHub Copilot AI Credits Calculator & Planner",
   description:
     "Estimate credits per interaction and monthly Copilot usage by model, tokens, plan allowance and recent credit pace.",

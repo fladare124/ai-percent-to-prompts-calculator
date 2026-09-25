@@ -1,15 +1,17 @@
-# Percent to Prompts — Etsy Listing Checkup
+# Percent to Prompts — AI Plan Finder
 
 Production site: [percenttoprompts.com](https://percenttoprompts.com/)
 
-The homepage is a free Etsy active-listings CSV checker. It reviews titles and tags locally in the browser, highlights patterns to review, exports a report and can create a copy-ready prompt for an AI assistant. It does not connect to Etsy, upload a file, query search volume or predict rankings.
+The homepage helps developers compare AI coding subscriptions by workflow, usage style and monthly budget. Supporting pages explain published plan limits and include browser-based usage planners for individual providers.
+
+The site is independent. Prices and plan details can change, so each comparison links to provider documentation. It does not connect to provider accounts, promise a fixed number of prompts or use a paid ranking.
 
 ## Privacy and analytics
 
-- The active-listings CSV is processed in the browser and is not sent to the application server.
+- Usage calculator inputs are processed in the browser and are not submitted to the application server.
+- Shared shortlist links include only the selected workflow, budget and usage frequency.
 - Vercel Web Analytics and Speed Insights measure page use and performance.
-- Custom events record audit/report/prompt/partner-link actions without sending listing text, file names, titles, tags or descriptions.
-- The current eRank link is a regular outbound link. The project is not currently earning affiliate commission.
+- Etsy checker routes remain available as noindex legacy pages and are not included in the sitemap.
 
 ## Run locally
 
@@ -18,23 +20,17 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Next.js, usually `http://localhost:3000`.
-
-## Build and deploy
+## Build
 
 ```bash
 npm run build
 ```
 
-The repository deploys to Vercel from the `main` branch. No backend, database, AI API key or environment variable is required for the CSV audit.
+The repository deploys to Vercel from the `main` branch. No backend, database, AI API key or environment variable is required for the comparison and usage planners.
 
 ## Main files
 
-- `src/components/EtsyCsvAuditor.tsx` — CSV parsing, local checks, report export and optional prompt creation.
-- `src/app/page.tsx` — homepage content, SEO metadata, official references and visible FAQs.
-- `src/app/about/page.tsx` — methodology and limits.
-- `src/app/privacy/page.tsx` — file-processing and analytics notice.
-- `src/app/affiliate-disclosure/page.tsx` — current outbound-link status.
-- `src/lib/site.ts` and `src/app/sitemap.ts` — public site routes.
-
-Older AI-usage calculator routes remain available as legacy pages but are marked `noindex` and are not included in the sitemap.
+- `src/app/page.tsx` — plan finder, plan comparison and methodology.
+- `src/components/AIPlanFinder.tsx` — interactive plan shortlist.
+- `src/components/` — provider-specific usage planners.
+- `src/lib/site.ts` and `src/app/sitemap.ts` — public AI comparison and tool routes.

@@ -6,7 +6,6 @@ const plansAndUsageUrl = "https://docs.devin.ai/desktop/accounts/usage";
 const devinPlansUrl = "https://devin.ai/pricing";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: "Windsurf and Devin Usage Calculator: Daily and Weekly Planner",
   description:
     "Check whether your Windsurf or Devin usage allowance can last until refresh. Compare your daily and weekly account readings with recent usage pace.",

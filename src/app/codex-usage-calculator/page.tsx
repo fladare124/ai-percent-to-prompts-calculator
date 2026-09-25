@@ -4,7 +4,6 @@ import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: "Codex Usage Calculator: Tasks Left & Reset Pace",
   description:
     "Estimate how many similar Codex tasks your remaining usage could cover from your own task history, then check whether that pace could last until reset.",

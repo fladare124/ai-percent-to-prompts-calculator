@@ -6,7 +6,6 @@ const cursorUsageUrl =
   "https://prod.cursor.com/help/models-and-usage/usage-limits";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: "Cursor Usage Calculator: Pool Balance Until Reset",
   description:
     "Estimate whether your Cursor Models or Other Models usage pool can last until your monthly reset, based on your own recent usage readings.",

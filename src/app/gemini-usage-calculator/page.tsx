@@ -6,7 +6,6 @@ const geminiLimitsUrl =
   "https://support.google.com/gemini/answer/16275805?hl=en";
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: true },
   title: "Gemini Usage Calculator: 5-Hour and Weekly Limit Planner",
   description:
     "Check whether your Gemini Apps usage can last until refresh. Compare your Usage Limits reading with recent pace and the 5-hour or weekly reset.",

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
-  title: "About the Etsy Listing CSV Checker",
+  title: "About the AI Plan Finder",
   description:
-    "Learn how the independent Etsy listing checker works, which official seller rules it checks, and what it cannot measure.",
+    "Learn how Percent to Prompts compares AI coding subscriptions, checks official plan information and explains the limits of its recommendations.",
   alternates: { canonical: "/about" },
 };
 
@@ -13,43 +12,42 @@ export default function AboutPage() {
   return (
     <SitePageShell
       eyebrow="About this project"
-      title="A practical checkup for Etsy listing exports."
-      intro="Listing Checkup is a free tool from Percent to Prompts. It reviews an Etsy active-listings CSV in your browser and turns its findings into a report you can use before editing your shop."
+      title="Independent help choosing an AI coding plan."
+      intro="Percent to Prompts compares published AI coding plans and provides free tools for understanding usage limits. The goal is to help you choose based on your workflow and budget without claiming every provider measures usage the same way."
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What it checks</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How the comparison works</h2>
         <p className="mt-3 text-base leading-7">
-          The audit flags title patterns that Etsy’s public guidance asks sellers to consider: long or hard-to-scan wording, repeated terms, subjective descriptions, and sales or shipping text. It checks that listings use no more than 13 tags, each tag is no longer than 20 characters, and it surfaces normalized tag reuse across listings as well as duplicates within a listing.
+          The plan finder ranks options by the workflow you describe, your monthly budget and how often you expect to use coding agents. We compare published features and link to providers’ own plan details. Usage estimates are guidance, not benchmark results or guaranteed task counts.
         </p>
         <p className="mt-3 text-base leading-7">
-          The checks are intentionally visible and simple. They are prompts for human review, not an Etsy quality score. Repeated tags, long titles or gifting phrases are not automatically wrong in every context.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What it cannot measure</h2>
-        <p className="mt-3 text-base leading-7">
-          The checker cannot access Etsy search volume, competition, impressions, clicks, sales or conversion data. It does not connect to a shop, change a listing, or predict that a title will rank. Use Etsy Shop Stats and keyword research for those questions, then make changes gradually and compare your own results.
+          Each provider uses different models, meters, caps and reset windows. A message, completion or agent task is not a common unit, so we avoid presenting a universal number of prompts for a plan.
         </p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Sources and independence</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">What it cannot measure</h2>
         <p className="mt-3 text-base leading-7">
-          The title and tag reminders are based on public Etsy seller resources, including Etsy’s <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://www.etsy.com/seller-handbook/article/1399426136697" target="_blank" rel="noopener noreferrer">updated title guidance</a> and <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360000336307-How-to-Use-Tags-to-Get-Found-in-Search" target="_blank" rel="noopener noreferrer">tag requirements</a>. We last checked those pages on September 25, 2026. Etsy may update its guidance, so always confirm important decisions against Etsy’s current rules.
-        </p>
-        <p className="mt-3 text-base leading-7">
-          Percent to Prompts is not affiliated with or endorsed by Etsy, eRank or another marketplace research service. We do not claim a professional certification or access to Etsy’s internal search systems.
+          We do not connect to your provider accounts or see your private usage balances. Actual limits may depend on your account, region, model, task, context, system capacity and provider changes. Check your account’s usage page before making a purchase decision.
         </p>
       </section>
 
-      <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-stone-950">Privacy by design</h2>
-        <p className="mt-2 text-sm leading-6">Your CSV is processed in your browser. The file’s listing text is not sent to us. A review prompt is created locally and copied only when you choose to copy it.</p>
-        <Link href="/privacy" className="mt-3 inline-flex font-semibold text-emerald-900 underline underline-offset-4">Read the privacy note</Link>
+      <section>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Sources and independence</h2>
+        <p className="mt-3 text-base leading-7">
+          Product and usage descriptions are checked against public provider documentation and pricing pages. Those details change; use the linked official pages for the latest plan terms and prices.
+        </p>
+        <p className="mt-3 text-base leading-7">
+          Percent to Prompts is an independent project and is not affiliated with or endorsed by the providers listed in the comparison.
+        </p>
       </section>
 
-      <p className="text-xs leading-5 text-stone-500">Project and guidance reviewed September 25, 2026.</p>
+      <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
+        <h2 className="text-xl font-semibold text-zinc-950">Privacy</h2>
+        <p className="mt-2 text-sm leading-6">The finder does not ask for an account connection. Calculator inputs stay in your browser and are not submitted to a provider or to Percent to Prompts.</p>
+      </section>
+
+      <p className="text-xs leading-5 text-zinc-500">Project and provider references reviewed September 25, 2026.</p>
     </SitePageShell>
   );
 }
