@@ -152,6 +152,17 @@ function normalizeRecordValue(recordType: RecordType, value: string): string {
   return recordType === "CNAME" ? unquoted.replace(/\.$/, "").toLowerCase() : unquoted;
 }
 
+function recordTypeLabel(type: number): string {
+  switch (type) {
+    case 1: return "A";
+    case 5: return "CNAME";
+    case 16: return "TXT";
+    case 28: return "AAAA";
+    case 257: return "CAA";
+    default: return `TYPE ${type}`;
+  }
+}
+
 async function lookupRecord(name: string, type: RecordType): Promise<DnsAnswer[]> {
   const query = new URLSearchParams({ name, type });
   const controller = new AbortController();
@@ -350,6 +361,7 @@ export default function LovableDnsRecordChecker({ locale = "en" }: { locale?: Lo
                     <ul className="mt-2 space-y-2 break-all text-sm leading-5 text-zinc-700">
                       {result.answers.map((answer, index) => (
                         <li key={`${answer.type}:${answer.data}:${index}`}>
+                          <span className="mr-2 rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs">{recordTypeLabel(answer.type)}</span>
                           <span className="font-mono">{answer.data}</span>
                           {answer.TTL !== undefined ? <span className="ml-2 text-xs text-zinc-500">TTL {answer.TTL}s</span> : null}
                         </li>
