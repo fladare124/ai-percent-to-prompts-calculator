@@ -49,7 +49,7 @@ const faq = [
   {
     question: "¿El beneficio y el precio sugerido son exactos?",
     answer:
-      "No. Son estimaciones para un pedido típico según las tarifas, costes y gastos de envío que introduzcas. Descuentos, impuestos del comprador, reembolsos, atribución publicitaria, conversión de divisas y otras circunstancias pueden cambiar el resultado real.",
+      "No. Son estimaciones para un pedido típico según las tarifas, costes y gastos de envío que introduzcas. El informe trata el arancel estimado de Etsy como un coste fijo por pedido al calcular otro precio objetivo. Como Etsy pide el precio del artículo para estimar el arancel, vuelve a comprobarlo en Etsy con el precio sugerido antes de aplicarlo. Descuentos, impuestos del comprador, reembolsos, atribución publicitaria, conversión de divisas y otras circunstancias pueden cambiar el resultado real.",
   },
   {
     question: "¿El planificador cambia mis precios en Etsy?",
@@ -92,7 +92,7 @@ export default function EtsyUsPricePlannerSpanishPage() {
             <li>Para cada producto que enviarás con aranceles pagados por adelantado, copia la estimación de EE. UU. que Etsy muestra en el editor del anuncio. Etsy indica que su estimación puede diferir del importe final y que no admite anuncios con variaciones de precio.</li>
             <li>Importa un CSV con las columnas <strong>SKU</strong>, <strong>Coste unitario</strong> y <strong>Arancel estimado EE. UU.</strong>, o introduce esos valores en la tabla. Usa un arancel por producto; introduce 0 cuando no esperes pagarlo.</li>
             <li>Mantén costes, aranceles, envío y tarifas en la moneda de los anuncios. Ajusta las tarifas de procesamiento a las condiciones del país de tu cuenta de pagos de Etsy.</li>
-            <li>Revisa el margen estimado y el precio sugerido, descarga el CSV del plan y aplica cualquier cambio manualmente en Etsy.</li>
+            <li>Revisa el margen estimado y el precio sugerido y descarga el CSV del plan. El informe mantiene fijo el arancel que introdujiste; antes de aplicar el precio sugerido, vuelve a calcular la estimación de Etsy con ese precio y revisa el resultado en tu tienda.</li>
           </ol>
           <p className="mt-4 text-sm leading-6 text-stone-600">
             Consulta las instrucciones oficiales de Etsy para <a href="https://help.etsy.com/hc/es/articles/360000343508" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">descargar los datos de tus anuncios ↗</a>, <a href="https://help.etsy.com/hc/es/articles/40309848355735-C%C3%B3mo-utilizar-la-calculadora-de-aranceles-estimados-para-EE-UU-de-Etsy" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">usar el estimador de aranceles para EE. UU. ↗</a> y <a href="https://help.etsy.com/hc/es/articles/4403156582039-C%C3%B3mo-a%C3%B1adir-precios-nacionales-internacionales-y-espec%C3%ADficos-de-EE-UU-a-tus-anuncios" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">gestionar precios específicos para EE. UU. ↗</a>.
@@ -105,7 +105,7 @@ export default function EtsyUsPricePlannerSpanishPage() {
             El precio base procede de la columna Price del CSV de anuncios; puede no ser el precio específico para EE. UU. que ya hayas guardado en Etsy. El cálculo añade el envío pagado por el comprador y resta el coste unitario, el porte de salida y el arancel que introduzcas. Después estima las tarifas fijas y porcentuales con los valores de la configuración.
           </p>
           <p className="mt-3 text-sm leading-6 text-stone-700">
-            El precio sugerido resuelve el margen objetivo con los mismos supuestos. Ajusta las tarifas de transacción y procesamiento a tu cuenta: los valores iniciales solo sirven como ejemplo. Etsy permite editar precios por región en bloque desde el Gestor de la tienda; revisa cada precio final antes de publicarlo.
+            El precio sugerido resuelve el margen objetivo manteniendo fijo el arancel introducido. Etsy solicita el precio del artículo al estimar los aranceles, así que este informe no vuelve a calcularlo para el nuevo precio. Ajusta las tarifas de transacción y procesamiento a tu cuenta: los valores iniciales solo sirven como ejemplo. Etsy permite editar precios por región en bloque desde el Gestor de la tienda; revisa cada precio final antes de publicarlo.
           </p>
         </section>
 
