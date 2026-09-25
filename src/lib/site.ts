@@ -3,8 +3,8 @@ export const SITE_NAME = "AI Plan Finder";
 export const SITE_URL = "https://percenttoprompts.com";
 
 const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
-const homeContentUpdatedAt = new Date("2026-09-25T12:00:00.000Z");
-const usageCalculatorContentUpdatedAt = new Date("2026-09-25T12:00:00.000Z");
+const homeContentUpdatedAt = new Date("2026-09-25T03:33:00.000Z");
+const usageCalculatorContentUpdatedAt = new Date("2026-09-25T03:20:00.000Z");
 const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
@@ -14,7 +14,7 @@ export const calculatorRoutes = [
     path: "/",
     title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
     description:
-      "Choose an AI coding subscription by budget and workflow. Compare Claude Code, Codex, Cursor and GitHub Copilot using current official plan details.",
+      "Compare Claude Code, Codex, Cursor and GitHub Copilot prices, usage limits and reset patterns, then find a plan that fits your coding workflow and budget.",
     lastModified: homeContentUpdatedAt,
     priority: 1,
   },

@@ -5,7 +5,7 @@ import AIPlanFinder from "@/components/AIPlanFinder";
 export const metadata: Metadata = {
   title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
   description:
-    "Choose an AI coding subscription by budget and workflow. Compare Claude Code, Codex, Cursor and GitHub Copilot using current official plan details.",
+    "Compare Claude Code, Codex, Cursor and GitHub Copilot prices, usage limits and reset patterns, then find a plan that fits your coding workflow and budget.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
@@ -268,6 +268,68 @@ export default function Home() {
           </div>
           <p className="mt-3 text-xs leading-5 text-zinc-500">
             Pricing and plan features change. Higher tiers exist for heavy use, but a higher price does not translate into a universal count of coding tasks. Confirm your local checkout price and current usage meter before you buy.
+          </p>
+        </section>
+
+        <section className="mt-12 border-t border-zinc-200 pt-12 sm:mt-16 sm:pt-16">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Usage and reset patterns</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">The same monthly price can buy very different usage</h2>
+            <p className="mt-4 text-base leading-7 text-zinc-600">
+              A coding request is not a shared unit across these services. Compare what each plan meters, when its allowance refreshes and what happens when you reach the limit.
+            </p>
+          </div>
+
+          <div className="mt-7 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[850px] border-collapse text-left text-sm">
+                <thead className="bg-zinc-100 text-xs uppercase tracking-wide text-zinc-600">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">Service</th>
+                    <th className="px-5 py-4 font-semibold">What usage means</th>
+                    <th className="px-5 py-4 font-semibold">Reset or billing pattern</th>
+                    <th className="px-5 py-4 font-semibold">Personal calculator</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://github.com/features/copilot/plans" target="_blank" rel="noreferrer">GitHub Copilot</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">AI credits are used by chat, agents and CLI; model and task affect the credit cost. Paid code completions are separate.</td>
+                    <td className="px-5 py-4 text-zinc-600">Monthly credit allowance. Current usage and any extra-usage setting appear in your account.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/github-copilot-usage-calculator">Copilot credit planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="noreferrer">OpenAI Codex</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Plan allowance or credits vary with model, task size, context and where the task runs.</td>
+                    <td className="px-5 py-4 text-zinc-600">The account dashboard shows your active balance and reset. Some plans also use separate time windows.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/codex-usage-calculator">Codex task and reset planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank" rel="noreferrer">Claude Code</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Claude Code shares Claude’s pool across web, desktop and mobile. Model, context and effort change consumption.</td>
+                    <td className="px-5 py-4 text-zinc-600">Rolling five-hour sessions; paid plans also have weekly limits. Check your account for its current reset.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/claude-usage-calculator">Claude usage planner</Link></td>
+                  </tr>
+                  <tr>
+                    <th className="px-5 py-4 font-semibold">
+                      <a className="text-cyan-800 underline underline-offset-4" href="https://cursor.com/docs/models-and-pricing" target="_blank" rel="noreferrer">Cursor</a>
+                    </th>
+                    <td className="px-5 py-4 text-zinc-600">Separate model pools; third-party model use is charged at that model’s API rate.</td>
+                    <td className="px-5 py-4 text-zinc-600">Pools refresh with the monthly billing cycle; paid on-demand usage is available after included usage.</td>
+                    <td className="px-5 py-4"><Link className="font-medium text-cyan-800 underline underline-offset-4" href="/cursor-usage-calculator">Cursor pool planner</Link></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-zinc-500">
+            Sources: <a className="underline underline-offset-2" href="https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals" target="_blank" rel="noreferrer">GitHub billing</a>, <a className="underline underline-offset-2" href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="noreferrer">OpenAI Codex usage</a>, <a className="underline underline-offset-2" href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank" rel="noreferrer">Claude usage limits</a> and <a className="underline underline-offset-2" href="https://cursor.com/docs/models-and-pricing" target="_blank" rel="noreferrer">Cursor usage pools</a>. Checked September 25, 2026.
           </p>
         </section>
 
