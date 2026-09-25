@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
-import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import SitePageShell from "@/components/SitePageShell";
 
 const canonical = "/lovable-deployment-failed";
@@ -10,7 +9,7 @@ const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 export const metadata: Metadata = {
   title: "Lovable Deployment Failed? Fix Publish, Build & 404 Errors",
   description:
-    "Find where a Lovable deployment fails: preview, Publish, Vercel build, custom-domain DNS or SSL, or a live 404. Match the status to the next check.",
+    "Find where a Lovable deployment fails: preview, Publish, Vercel build or a live 404. Match the failing stage to the next check before changing settings.",
   robots: { index: true, follow: true },
   alternates: {
     canonical,
@@ -57,7 +56,7 @@ export default function LovableDeploymentFailedPage() {
           <li>If publishing itself does not complete, use the exact status and error shown by Lovable. Keep this separate from a Vercel build log, which applies only when you deploy the GitHub project there.</li>
         </ol>
         <p className="mt-3 text-sm leading-6 text-zinc-600">Do not post account credentials, secret environment values or private database URLs when asking for help.</p>
-        <div className="mt-5"><LovableDomainStatusChecker /></div>
+        <p className="mt-4 text-base leading-7">If the <code>.lovable.app</code> address works but a custom domain does not, use the dedicated <Link className={linkClass} href="/lovable-custom-domain-not-working">Lovable custom-domain DNS and SSL checker</Link>.</p>
       </section>
 
       <section id="vercel-build" className="scroll-mt-6">

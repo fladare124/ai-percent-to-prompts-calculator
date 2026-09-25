@@ -84,8 +84,9 @@ export default function DondeAlojarAppLovablePage() {
       </section>
 
       <section className="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-zinc-950">Guías para publicar tu proyecto</h2>
-        <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
+          <h2 className="text-xl font-semibold text-zinc-950">Guías para publicar tu proyecto</h2>
+          <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
+            <li><Link className={linkClass} href="/es/dominio-personalizado-lovable-no-funciona">Diagnosticar un dominio personalizado de Lovable que no funciona</Link></li>
           <li><Link className={linkClass} href="/es/publicar-lovable-en-vercel">Solucionar errores de framework o rutas entre Lovable y Vercel</Link></li>
           <li><Link className={linkClass} href="/hostinger-nodejs-app">Consultar los requisitos de Node.js de Hostinger</Link></li>
           <li><Link className={linkClass} href="/digitalocean-app-platform">Calcular el coste de DigitalOcean App Platform</Link></li>

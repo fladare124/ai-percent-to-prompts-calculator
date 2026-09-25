@@ -5,11 +5,20 @@ import { useState } from "react";
 const statuses = [
   {
     value: "unpublished",
-    label: "Unpublished",
+    label: "Unpublished (default project URL)",
     title: "Publish the project",
     steps: [
       "This status applies to the default lovable.app project URL when the app has not been published yet.",
       "Open the Publish dialog and publish the current version. A custom domain cannot serve an unpublished project.",
+    ],
+  },
+  {
+    value: "pending",
+    label: "Pending",
+    title: "Wait for domain registration and setup",
+    steps: [
+      "This status applies to a domain purchased through Lovable while registration, DNS and SSL are being configured.",
+      "Wait for setup to complete. If Lovable shows a warning or the status stays pending for more than a few hours, use Check status or contact Lovable support.",
     ],
   },
   {
@@ -87,6 +96,15 @@ const statuses = [
     ],
   },
   {
+    value: "checking",
+    label: "Checking",
+    title: "Lovable is checking the domain",
+    steps: [
+      "This is a brief status shown while Lovable checks whether it can still serve the project on this domain.",
+      "Wait for the check to finish. If the status changes to Connection issue, follow the warning Lovable displays for the domain.",
+    ],
+  },
+  {
     value: "offline",
     label: "Offline",
     title: "Recover the domain connection",
@@ -122,17 +140,34 @@ const statuses = [
       "If the domain was moved to another project or provider intentionally, confirm the old DNS records are no longer needed before changing them.",
     ],
   },
+  {
+    value: "suspended",
+    label: "Suspended",
+    title: "Verify the domain owner's email",
+    steps: [
+      "This status applies to a domain purchased through Lovable when the registrar's ownership email has not been verified before its deadline.",
+      "Open the verification email and confirm the address. If you already verified it, allow up to 15 minutes for the domain to be released; contact Lovable support if it remains suspended.",
+    ],
+  },
 ] as const;
 
 type StatusKey = (typeof statuses)[number]["value"];
 
 const spanishCopy: Record<StatusKey, { label: string; title: string; steps: string[] }> = {
   unpublished: {
-    label: "Sin publicar",
+    label: "Sin publicar (dirección del proyecto)",
     title: "Publica el proyecto",
     steps: [
       "Este estado se muestra en la dirección predeterminada lovable.app cuando la app aún no se ha publicado.",
       "Abre el cuadro Publicar y publica la versión actual. Un dominio personalizado no puede servir un proyecto sin publicar.",
+    ],
+  },
+  pending: {
+    label: "Pendiente",
+    title: "Espera a que se configure y registre el dominio",
+    steps: [
+      "Este estado corresponde a un dominio comprado mediante Lovable mientras se configuran el registro, el DNS y el certificado SSL.",
+      "Espera a que termine la configuración. Si Lovable muestra un aviso o sigue pendiente tras varias horas, pulsa Check status o contacta con su soporte.",
     ],
   },
   ready: {
@@ -201,6 +236,14 @@ const spanishCopy: Record<StatusKey, { label: string; title: string; steps: stri
       "Si la app aún falla, revisa la página, la ruta o los errores de ejecución por separado del DNS. El estado Live no garantiza que funcionen todas las rutas.",
     ],
   },
+  checking: {
+    label: "Comprobando",
+    title: "Lovable está comprobando el dominio",
+    steps: [
+      "Es un estado breve mientras Lovable comprueba si puede seguir sirviendo el proyecto en este dominio.",
+      "Espera a que termine la comprobación. Si cambia a Connection issue, sigue el aviso que Lovable muestra para el dominio.",
+    ],
+  },
   offline: {
     label: "Desconectado",
     title: "Recupera la conexión del dominio",
@@ -233,6 +276,14 @@ const spanishCopy: Record<StatusKey, { label: string; title: string; steps: stri
       "Si moviste el dominio a otro proyecto o proveedor, confirma que los registros anteriores ya no se necesitan antes de cambiarlos.",
     ],
   },
+  suspended: {
+    label: "Suspendido",
+    title: "Verifica el correo del titular del dominio",
+    steps: [
+      "Este estado corresponde a un dominio comprado mediante Lovable cuyo correo de titularidad no se confirmó antes del plazo indicado por el registrador.",
+      "Abre el correo de verificación y confirma la dirección. Si ya lo hiciste, espera hasta 15 minutos; si sigue suspendido, contacta con el soporte de Lovable.",
+    ],
+  },
 };
 
 export default function LovableDomainStatusChecker({ locale = "en" }: { locale?: "en" | "es" }) {
@@ -243,7 +294,7 @@ export default function LovableDomainStatusChecker({ locale = "en" }: { locale?:
   return (
     <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6" aria-labelledby="lovable-domain-status-heading">
       <h2 id="lovable-domain-status-heading" className="text-xl font-semibold text-zinc-950">{locale === "es" ? "¿No funciona el dominio personalizado de Lovable? Comprueba su estado" : "Lovable custom domain not working? Check its status"}</h2>
-      <p className="mt-2 text-sm leading-6 text-zinc-700">{locale === "es" ? "Elige el estado exacto que aparece en Proyecto → Configuración → Dominios. La solución cambia según si Lovable está comprobando el DNS, emitiendo el certificado SSL o esperando a que publiques la app." : "Choose the exact status shown under Project → Settings → Domains. The next step changes depending on whether Lovable is checking DNS, issuing SSL or waiting for the app to be published."}</p>
+      <p className="mt-2 text-sm leading-6 text-zinc-700">{locale === "es" ? "Elige el estado exacto que aparece en Proyecto → Configuración → Dominios. Incluye dominios conectados desde otro proveedor y dominios comprados mediante Lovable." : "Choose the exact status shown under Project → Settings → Domains. This includes domains connected from another provider and domains purchased through Lovable."}</p>
       <label htmlFor="lovable-domain-status" className="mt-4 block text-sm font-semibold text-zinc-950">{locale === "es" ? "Estado del dominio" : "Domain status"}</label>
       <select
         id="lovable-domain-status"
@@ -262,7 +313,7 @@ export default function LovableDomainStatusChecker({ locale = "en" }: { locale?:
           </ol>
         </div>
       ) : null}
-      <p className="mt-4 text-xs leading-5 text-zinc-500">{locale === "es" ? <>Para una conexión estándar, Lovable documenta actualmente un registro A y un TXT de verificación; el modo proxy usa CNAME. Copia los valores exactos del proyecto y sigue la <a className="font-semibold text-cyan-800 underline underline-offset-4" href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">guía oficial de dominios</a>. Esta herramienta no consulta DNS ni cambia registros.</> : <>For a standard connection, Lovable currently documents an A record and a verification TXT record; proxy mode uses a CNAME instead. Copy the exact values shown for your project and follow Lovable’s current <a className="font-semibold text-cyan-800 underline underline-offset-4" href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">custom-domain guide</a>. This checker does not query DNS or change records.</>}</p>
+      <p className="mt-4 text-xs leading-5 text-zinc-500">{locale === "es" ? <>Si conectaste un dominio de otro proveedor, la configuración estándar usa A y TXT; un proxy activado expresamente usa CNAME. Los dominios comprados mediante Lovable se configuran automáticamente. Copia los valores exactos del proyecto y sigue la <a className="font-semibold text-cyan-800 underline underline-offset-4" href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">guía oficial de dominios</a>. Esta herramienta no consulta DNS ni cambia registros.</> : <>For a domain from another provider, the standard setup uses A and TXT records; an explicitly enabled proxy uses CNAME. Domains purchased through Lovable are configured automatically. Copy the exact values shown for your project and follow Lovable’s current <a className="font-semibold text-cyan-800 underline underline-offset-4" href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">custom-domain guide</a>. This checker does not query DNS or change records.</>}</p>
     </section>
   );
 }

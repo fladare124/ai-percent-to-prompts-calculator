@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import LovableVercelChecker from "@/components/LovableVercelChecker";
 import SitePageShell from "@/components/SitePageShell";
 
@@ -9,9 +8,9 @@ const english = "/lovable-deployment-failed";
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 
 export const metadata: Metadata = {
-  title: "Lovable en Vercel: corrige 404 y dominio personalizado",
+  title: "Lovable en Vercel: corrige errores 404 y de despliegue",
   description:
-    "Comprueba el tipo de proyecto si Lovable en Vercel muestra 404 y revisa el estado DNS o SSL del dominio personalizado.",
+    "Comprueba el tipo de proyecto si Lovable en Vercel muestra 404. Revisa la versión del framework antes de cambiar rutas o ajustes de compilación.",
   robots: { index: true, follow: true },
   alternates: {
     canonical,
@@ -56,8 +55,7 @@ export default function PublicarLovableEnVercelPage() {
       </section>
 
       <div className="scroll-mt-6">
-        <p className="mb-4 text-base leading-7">Si funciona la dirección <code>.lovable.app</code> pero no tu dominio propio, consulta el estado que muestra Lovable antes de modificar el DNS. La verificación, la propagación y la emisión del certificado SSL son pasos separados.</p>
-        <LovableDomainStatusChecker locale="es" />
+        <p className="text-base leading-7">Si funciona la dirección <code>.lovable.app</code> pero no tu dominio propio, consulta el estado que muestra Lovable antes de modificar el DNS: la verificación, la propagación y el certificado SSL son pasos distintos. Sigue la guía específica para <Link className={linkClass} href="/es/dominio-personalizado-lovable-no-funciona">diagnosticar un dominio personalizado de Lovable</Link>.</p>
       </div>
 
       <section id="spa-vite-404" className="scroll-mt-6">

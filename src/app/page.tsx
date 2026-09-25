@@ -41,6 +41,12 @@ const guides = [
     href: "/lovable-to-vercel-checker",
   },
   {
+    label: "Custom domain",
+    title: "Lovable custom domain not working?",
+    detail: "Check the exact DNS or SSL status before changing records.",
+    href: "/lovable-custom-domain-not-working",
+  },
+  {
     label: "Bolt.new",
     title: "Bolt will not publish or deploy",
     detail: "Separate a preview problem from a publish or external build failure.",
