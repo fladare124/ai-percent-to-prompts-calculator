@@ -4,31 +4,31 @@ import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
 import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Etsy Seller Tools: Fee Calculator, CSV & Tag Checker",
+  title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
   description:
-    "Free Etsy seller tools: audit active listings from a private CSV, check tags, and estimate US fees and profit before you set a price.",
+    "Audit titles and tags across active Etsy listings from one CSV. Review duplicate titles, repeated tags, and formatting issues privately in your browser.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Free Etsy Seller Tools: Listing Audit, Fees and Tags",
+    title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
     description:
-      "Review a whole active-listings CSV in your browser, check Etsy tags, and estimate fees and target price.",
+      "Check title and tag patterns across your active Etsy listings. Your CSV stays in your browser; no Etsy login or upload is needed.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Etsy Seller Tools",
-    description: "Private listing checks and a practical Etsy fee and profit estimate.",
+    title: "Free Etsy Listing CSV Checker",
+    description: "Review titles and tags across your shop export. Private, free, and no Etsy login required.",
     images: ["/opengraph-image"],
   },
 };
 
 const faq = [
   {
-    question: "What can I do with these Etsy seller tools?",
+    question: "What does the Etsy CSV listing audit check?",
     answer:
-      "Audit title and tag patterns across an active-listings CSV, check tags for one listing, or estimate US Etsy fees and a target price for one order.",
+      "It checks title wording and length, tag count and character limits, repeated tags, and duplicate titles across an active-listings CSV. These are review prompts, not an Etsy ranking score.",
   },
   {
     question: "Does the Etsy CSV checker upload my shop data?",
@@ -65,7 +65,7 @@ const faqSchema = {
 const appSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Etsy Seller Toolkit by Listing Checkup",
+  name: "Etsy Listing CSV Checker by Listing Checkup",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   isAccessibleForFree: true,
@@ -104,13 +104,13 @@ export default function Home() {
         <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Free Etsy shop tools · No Etsy login
+              Free Etsy CSV checker · No Etsy login
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Check your listings, estimate fees, and price with more confidence.
+              Check titles and tags across your Etsy shop from one CSV.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Audit titles and tags across your active shop export, check one listing's tags, or estimate what an order could leave after common US fees and costs.
+              Review title and tag patterns across your active listings in your browser. Use the separate tag checker and US fee calculator when you need to inspect one listing or order.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#csv-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
@@ -211,7 +211,7 @@ export default function Home() {
         <section className="mt-14 border-t border-stone-200 pt-12 sm:pt-16" aria-labelledby="faq-heading">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Frequently asked questions</p>
-            <h2 id="faq-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">About these Etsy seller tools</h2>
+            <h2 id="faq-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">About the Etsy CSV checker and seller tools</h2>
           </div>
           <div className="mt-7 grid gap-3 md:grid-cols-2">
             {faq.map((item) => (

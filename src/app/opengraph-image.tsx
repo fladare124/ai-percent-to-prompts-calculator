@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Free Etsy seller tools: listing audit, fee calculator, and tag checker";
+export const alt = "Free Etsy listing CSV checker for bulk title and tag audits";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -12,15 +12,15 @@ export default function OpenGraphImage() {
           <div style={{ width: 56, height: 56, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 16, background: "#064e3b", color: "#d1fae5", fontSize: 22, fontWeight: 700 }}>LC</div>
           <div style={{ display: "flex", flexDirection: "column", fontSize: 18, fontWeight: 700, letterSpacing: 2 }}>
             <span>LISTING CHECKUP</span>
-            <span style={{ marginTop: 5, color: "#047857", fontSize: 13 }}>FREE ETSY SELLER TOOLS</span>
+            <span style={{ marginTop: 5, color: "#047857", fontSize: 13 }}>FREE ETSY LISTING CSV CHECKER</span>
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 42 }}>
           <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-            <div style={{ color: "#047857", fontSize: 17, fontWeight: 700, letterSpacing: 2 }}>LISTINGS · FEES · TAGS</div>
-            <div style={{ marginTop: 18, fontSize: 52, lineHeight: 1.08, fontWeight: 700 }}>Know what to review before you edit your shop.</div>
-            <div style={{ marginTop: 20, color: "#57534e", fontSize: 22 }}>Private CSV audit and a practical fee estimate.</div>
+            <div style={{ color: "#047857", fontSize: 17, fontWeight: 700, letterSpacing: 2 }}>BULK ETSY LISTING REVIEW</div>
+            <div style={{ marginTop: 18, fontSize: 52, lineHeight: 1.08, fontWeight: 700 }}>Check titles and tags across your shop from one CSV.</div>
+            <div style={{ marginTop: 20, color: "#57534e", fontSize: 22 }}>Free, private, and no Etsy login required.</div>
           </div>
           <div style={{ width: 325, display: "flex", flexDirection: "column", gap: 13, padding: 19, border: "1px solid #d6d3d1", borderRadius: 22, background: "rgba(255, 255, 255, 0.88)" }}>
             {[["01", "Shop CSV audit"], ["02", "Fee and profit"], ["03", "Tag checker"]].map(([number, label]) => (
