@@ -371,6 +371,7 @@ export default function Home() {
             <Link href="/ai-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">AI usage calculator</Link>
             <Link href="/chatgpt-limit-calculator" className="font-medium text-zinc-700 underline underline-offset-4">ChatGPT message limits</Link>
             <Link href="/codex-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Codex reset planner</Link>
+            <Link href="/es/calculadora-uso-codex" className="font-medium text-zinc-700 underline underline-offset-4">Calculadora de uso de Codex en español</Link>
             <Link href="/claude-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Claude Code session and weekly limits</Link>
             <Link href="/github-copilot-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Copilot credits</Link>
             <Link href="/cursor-usage-calculator" className="font-medium text-zinc-700 underline underline-offset-4">Cursor usage pools</Link>
