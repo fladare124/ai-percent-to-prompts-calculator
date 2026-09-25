@@ -143,6 +143,7 @@ export default function Home() {
               <h2 className="mt-2 text-xl font-semibold tracking-tight">US-specific price planner</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Add Etsy’s US tariff estimate and item costs to plan a target price across listings.</p>
               <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan US-specific prices →</Link>
+              <Link href="/es/planificador-precios-etsy-eeuu" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Planificador en español →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>
