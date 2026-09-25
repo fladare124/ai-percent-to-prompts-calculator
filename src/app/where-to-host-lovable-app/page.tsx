@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Where to Host a Lovable App? Vercel vs Hostinger",
   description:
     "Compare Vercel, Hostinger and DigitalOcean for a Lovable app by framework support, commercial use, backend needs and hosting costs.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, es: spanish },

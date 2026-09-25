@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Host a Node.js or Next.js App on Hostinger",
   description:
     "Check which Hostinger plans support Node.js apps, GitHub deployments and Next.js before moving an AI-generated project.",
+  robots: { index: true, follow: true },
   alternates: { canonical: "/hostinger-nodejs-app" },
 };
 

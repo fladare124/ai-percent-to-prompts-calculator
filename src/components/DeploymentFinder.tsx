@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { HOSTINGER_HREF, HOSTINGER_REL } from "@/lib/partners";
 
 type Stack = "static" | "next" | "tanstack" | "backend";
 type Priority = "easy" | "budget" | "services";
@@ -15,6 +16,7 @@ type Host = {
   caveat: string;
   href: string;
   linkLabel: string;
+  rel?: string;
 };
 
 const hosts: Record<string, Host> = {
@@ -33,8 +35,9 @@ const hosts: Record<string, Host> = {
     summary: "A managed hosting route for eligible Node.js apps, with GitHub import and framework detection.",
     reason: "It can fit an exported AI-built app when you prefer a guided hosting dashboard over configuring a server yourself.",
     caveat: "Node.js hosting requires an eligible Business or Cloud plan. Check the current plan price and app limits before moving a production project.",
-    href: "https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/",
-    linkLabel: "Check Node.js requirements",
+    href: HOSTINGER_HREF,
+    rel: HOSTINGER_REL,
+    linkLabel: "Review Hostinger app hosting plans",
   },
   digitalocean: {
     name: "DigitalOcean App Platform",
@@ -219,7 +222,7 @@ export default function DeploymentFinder() {
           <p className="mt-4 text-sm leading-6 text-zinc-300">{result.summary}</p>
           <p className="mt-4 text-sm leading-6 text-zinc-300">{result.reason}</p>
           <p className="mt-5 rounded-xl border border-amber-200/20 bg-amber-100/10 p-4 text-sm leading-6 text-amber-100">{result.caveat}</p>
-          <a href={result.href} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200">
+          <a href={result.href} target="_blank" rel={result.rel ?? "noopener noreferrer"} className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200">
             {result.linkLabel} <span aria-hidden="true">↗</span>
           </a>
           <p className="mt-4 text-xs leading-5 text-zinc-400">This is a starting recommendation, not a quote. Hosting prices, limits and included services can change.</p>

@@ -1,35 +1,35 @@
 import type { Metadata } from "next";
-import EtsyPageShell from "@/components/EtsyPageShell";
-import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_IS_AFFILIATE } from "@/lib/partners";
+import SitePageShell from "@/components/SitePageShell";
+import { HOSTINGER_DISCLOSURE, HOSTINGER_HREF, HOSTINGER_IS_AFFILIATE, HOSTINGER_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Affiliate Disclosure for Listing Checkup",
-  description:
-    "Learn whether Listing Checkup's Etsy seller tool recommendations currently earn an affiliate commission.",
-  robots: { index: true, follow: true },
+  title: "Affiliate Disclosure",
+  description: "Find out how affiliate links are disclosed in Prompt to Production hosting recommendations.",
+  robots: { index: false, follow: true },
   alternates: { canonical: "/affiliate-disclosure" },
 };
 
 export default function AffiliateDisclosurePage() {
   return (
-    <EtsyPageShell
-      eyebrow="Affiliate disclosure · September 25, 2026"
-      title={ERANK_IS_AFFILIATE ? "Some partner links may earn us a commission." : "Current partner links do not earn us a commission."}
-      intro={<>The eRank link currently shown in our Etsy seller tools is <a className="underline underline-offset-4" href={ERANK_HREF}>{ERANK_IS_AFFILIATE ? "an affiliate link" : "a regular outbound link"}</a>. {ERANK_DISCLOSURE} {ERANK_IS_AFFILIATE ? "Any commission does not increase your price." : "Listing Checkup is not enrolled in eRank’s affiliate program and does not earn from that referral today."}</>}
+    <SitePageShell
+      eyebrow="Affiliate disclosure"
+      title={HOSTINGER_IS_AFFILIATE ? "Some hosting links may earn a commission." : "Current hosting recommendations do not earn us a commission."}
+      intro={HOSTINGER_DISCLOSURE}
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">If that changes</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Current Hostinger link</h2>
         <p className="mt-3 text-base leading-7">
-          If we join an affiliate program and add tracked links, we will label those links next to the recommendation and update this page. A commission would not change the price paid by the buyer. Partner relationships will not affect the checker’s audit rules or the description of a tool’s limits.
+          The hosting finder links to <a className="font-semibold text-cyan-800 underline underline-offset-4" href={HOSTINGER_HREF} target="_blank" rel={HOSTINGER_REL}>Hostinger’s app hosting information</a>. {HOSTINGER_DISCLOSURE}
         </p>
+        <p className="mt-3 text-base leading-7">The finder also points to Vercel and DigitalOcean resources. We do not currently earn commission from those links.</p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">How we choose recommendations</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How recommendations are made</h2>
         <p className="mt-3 text-base leading-7">
-          A partner link should point to a service that fits a task the checker cannot perform, such as researching actual marketplace keyword data. The checker does not claim that an external service will increase a shop’s ranking or sales. Sellers should review a service’s current features, price and terms before signing up.
+          Recommendations are based on the framework, services and use selected in the hosting finder. An affiliate relationship does not change the framework checks or replace a comparison of price, commercial-use terms, limits and app requirements. Confirm all current details with the provider before purchasing.
         </p>
       </section>
-    </EtsyPageShell>
+    </SitePageShell>
   );
 }

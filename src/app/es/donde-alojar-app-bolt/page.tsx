@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Dónde alojar una app de Bolt.new: Bolt Cloud y alternativas",
   description:
     "Compara Bolt Cloud, Hostinger, Vercel y DigitalOcean para una app de Bolt.new según framework, servicios, flujo con GitHub y coste total.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: english, es: canonical },
@@ -113,7 +114,7 @@ export default function DondeAlojarAppBoltPage() {
         </ul>
       </section>
 
-      <p className="text-xs leading-5 text-zinc-500">Información revisada con la documentación pública el 25 de septiembre de 2026. Percent to Prompts es independiente y no recibe actualmente comisiones de los proveedores mencionados.</p>
+      <p className="text-xs leading-5 text-zinc-500">Información revisada con la documentación pública el 25 de septiembre de 2026. Prompt to Production es un proyecto independiente; estos enlaces a documentación no generan comisiones.</p>
       <p className="text-sm leading-6">Lee también la <Link className={linkClass} href={english} lang="en">guía en inglés</Link>.</p>
     </SitePageShell>
   );

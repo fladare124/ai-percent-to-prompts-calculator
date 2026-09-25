@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Free Etsy Title Checker | Character Count & Clarity",
   description:
     "Check an Etsy listing title for the 140-character limit, word count and repeated terms. Follow Etsy's current clarity guidance with a private browser tool.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": spanishRoute },

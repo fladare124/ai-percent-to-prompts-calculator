@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Bolt.new App Won't Deploy? Fix Publish and Build Errors",
   description:
     "Diagnose Bolt.new publish and build failures. Separate Bolt Cloud publishing from external hosting, check the log, and verify your project before redeploying.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, es: spanish },
@@ -121,7 +122,7 @@ export default function BoltDeploymentFailedPage() {
         </ul>
       </section>
 
-      <p className="text-xs leading-5 text-zinc-500">Provider information reviewed September 25, 2026. Percent to Prompts is independent and does not currently earn commission from the providers mentioned.</p>
+      <p className="text-xs leading-5 text-zinc-500">Provider information reviewed September 25, 2026. Prompt to Production is independent, and these documentation links do not earn a commission.</p>
     </SitePageShell>
   );
 }

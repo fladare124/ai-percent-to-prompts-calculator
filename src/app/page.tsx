@@ -1,59 +1,97 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
-import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
+import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
+import DeploymentFinder from "@/components/DeploymentFinder";
 
 export const metadata: Metadata = {
-  title: "Etsy Profit by SKU from CSV | Free Seller Tools",
+  title: "AI App Deployment Troubleshooter | Lovable, Bolt & Vercel",
   description:
-    "Estimate profit by Etsy product from an Order Items CSV. Add unit costs and fee assumptions, compare margins by SKU, and keep your shop data in your browser.",
+    "Diagnose common AI-built app deployment errors from a build log, choose a suitable host, and follow focused launch guides. Private, free, and no account required.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
-    languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
+    languages: { en: "/", "es-ES": "/es/arreglar-error-despliegue" },
   },
   openGraph: {
-    title: "Estimate Etsy Profit by SKU from a CSV",
+    title: "Fix an AI app deployment error",
     description:
-      "Import sold items, enter your own unit costs and fee assumptions, and compare estimated contribution across Etsy products.",
+      "Check a failed build log, choose a hosting path, and get your AI-built app ready to launch.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Etsy Profit by SKU from CSV | Free Seller Tools",
-    description: "Estimate contribution by Etsy product with a private sales CSV workflow.",
+    title: "AI App Deployment Troubleshooter",
+    description: "Private deployment diagnostics and hosting guides for AI-built apps.",
     images: ["/opengraph-image"],
   },
 };
 
-const faq = [
+const guides = [
   {
-    question: "What does the Etsy CSV listing audit check?",
-    answer:
-      "It checks title wording and length, tag count and character limits, repeated tags, duplicate titles, and blank listing details such as description, price, quantity, currency, or image URL when those columns are in the export. These are review prompts, not an Etsy ranking score.",
+    label: "Lovable → Vercel",
+    title: "App works in preview but Vercel shows 404",
+    detail: "Identify the project setup before changing routes or build settings.",
+    href: "/lovable-to-vercel-checker",
   },
   {
-    question: "Does the Etsy CSV checker upload my shop data?",
-    answer:
-      "No. The selected active-listings CSV is read in your browser and is not uploaded to our server. Site analytics do not receive listing text, tags, prices, or file contents.",
+    label: "Bolt.new",
+    title: "Bolt will not publish or deploy",
+    detail: "Separate a preview problem from a publish or external build failure.",
+    href: "/bolt-deployment-failed",
   },
   {
-    question: "Does the listing checker predict Etsy ranking or search volume?",
-    answer:
-      "No. It finds formatting and catalogue patterns for you to review. It does not connect to Etsy search, see your shop statistics, estimate keyword demand, or predict sales.",
+    label: "Build logs",
+    title: "Find the first useful build error",
+    detail: "Work through missing packages, TypeScript, Node versions and output folders.",
+    href: "/deploy-vibe-coded-app",
   },
   {
-    question: "Are Etsy bulk pricing and profit estimates exact?",
-    answer:
-      "No. Product-level results use your entered unit costs and fee assumptions. The report does not reconcile discounts, buyer taxes, refunds, actual ad attribution, postage, renewals, currency conversion, or all activity in your Payment account.",
-  },
-  {
-    question: "Is this an official Etsy tool?",
-    answer:
-      "No. This is an independent project and is not affiliated with or endorsed by Etsy. Always check Etsy's current rules and your Payment account.",
+    label: "Hosting",
+    title: "Choose where to host an AI-built app",
+    detail: "Compare options based on framework, commercial use and the services your app needs.",
+    href: "/where-to-host-lovable-app",
   },
 ];
+
+const faq = [
+  {
+    question: "Does this checker upload my deployment log?",
+    answer:
+      "No. The log is checked in your browser and is not sent to this site or an AI service. Remove passwords, API keys, tokens and private URLs before pasting it.",
+  },
+  {
+    question: "Can it fix my app automatically?",
+    answer:
+      "No. It matches common error patterns and gives you a focused checklist and a prompt you can copy into your coding assistant. You decide what to change and should review it before deploying.",
+  },
+  {
+    question: "Which tools does it support?",
+    answer:
+      "The checks apply to common deployment logs from Lovable, Bolt, Vercel, Cursor, Replit, Claude Code and other tools that generate web apps. The provider-specific guides explain when a fix applies to one framework or host.",
+  },
+  {
+    question: "Can I use this for a commercial app?",
+    answer:
+      "Yes. The hosting finder asks whether the project is commercial and points you to provider terms to check. Review the live plan, pricing and commercial-use rules before launch.",
+  },
+];
+
+const appSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Prompt to Production Deployment Checker",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web",
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  featureList: [
+    "Diagnose common AI app deployment errors locally in the browser",
+    "Copy a focused prompt for a coding assistant",
+    "Identify a framework from package.json without uploading the file",
+    "Compare hosting starting points for personal and commercial projects",
+  ],
+};
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -65,225 +103,152 @@ const faqSchema = {
   })),
 };
 
-const appSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Listing Checkup Etsy Seller Tools",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  featureList: [
-    "Estimate contribution and margin by product from Etsy Order Items CSV exports using seller-entered costs and fee assumptions",
-    "Plan US-specific Etsy prices across listings using item costs and Etsy tariff estimates",
-    "Audit Etsy active-listings CSV files locally in the browser",
-    "Group Etsy Order Items CSV sales by product or SKU and estimate contribution locally in the browser",
-    "Combine up to 12 Etsy monthly statement CSVs into annual totals by activity type and currency locally in the browser",
-    "Combine active listings and order exports to plan stock replenishment locally in the browser",
-    "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
-    "Check one Etsy listing title for character count, word count, and possible repetition",
-    "Check one Etsy tag list for count, character limits, and duplicates",
-    "Estimate US Etsy fees, profit, and a target item price",
-  ],
-};
-
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f7f6f0] text-stone-950">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <main className="min-h-screen bg-[#f5f8fc] text-slate-950">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-5">
-          <Link href="/" className="flex items-center gap-3" aria-label="Listing Checkup home">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-950 text-base font-bold text-emerald-100">LC</span>
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
+          <Link href="/" className="flex items-center gap-3" aria-label="Prompt to Production home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-sm font-bold text-cyan-300">P→</span>
             <span>
-              <span className="block text-sm font-bold tracking-tight">Listing Checkup</span>
-              <span className="block text-xs text-stone-500">Free Etsy seller tools</span>
+              <span className="block text-sm font-bold tracking-tight">Prompt to Production</span>
+              <span className="block text-xs text-slate-500">Launch help for AI-built apps</span>
             </span>
           </Link>
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
-            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Profit by SKU</Link>
-            <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price planner</Link>
-            <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
-            <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
-            <Link href="/etsy-title-checker" className="transition hover:text-stone-950">Title checker</Link>
-            <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
-            <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
-            <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
-            <Link href="/es/comprobador-csv-etsy" lang="es" hrefLang="es-ES" className="transition hover:text-stone-950">Español</Link>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-slate-600" aria-label="Main navigation">
+            <a href="#diagnose" className="transition hover:text-slate-950">Error checker</a>
+            <a href="#finder" className="transition hover:text-slate-950">Hosting finder</a>
+            <a href="#guides" className="transition hover:text-slate-950">Guides</a>
+            <Link href="/es/arreglar-error-despliegue" lang="es" hrefLang="es" className="transition hover:text-slate-950">Español</Link>
           </nav>
         </header>
 
-        <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16">
+        <section className="grid gap-10 py-12 sm:py-16 lg:grid-cols-[1fr_0.78fr] lg:items-center lg:gap-16">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Etsy order CSV · Profit by SKU · Private in your browser
+            <p className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-950">
+              Free launch tools · Private in your browser
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              See estimated profit by product across your Etsy shop.
+              Your AI-built app works in preview. Let’s get it live.
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Import an Etsy Order Items CSV, add your all-in unit costs and fee assumptions, and compare estimated contribution by product or SKU. Your files stay in this browser.
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+              Paste a failed build log to find likely causes and the first checks to make. Then choose a hosting path that fits your app, framework and project use.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/etsy-sales-csv-analyzer" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Analyze profit by SKU
-              </Link>
-              <a href="#seller-tools" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
-                Browse free Etsy tools
+              <a href="#diagnose" className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
+                Diagnose a deployment error
+              </a>
+              <a href="#finder" className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-500">
+                Choose where to host
               </a>
             </div>
-            <p className="mt-5 max-w-2xl text-xs leading-5 text-stone-500">
-              Independent planning tools. Estimates are not Etsy account results and do not change your live shop.
-            </p>
+            <p className="mt-5 text-xs leading-5 text-slate-500">For Lovable, Bolt, Vercel, Cursor, Replit, Claude Code and other AI app builders.</p>
           </div>
 
-          <div id="seller-tools" className="grid gap-3 sm:grid-cols-2">
-            <article className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Product performance</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy profit by SKU</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Add unit costs and fee assumptions to compare estimated contribution across sold products.</p>
-              <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Audit profit by product →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Payment account</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Monthly and annual statement summary</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Combine up to 12 monthly files to review amounts, fees, and net values by activity type and currency.</p>
-              <Link href="/etsy-payment-statement-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Combine statement CSVs →</Link>
-              <Link href="/etsy-annual-statement-csv-summary" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Read the annual summary guide →</Link>
-              <Link href="/es/analizador-extracto-etsy" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Analizador en español →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy CSV listing audit</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Find title and tag patterns across active listings. Your file stays in this browser.</p>
-              <a href="#csv-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Review listing details →</a>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">One order</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Fee and profit calculator</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">See common US fees, add costs, and work backward from your target profit.</p>
-              <Link href="/etsy-fee-calculator" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Calculate an Etsy price →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">International pricing</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">US-specific price planner</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Use item costs and Etsy’s tariff estimates to plan a US price across active listings.</p>
-              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan US-specific prices →</Link>
-              <Link href="/es/planificador-precios-etsy-eeuu" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Planificador en español →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Inventory planning</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy restock planner</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Match active stock with sold units to spot listings that may need replenishment.</p>
-              <Link href="/etsy-restock-planner" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan Etsy restocks →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-800">One listing</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy tag checker</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Count up to 13 tags, check the 20-character limit, and spot repeated tags before you save.</p>
-              <Link href="/etsy-tag-checker" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Check Etsy tags →</Link>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Title clarity</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy title checker</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Count title characters and words, then review possible repetition against Etsy’s current guidance.</p>
-              <Link href="/etsy-title-checker" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Check an Etsy title →</Link>
-            </article>
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_24px_80px_-56px_rgba(15,23,42,0.45)] sm:p-7">
+            <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-800">The launch path</p>
+                <h2 className="mt-1 text-xl font-semibold tracking-tight">From error to next step</h2>
+              </div>
+              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">No sign-up</span>
+            </div>
+            <ol className="mt-5 space-y-4">
+              {[
+                ["01", "Paste a redacted build log", "Common failure patterns are matched locally."],
+                ["02", "Check the likely cause", "Get a short list of steps and a prompt to copy."],
+                ["03", "Pick a launch path", "Compare hosting by framework and how the app will be used."],
+              ].map(([number, title, description]) => (
+                <li key={number} className="flex gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-950 text-xs font-bold text-cyan-300">{number}</span>
+                  <div>
+                    <h3 className="text-sm font-semibold">{title}</h3>
+                    <p className="mt-1 text-sm leading-5 text-slate-600">{description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-5 rounded-xl bg-slate-50 px-4 py-3 text-xs leading-5 text-slate-600">Your log and project files stay on your device. The checker does not run or change your code.</p>
           </div>
         </section>
 
-        <div id="csv-audit" className="scroll-mt-6">
-          <EtsyCsvAuditor />
-        </div>
-
-        <section className="mt-10 grid gap-4 lg:grid-cols-2" aria-label="Etsy tools and guidance">
-          <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Plan stock</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Match current quantities with recent sold units.</h2>
-            <p className="mt-3 text-sm leading-6 text-stone-600">Use an active-listings export and Order Items CSVs to estimate stock coverage and a replenishment amount from your chosen sales period and lead time.</p>
-            <Link href="/etsy-restock-planner" className="mt-4 inline-flex rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700">Open the Etsy restock planner →</Link>
-          </article>
-          <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Check one listing</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Count tags and characters before saving.</h2>
-            <p className="mt-3 text-sm leading-6 text-stone-600">Etsy allows up to 13 tags per listing and up to 20 characters in each. The checker catches format issues; it cannot tell whether a phrase matches what shoppers search for.</p>
-            <Link href="/etsy-tag-checker" className="mt-4 inline-flex rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700">Open the Etsy tag checker →</Link>
-          </article>
-          <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-amber-800">Estimate one sale</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Include the costs a simple fee percentage misses.</h2>
-            <p className="mt-3 text-sm leading-6 text-stone-600">Add buyer-paid shipping, postage, materials, packaging, labor, estimated sales tax, and an attributed Offsite Ads rate. Then solve for an item price that reaches a chosen profit.</p>
-            <Link href="/etsy-fee-calculator" className="mt-4 inline-flex rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700">Open the Etsy fee calculator →</Link>
-          </article>
+        <section id="diagnose" className="scroll-mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8" aria-labelledby="diagnose-heading">
+          <div className="mb-6 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Deployment error checker</p>
+            <h2 id="diagnose-heading" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Find the first useful clue in your build log.</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600">Paste the relevant error lines, not secrets or private credentials. The checker looks for common build and deployment problems, then gives you a focused repair prompt to use with your coding assistant.</p>
+          </div>
+          <DeploymentErrorHelper />
         </section>
 
-        <section id="method" className="mt-14 scroll-mt-8 border-t border-stone-200 pt-12 sm:pt-16">
+        <section id="finder" className="mt-14 scroll-mt-6" aria-labelledby="finder-heading">
+          <div className="mb-6 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Hosting decision helper</p>
+            <h2 id="finder-heading" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Choose a host that matches the app you actually built.</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600">Paste your <code className="rounded bg-slate-100 px-1.5 py-0.5 text-sm">package.json</code> or select a framework. Then compare ease, cost and the needs of a personal demo or commercial project.</p>
+          </div>
+          <DeploymentFinder />
+        </section>
+
+        <section id="guides" className="mt-14 scroll-mt-6 border-t border-slate-200 pt-12 sm:pt-16" aria-labelledby="guides-heading">
           <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Transparent checks</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Useful checks, with the limits stated plainly.</h2>
-            <p className="mt-4 text-base leading-7 text-stone-600">The CSV audit is a local checklist, not an Etsy ranking score. Product profit is an estimate based on your costs and fee assumptions, not your final Payment account statement. Review each result and check Etsy&apos;s latest seller guidance before changing a live listing.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Step-by-step fixes</p>
+            <h2 id="guides-heading" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Get help for the problem you’re seeing.</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600">Provider settings differ by framework and by the generation of the project. These guides explain what to check before changing configuration or paying for another host.</p>
           </div>
-
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Listing titles</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Find very long wording, repeated words, subjective adjectives, and sales language for a human review.</p>
-              <a href="https://www.etsy.com/seller-handbook/article/1399426136697" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Etsy title guidance ↗</a>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Tags</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Check the 13-tag limit, tag length, duplicates in a listing, and patterns repeated across a shop export.</p>
-              <a href="https://help.etsy.com/hc/en-us/articles/360000336307-How-to-Use-Tags-to-Get-Found-in-Search" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Etsy tag guidance ↗</a>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5">
-              <h3 className="font-semibold text-stone-950">Fees and profit</h3>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Estimate common US order fees, include your own costs, and test an Offsite Ads charge or target price.</p>
-              <a href="https://help.etsy.com/hc/en-us/articles/360035902374-Etsy-Fee-Basics" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Etsy fee guidance ↗</a>
-            </article>
-          </div>
-
-          <div className="mt-7 grid gap-4 lg:grid-cols-[1fr_0.8fr]">
-            <article className="rounded-2xl border border-stone-200 bg-[#eeede4] p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Need actual search data?</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-tight">A CSV audit cannot tell you what shoppers search for.</h3>
-              <p className="mt-3 text-sm leading-6 text-stone-700">Use Etsy Shop Stats or a keyword research service to investigate demand. Check the plan, limits, and data source before relying on third-party estimates.</p>
-              <a href={ERANK_HREF} target="_blank" rel={ERANK_REL} className="mt-4 inline-flex rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 hover:border-emerald-700">Explore eRank keyword tools ↗</a>
-              <p className="mt-2 text-xs leading-5 text-stone-500">{ERANK_DISCLOSURE}</p>
-            </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Private by design</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-tight">Your shop export stays on your device.</h3>
-              <p className="mt-3 text-sm leading-6 text-stone-600">The CSV checker and fee estimate run in your browser. The site does not connect to Etsy, upload a shop file, or send listing text to an AI service.</p>
-              <Link href="/privacy" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Read the privacy note</Link>
-            </article>
+          <div className="mt-7 grid gap-4 md:grid-cols-2">
+            {guides.map((guide) => (
+              <article key={guide.href} className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-cyan-300 hover:shadow-sm sm:p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-800">{guide.label}</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight">{guide.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{guide.detail}</p>
+                <Link href={guide.href} className="mt-4 inline-flex text-sm font-semibold text-cyan-900 underline decoration-cyan-300 underline-offset-4">Open the guide →</Link>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="mt-14 border-t border-stone-200 pt-12 sm:pt-16" aria-labelledby="faq-heading">
+        <section className="mt-14 grid gap-4 border-t border-slate-200 pt-12 md:grid-cols-3" aria-label="How the checker works">
+          <article className="rounded-2xl border border-slate-200 bg-white p-5">
+            <h2 className="font-semibold">Local log analysis</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">The pasted text is compared with known patterns on this page. It is not uploaded to a server or sent to an AI model.</p>
+          </article>
+          <article className="rounded-2xl border border-slate-200 bg-white p-5">
+            <h2 className="font-semibold">Practical next checks</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">The result is a starting point, not a full code review. Verify the fix in your project and the provider’s current documentation.</p>
+          </article>
+          <article className="rounded-2xl border border-slate-200 bg-white p-5">
+            <h2 className="font-semibold">Clear hosting trade-offs</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">Recommendations consider framework, commercial use and app services. Prices, included limits and provider terms can change.</p>
+          </article>
+        </section>
+
+        <section className="mt-14 border-t border-slate-200 pt-12 sm:pt-16" aria-labelledby="faq-heading">
           <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Frequently asked questions</p>
-            <h2 id="faq-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">About the Etsy CSV checker and seller tools</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Frequently asked questions</p>
+            <h2 id="faq-heading" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">About the deployment checker</h2>
           </div>
           <div className="mt-7 grid gap-3 md:grid-cols-2">
             {faq.map((item) => (
-              <details key={item.question} className="group rounded-2xl border border-stone-200 bg-white p-5">
-                <summary className="cursor-pointer list-none pr-6 font-semibold text-stone-950 marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-700">
-                  {item.question}<span aria-hidden="true" className="float-right text-emerald-800 transition group-open:rotate-45">＋</span>
+              <details key={item.question} className="group rounded-2xl border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer list-none pr-6 font-semibold marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-700">
+                  {item.question}<span aria-hidden="true" className="float-right text-cyan-800 transition group-open:rotate-45">＋</span>
                 </summary>
-                <p className="mt-3 text-sm leading-6 text-stone-600">{item.answer}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <footer className="mt-14 flex flex-col gap-4 border-t border-stone-200 pt-6 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>Listing Checkup · Independent Etsy seller tools · Fee notes reviewed September 25, 2026.</p>
+        <footer className="mt-14 flex flex-col gap-4 border-t border-slate-200 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>Prompt to Production · Independent tools and guides for launching AI-built apps.</p>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
-            <Link href="/about" className="underline underline-offset-4 hover:text-stone-900">About</Link>
-            <Link href="/privacy" className="underline underline-offset-4 hover:text-stone-900">Privacy</Link>
-            <Link href="/affiliate-disclosure" className="underline underline-offset-4 hover:text-stone-900">Affiliate disclosure</Link>
+            <Link href="/about" className="underline underline-offset-4 hover:text-slate-900">About</Link>
+            <Link href="/privacy" className="underline underline-offset-4 hover:text-slate-900">Privacy</Link>
+            <Link href="/affiliate-disclosure" className="underline underline-offset-4 hover:text-slate-900">Affiliate disclosure</Link>
           </nav>
         </footer>
       </div>

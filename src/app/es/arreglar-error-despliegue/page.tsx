@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Arreglar errores al desplegar una app creada con IA",
   description:
     "Diagnostica fallos de compilación en apps hechas con Lovable, Bolt, Cursor o Claude Code. Analiza el registro en tu navegador y descubre qué revisar.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: english, es: canonical },

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Lovable App on Vercel Showing 404? Check the Framework",
   description:
     "Find out whether a Lovable app’s Vercel 404 comes from an older Vite SPA route or its current TanStack Start setup, then check the right fix.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, es: spanish },

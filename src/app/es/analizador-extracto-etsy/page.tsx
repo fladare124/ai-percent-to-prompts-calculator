@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Analizador anual y mensual de extractos Etsy CSV | Gratis",
   description:
     "Combina hasta 12 CSV de extractos mensuales de Etsy en totales anuales por actividad y moneda. Sin subir los archivos ni iniciar sesión.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: "/etsy-payment-statement-analyzer", "es-ES": canonical },

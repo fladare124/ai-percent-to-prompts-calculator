@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Etsy Profit by SKU from CSV | Free Profit Analyzer",
   description:
     "Estimate Etsy contribution by product from an Order Items CSV. Add unit costs and fee assumptions, compare margins by SKU, and keep your data in your browser.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical },
   openGraph: {
     title: "Free Etsy Profit by SKU CSV Analyzer",

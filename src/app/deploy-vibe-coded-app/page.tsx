@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "How to Fix AI App Deployment and Build Errors",
   description:
     "Troubleshoot failed deployments for AI-built apps. Check build logs, missing packages, environment variables, Node.js versions and output settings.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical: "/deploy-vibe-coded-app",
     languages: { en: "/deploy-vibe-coded-app", es: "/es/arreglar-error-despliegue" },
@@ -134,7 +135,7 @@ export default function DeployVibeCodedAppPage() {
         <p className="mt-4 text-sm leading-6">Use the <Link href="/#finder" className={linkClass}>hosting finder</Link> for a starting recommendation, then confirm the details directly with the provider.</p>
       </section>
 
-      <p className="text-xs leading-5 text-zinc-500">Percent to Prompts is independent and does not currently earn commission from these providers.</p>
+      <p className="text-xs leading-5 text-zinc-500">Prompt to Production is independent. These links go to provider documentation and do not currently earn a commission.</p>
     </SitePageShell>
   );
 }

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Combine Etsy Monthly Statement CSVs into a Year Summary",
   description:
     "Learn how to combine Etsy Monthly Statement CSVs into annual activity totals, keep currencies separate, and understand what the numbers do and do not show.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical },
   openGraph: {
     title: "How to Combine Etsy Monthly Statement CSVs for a Year",

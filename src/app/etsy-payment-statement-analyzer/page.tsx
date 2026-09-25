@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Etsy Annual & Monthly Statement CSV Analyzer | Free Tool",
   description:
     "Combine up to 12 Etsy monthly statement CSVs into annual totals by activity type and currency. Review Amount, Fees & Taxes, and Net privately in your browser.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": "/es/analizador-extracto-etsy" },

@@ -1,59 +1,60 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import EtsyPageShell from "@/components/EtsyPageShell";
+import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
-  title: "About Listing Checkup: Free Etsy Seller Tools",
+  title: "About Prompt to Production",
   description:
-    "How Listing Checkup's Etsy CSV profit estimate, title and tag checkers, stock planner, and fee tools work—and what each cannot measure.",
+    "How Prompt to Production helps people diagnose deployment problems and launch apps made with AI coding tools.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/about" },
 };
 
+const sourceClass = "font-semibold text-cyan-800 underline underline-offset-4";
+
 export default function AboutPage() {
   return (
-    <EtsyPageShell
-      eyebrow="About Listing Checkup"
-      title="Free, independent tools for Etsy sellers."
-      intro="Listing Checkup brings together private Etsy catalogue checks, a product-level contribution estimate from sales CSVs, stock planning and price tools. The tools run in your browser and do not connect to your shop."
+    <SitePageShell
+      eyebrow="About Prompt to Production"
+      title="Practical launch help for apps made with AI."
+      intro="Prompt to Production is an independent project for the gap between a working preview and a dependable live app. It brings deployment checks, hosting comparisons and focused guides into one place."
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the tools check</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">What the tools do</h2>
         <p className="mt-3 text-base leading-7">
-          The listing audit flags title patterns that Etsy’s public guidance asks sellers to consider: long or hard-to-scan wording, repeated terms, subjective descriptions, and sales or shipping text. It checks the 13-tag and 20-character limits, duplicate tags, repeated tags across listings, and exact duplicate titles. The fee tool estimates common US charges for one order and works backward from a target profit.
+          The deployment checker compares pasted build-log text with a set of common error patterns. It suggests what to verify first and creates a repair prompt that you can choose to copy into your coding assistant. The hosting finder reads a package manifest in your browser, detects a few common frameworks and gives a starting point based on framework, priorities and project use.
         </p>
         <p className="mt-3 text-base leading-7">
-          These are prompts for human review, not an Etsy quality or ranking score. Repeated tags, long titles, and gifting phrases are not automatically wrong in every context. Profit estimates do not replace an Etsy Payment account statement.
-        </p>
-        <p className="mt-3 text-base leading-7">
-          The single-title checker counts characters and words and flags a few wording patterns for review. The Order Items CSV report estimates product contribution from item value, your entered cost per unit, and your fee assumptions. It does not reconcile Etsy Payment account activity. The stock tool compares current quantities with sold units but does not forecast demand. Files are read locally in your browser.
+          The tools do not execute, change or fully review your code. A result is a clue, not proof of a root cause. Confirm each fix in your project and use the current documentation for the framework and host.
         </p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What it cannot measure</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Privacy and limitations</h2>
         <p className="mt-3 text-base leading-7">
-          The tools cannot access Etsy search volume, competition, impressions, clicks, orders, or conversion data. They do not connect to a shop, change a listing, or predict sales or rank. Use Etsy Shop Stats and keyword research for demand, and your Etsy Payment account for actual fees.
+          Logs and project manifests are processed in the browser. They are not uploaded to this site or sent to an AI service. If you copy a repair prompt into another service, that service’s terms apply. Do not paste credentials, secrets or private customer data into the checker.
         </p>
+        <p className="mt-3 text-base leading-7">
+          Provider plans, prices and deployment support change. The hosting finder is a comparison aid, not a quote or a guarantee that a provider will support every app configuration. Read the provider terms and confirm the complete cost before moving a production app.
+        </p>
+        <Link href="/privacy" className={sourceClass}>Read the privacy notice</Link>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Sources and independence</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Independent project</h2>
         <p className="mt-3 text-base leading-7">
-          The listing checks are based on public Etsy seller resources, including Etsy’s <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://www.etsy.com/seller-handbook/article/1399426136697" target="_blank" rel="noopener noreferrer">updated title guidance</a> and <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360000336307-How-to-Use-Tags-to-Get-Found-in-Search" target="_blank" rel="noopener noreferrer">tag requirements</a>. The fee estimate is based on Etsy’s <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360035902374-Etsy-Fee-Basics" target="_blank" rel="noopener noreferrer">fee basics</a>, <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/115015628847-What-are-Payment-Processing-Fees-for-Selling-on-Etsy" target="_blank" rel="noopener noreferrer">payment processing rates</a>, and <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360000338367-How-Etsy-s-Offsite-Ads-Work" target="_blank" rel="noopener noreferrer">Offsite Ads policy</a>. We last checked these pages on September 25, 2026. Etsy may update its guidance, so confirm important decisions against Etsy’s current rules.
+          Prompt to Production is not affiliated with Lovable, Bolt, Vercel, Hostinger or DigitalOcean. Product names are used only to identify the services covered by the independent guides. Provider documentation is linked wherever a recommendation depends on current product details.
         </p>
         <p className="mt-3 text-base leading-7">
-          Listing Checkup is not affiliated with or endorsed by Etsy, eRank, or another marketplace research service. We do not claim a professional certification or access to Etsy’s internal search systems.
+          Some provider recommendations may later use affiliate links. Any active affiliate relationship will be disclosed next to the link and on the <Link href="/affiliate-disclosure" className={sourceClass}>affiliate disclosure page</Link>.
         </p>
       </section>
 
-      <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-stone-950">Privacy by design</h2>
-        <p className="mt-2 text-sm leading-6">Your CSV and calculator inputs are processed in your browser. Listing content and tool inputs are not sent to us.</p>
-        <Link href="/privacy" className="mt-3 inline-flex font-semibold text-emerald-900 underline underline-offset-4">Read the privacy note</Link>
+      <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
+        <h2 className="text-xl font-semibold text-zinc-950">Start with the checker</h2>
+        <p className="mt-2 text-sm leading-6">Paste a redacted deployment error and get a short list of checks you can verify yourself.</p>
+        <Link href="/#diagnose" className="mt-3 inline-flex font-semibold text-cyan-900 underline underline-offset-4">Open the deployment checker →</Link>
       </section>
-
-      <p className="text-xs leading-5 text-stone-500">Project and guidance reviewed September 25, 2026.</p>
-    </EtsyPageShell>
+    </SitePageShell>
   );
 }

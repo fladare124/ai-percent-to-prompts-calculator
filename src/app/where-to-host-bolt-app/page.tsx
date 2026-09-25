@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Where to Host a Bolt.new App? Bolt Cloud vs Hosts",
   description:
     "Compare Bolt Cloud, Hostinger, Vercel and DigitalOcean for a Bolt.new app. Choose by framework, backend services, GitHub workflow and total cost.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, es: spanish },
@@ -111,7 +112,7 @@ export default function WhereToHostBoltPage() {
         </ul>
       </section>
 
-      <p className="text-xs leading-5 text-zinc-500">Provider information reviewed September 25, 2026. Percent to Prompts is independent and does not currently earn commission from the providers mentioned.</p>
+      <p className="text-xs leading-5 text-zinc-500">Provider information reviewed September 25, 2026. Prompt to Production is independent, and these documentation links do not earn a commission.</p>
     </SitePageShell>
   );
 }

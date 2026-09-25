@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: SITE_NAME,
-    template: "%s | Listing Checkup",
+    template: "%s | Prompt to Production",
   },
   description:
-    "Private Etsy shop CSV tools to estimate profit by SKU, audit listings, review sales, and plan inventory.",
+    "Free deployment diagnostics, hosting guidance and launch checklists for AI-built apps.",
   robots: { index: false, follow: true },
   icons: {
     icon: "/icon.svg",

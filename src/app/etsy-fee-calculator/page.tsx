@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Etsy Fee Calculator & Profit Calculator for US Sellers",
   description:
     "Estimate Etsy listing, transaction, payment processing, and Offsite Ads fees. Add real costs and calculate the item price for your target profit.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical: "/etsy-fee-calculator" },
   openGraph: {
     title: "Etsy Fee and Profit Calculator",

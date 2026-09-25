@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Etsy US Price Planner | Bulk Tariff and Margin Report",
   description:
     "Plan US-specific Etsy prices across listings. Import a CSV, add unit costs and Etsy tariff estimates by SKU, and review target margins privately in your browser.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": "/es/planificador-precios-etsy-eeuu" },

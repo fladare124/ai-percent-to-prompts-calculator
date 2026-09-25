@@ -42,6 +42,28 @@ const rules: DiagnosticRule[] = [
     ],
   },
   {
+    id: "root-directory",
+    pattern: /ENOENT: no such file or directory, (?:open|stat) ['"][^'"]*(?:package\.json|pnpm-lock\.yaml|yarn\.lock|package-lock\.json)|No package\.json found|Could not find package\.json|root directory.{0,60}(?:not found|does not exist)/i,
+    title: "The deployment may be using the wrong project folder",
+    explanation: "The build cannot find the project manifest or lockfile where the host expects it. This often happens when the app lives in a subfolder of a larger repository.",
+    steps: [
+      "Check which folder contains package.json and the lockfile in the GitHub repository.",
+      "Set the host's Root Directory to that folder, or move the app files if the repository layout is meant to be flat.",
+      "Confirm the install and build commands work from that same directory before deploying again.",
+    ],
+  },
+  {
+    id: "route-not-found",
+    pattern: /(?:404|NOT_FOUND|PAGE_NOT_FOUND|ROUTE_NOT_FOUND|No route matches|Cannot GET \/)/i,
+    title: "A requested route may not exist in the deployed app",
+    explanation: "A 404 can mean the URL is wrong, a route was not included in the build, or a single-page app needs a host-specific fallback. It does not always mean the build failed.",
+    steps: [
+      "Open the production home page, then test the exact nested URL and capitalization that returns 404.",
+      "Check whether the framework creates server routes or uses a client-side router; only the latter may need a fallback rewrite.",
+      "Read the host's framework-specific routing guide before adding rewrite rules, especially for server-rendered apps.",
+    ],
+  },
+  {
     id: "typescript",
     pattern: /Type error:|error TS\d+:|TypeScript error/i,
     title: "TypeScript stopped the production build",
@@ -138,6 +160,26 @@ const spanishDiagnoses: Record<string, DeploymentDiagnosis> = {
       "Busca la primera importación que falta en el registro y confirma que el archivo está en el repositorio.",
       "Comprueba que cada letra de la ruta coincide con el nombre del archivo; el servidor puede distinguir mayúsculas de minúsculas.",
       "Si falta un paquete, añádelo a las dependencias y confirma el archivo de bloqueo actualizado.",
+    ],
+  },
+  "root-directory": {
+    id: "root-directory",
+    title: "Puede que el despliegue use la carpeta incorrecta",
+    explanation: "La compilación no encuentra package.json o el archivo de bloqueo donde lo busca el proveedor. Suele ocurrir cuando la app está dentro de una subcarpeta del repositorio.",
+    steps: [
+      "Comprueba en qué carpeta del repositorio están package.json y el archivo de bloqueo.",
+      "Configura esa carpeta como raíz del proyecto en el proveedor, o mueve los archivos si el repositorio debería tener otra estructura.",
+      "Confirma que la instalación y la compilación funcionan desde esa misma carpeta antes de volver a desplegar.",
+    ],
+  },
+  "route-not-found": {
+    id: "route-not-found",
+    title: "Puede que la ruta solicitada no exista en la app publicada",
+    explanation: "Un 404 puede indicar que la URL no es correcta, que la ruta no se incluyó en la compilación o que una app de una sola página necesita una regla de fallback. No siempre significa que haya fallado la compilación.",
+    steps: [
+      "Abre la página principal de producción y después prueba la URL exacta y las mayúsculas de la ruta que da 404.",
+      "Comprueba si el framework genera rutas de servidor o si usa un router en el navegador; solo este último podría necesitar un fallback.",
+      "Consulta la guía de rutas del framework en el proveedor antes de añadir reglas, sobre todo en apps con renderizado de servidor.",
     ],
   },
   typescript: {

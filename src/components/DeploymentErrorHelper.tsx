@@ -4,6 +4,7 @@ import { useState } from "react";
 import { diagnoseDeploymentLog } from "@/lib/deploymentDiagnostics";
 
 const MAX_LOG_LENGTH = 16_000;
+const SAMPLE_LOG = `> npm run build\n\nsrc/app/page.tsx:24: Type error: Property 'title' does not exist on type 'Props'.\n\nFailed to compile.\nError: Command "npm run build" exited with 1`;
 
 const copy = {
   en: {
@@ -13,7 +14,14 @@ const copy = {
     privacy: "Analysis runs in this browser and the text is not saved or uploaded. Remove API keys, passwords, tokens and private URLs before pasting logs.",
     diagnose: "Diagnose the log",
     clear: "Clear log",
+    sample: "Try a sample error",
     result: "What to check first",
+    copyPrompt: "Copy a focused repair prompt",
+    copiedPrompt: "Repair prompt copied",
+    promptError: "Clipboard access was unavailable. Open the prompt below and copy it manually.",
+    promptHeading: "Prompt for your coding assistant",
+    promptIntro: "My app's deployment is blocked by this likely issue:",
+    promptTask: "Review the relevant project files and deployment settings. Explain the smallest safe fix, change only what is needed, and do not invent secrets or modify unrelated features.",
     guide: "Open the deployment troubleshooting guide",
     how: "How this checker works",
     headline: "Find the first useful clue.",
@@ -30,7 +38,14 @@ const copy = {
     privacy: "El análisis se hace en este navegador y el texto no se guarda ni se envía. Elimina claves de API, contraseñas, tokens y direcciones privadas antes de pegar el registro.",
     diagnose: "Analizar el registro",
     clear: "Borrar registro",
+    sample: "Probar con un error de ejemplo",
     result: "Qué revisar primero",
+    copyPrompt: "Copiar una instrucción de reparación",
+    copiedPrompt: "Instrucción copiada",
+    promptError: "No se pudo acceder al portapapeles. Abre la instrucción y cópiala manualmente.",
+    promptHeading: "Instrucción para tu asistente de código",
+    promptIntro: "El despliegue de mi app parece bloqueado por este problema:",
+    promptTask: "Revisa los archivos relevantes del proyecto y la configuración del alojamiento. Explica la corrección segura más pequeña, cambia solo lo necesario y no inventes secretos ni modifiques funciones que no estén relacionadas.",
     guide: "Abrir la guía para solucionar errores de despliegue",
     how: "Cómo funciona la herramienta",
     headline: "Busca la primera pista concreta.",
@@ -45,8 +60,27 @@ const copy = {
 export default function DeploymentErrorHelper({ locale = "en" }: { locale?: "en" | "es" }) {
   const [log, setLog] = useState("");
   const [diagnosedLog, setDiagnosedLog] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
   const text = copy[locale];
   const diagnoses = diagnoseDeploymentLog(diagnosedLog, locale);
+  const repairPrompt = [
+    text.promptIntro,
+    ...diagnoses.map((diagnosis) => `\n${diagnosis.title}: ${diagnosis.explanation}\n${diagnosis.steps.map((step) => `- ${step}`).join("\n")}`),
+    `\n${text.promptTask}`,
+    locale === "es" ? "Incluyo a continuación solo las líneas relevantes del registro, después de eliminar claves y datos privados:" : "I will add only the relevant, redacted lines from the build log below:",
+  ].join("\n");
+
+  async function copyRepairPrompt() {
+    try {
+      await navigator.clipboard.writeText(repairPrompt);
+      setCopied(true);
+      setCopyFailed(false);
+    } catch {
+      setCopied(false);
+      setCopyFailed(true);
+    }
+  }
 
   return (
     <div className="grid gap-7 lg:grid-cols-[1fr_0.9fr]">
@@ -58,6 +92,8 @@ export default function DeploymentErrorHelper({ locale = "en" }: { locale?: "en"
           onChange={(event) => {
             setLog(event.target.value.slice(0, MAX_LOG_LENGTH));
             setDiagnosedLog("");
+            setCopied(false);
+            setCopyFailed(false);
           }}
           rows={11}
           spellCheck={false}
@@ -79,12 +115,26 @@ export default function DeploymentErrorHelper({ locale = "en" }: { locale?: "en"
           >
             {text.diagnose}
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              setLog(SAMPLE_LOG);
+              setDiagnosedLog(SAMPLE_LOG);
+              setCopied(false);
+              setCopyFailed(false);
+            }}
+            className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 transition hover:border-zinc-500"
+          >
+            {text.sample}
+          </button>
           {log ? (
             <button
               type="button"
               onClick={() => {
                 setLog("");
                 setDiagnosedLog("");
+                setCopied(false);
+                setCopyFailed(false);
               }}
               className="rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 transition hover:border-zinc-500"
             >
@@ -109,6 +159,16 @@ export default function DeploymentErrorHelper({ locale = "en" }: { locale?: "en"
                 </article>
               ))}
             </div>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={copyRepairPrompt} className="rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200">
+                {copied ? text.copiedPrompt : text.copyPrompt}
+              </button>
+              {copyFailed ? <span role="status" className="text-xs leading-5 text-amber-200">{text.promptError}</span> : null}
+            </div>
+            <details className="mt-4 rounded-xl border border-white/10 bg-white/5 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-cyan-200">{text.promptHeading}</summary>
+              <pre className="mt-3 whitespace-pre-wrap font-sans text-xs leading-5 text-zinc-300">{repairPrompt}</pre>
+            </details>
             <a href={`${locale === "es" ? "/es/arreglar-error-despliegue" : "/deploy-vibe-coded-app"}#${diagnoses[0]?.id ?? ""}`} className="mt-5 inline-flex text-sm font-semibold text-cyan-300 underline underline-offset-4 hover:text-cyan-100">{text.guide}</a>
           </>
         ) : (

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Precios de Etsy para EE. UU. | Planificador por CSV",
   description:
     "Planifica precios específicos para EE. UU. en Etsy. Añade costes y el arancel estimado por Etsy, revisa márgenes y exporta un informe privado por CSV.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: englishRoute, "es-ES": canonical },

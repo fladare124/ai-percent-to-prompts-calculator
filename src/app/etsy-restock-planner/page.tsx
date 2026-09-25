@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Etsy Restock Planner from CSV | Free Inventory Report",
   description:
     "Combine Etsy active listings and Order Items CSV exports to estimate stock coverage and suggested restocks. Free, private and no Etsy login.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": spanishRoute },

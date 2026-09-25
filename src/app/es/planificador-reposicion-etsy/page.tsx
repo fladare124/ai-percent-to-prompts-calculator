@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Planificador de stock de Etsy desde CSV | Reposición gratis",
   description:
     "Combina los CSV de anuncios activos y pedidos de Etsy para estimar existencias y reposiciones. Gratis, privado y sin iniciar sesión.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: englishRoute, "es-ES": canonical },

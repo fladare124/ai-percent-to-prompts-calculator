@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Lovable en Vercel muestra 404: comprueba el tipo de proyecto",
   description:
     "Distingue un error de rutas en una SPA antigua de Vite de un problema de configuración en TanStack Start antes de cambiar Vercel.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: english, es: canonical },

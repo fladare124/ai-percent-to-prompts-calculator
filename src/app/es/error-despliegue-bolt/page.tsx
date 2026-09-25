@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Bolt.new no publica la app: errores de despliegue",
   description:
     "Separa los fallos de vista previa, publicación en Bolt y compilación externa. Analiza el registro y comprueba qué revisar antes de volver a desplegar.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: english, es: canonical },
@@ -123,7 +124,7 @@ export default function BoltDeploymentFailedSpanishPage() {
         </ul>
       </section>
 
-      <p className="text-xs leading-5 text-zinc-500">Información revisada con la documentación pública el 25 de septiembre de 2026. Percent to Prompts es independiente y no recibe actualmente comisiones de los proveedores mencionados.</p>
+      <p className="text-xs leading-5 text-zinc-500">Información revisada con la documentación pública el 25 de septiembre de 2026. Prompt to Production es un proyecto independiente; estos enlaces a documentación no generan comisiones.</p>
       <p className="text-sm leading-6">Lee también la <Link className={linkClass} href={english} lang="en">guía en inglés</Link>.</p>
     </SitePageShell>
   );

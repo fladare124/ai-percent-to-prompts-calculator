@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "DigitalOcean App Platform Costs for AI-Built Apps",
   description:
     "Understand DigitalOcean App Platform costs for static sites, app containers, development databases and outbound data before deploying an AI-generated app.",
+  robots: { index: true, follow: true },
   alternates: { canonical: "/digitalocean-app-platform" },
 };
 

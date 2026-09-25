@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Download Etsy Listing CSV: Step-by-Step Guide",
   description:
     "Download your Etsy active-listings CSV, see which fields it contains, and check titles and tags privately in your browser.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical: "/etsy-listing-csv-guide" },
   openGraph: {
     title: "How to Download Your Etsy Listing CSV",

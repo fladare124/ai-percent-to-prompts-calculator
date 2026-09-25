@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Comprobador de títulos Etsy gratis | Caracteres y claridad",
   description:
     "Comprueba el límite de 140 caracteres, cuenta palabras y revisa repeticiones en un título de Etsy. Análisis privado en tu navegador, sin promesas de posicionamiento.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: englishRoute, "es-ES": canonical },

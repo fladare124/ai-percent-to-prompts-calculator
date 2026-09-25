@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Dónde alojar una app de Lovable: Vercel vs Hostinger",
   description:
     "Compara Vercel, Hostinger y DigitalOcean para una app de Lovable según el framework, el uso comercial, los servicios y el coste.",
+  robots: { index: true, follow: true },
   alternates: {
     canonical,
     languages: { en: english, es: canonical },

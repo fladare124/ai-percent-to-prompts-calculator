@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
   description:
     "Check an Etsy listing's tags for the 13-tag limit, 20-character count, duplicates and unsupported characters. Your tags stay in your browser.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: {
     canonical,
     languages: { en: canonical, "es-ES": "/es/comprobador-etiquetas-etsy" },

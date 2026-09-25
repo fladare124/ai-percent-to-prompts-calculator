@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Cómo leer el extracto mensual de Etsy en CSV | Guía",
   description:
     "Aprende a descargar y entender tu extracto mensual de Etsy en CSV: actividad, importes, tarifas, impuestos, neto y depósitos.",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   alternates: { canonical },
   openGraph: {
     title: "Guía para leer el extracto mensual de Etsy en CSV",
