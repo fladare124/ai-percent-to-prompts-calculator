@@ -97,6 +97,7 @@ export default function ComprobadorCsvEtsyPage() {
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Navegación principal">
             <a href="#comprobador" className="transition hover:text-stone-950">Comprobador CSV</a>
             <Link href="/es/comprobador-etiquetas-etsy" className="transition hover:text-stone-950">Comprobar etiquetas</Link>
+            <Link href="/es/planificador-reposicion-etsy" className="transition hover:text-stone-950">Planificar reposición</Link>
             <a href="#como-exportar" className="transition hover:text-stone-950">Cómo descargar el CSV</a>
             <a href="#preguntas" className="transition hover:text-stone-950">Preguntas frecuentes</a>
             <Link href="/" lang="en" hrefLang="en" className="transition hover:text-stone-950">English</Link>
@@ -128,6 +129,11 @@ export default function ComprobadorCsvEtsyPage() {
         <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-stone-950">¿Solo necesitas revisar las etiquetas de un anuncio?</h2>
           <p className="mt-2 text-sm leading-6 text-stone-600">Usa el <Link href="/es/comprobador-etiquetas-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">comprobador de etiquetas de Etsy</Link> para contar hasta 13, revisar el límite de 20 caracteres y detectar duplicados.</p>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">¿Quieres saber qué productos reponer?</h2>
+          <p className="mt-2 text-sm leading-6 text-stone-700">Combina el CSV de anuncios activos con tus pedidos en el <Link href="/es/planificador-reposicion-etsy" className="font-semibold text-emerald-900 underline underline-offset-4">planificador de inventario y reposición de Etsy</Link>. Los archivos se procesan en tu navegador.</p>
         </section>
 
         <section id="como-exportar" className="mt-14 grid gap-8 border-t border-stone-200 pt-12 lg:grid-cols-[0.8fr_1.2fr]">
@@ -207,6 +213,7 @@ export default function ComprobadorCsvEtsyPage() {
         <footer className="mt-14 flex flex-col gap-4 border-t border-stone-200 pt-6 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
           <p>Listing Checkup · Herramientas independientes para vendedores de Etsy</p>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Enlaces del pie de página">
+            <Link href="/es/planificador-reposicion-etsy" className="underline underline-offset-4 hover:text-stone-900">Plan de reposición</Link>
             <Link href="/es/privacidad" className="underline underline-offset-4 hover:text-stone-900">Privacidad</Link>
             <Link href="/affiliate-disclosure" className="underline underline-offset-4 hover:text-stone-900">Aviso de afiliación</Link>
           </nav>

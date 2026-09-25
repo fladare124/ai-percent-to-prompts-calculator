@@ -105,6 +105,9 @@ export default function EtsySalesCsvAnalyzerPage() {
           <p className="mt-2 text-sm leading-6 text-stone-700">
             Use the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy active-listings CSV checker</a> to review listing titles and tags across your shop. It reads the listing export locally and does not change your Etsy shop.
           </p>
+          <p className="mt-3 text-sm leading-6 text-stone-700">
+            To compare sold units with current listing quantities, open the <a href="/etsy-restock-planner" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy restock planner</a>.
+          </p>
         </section>
 
         <section aria-labelledby="faq-heading">

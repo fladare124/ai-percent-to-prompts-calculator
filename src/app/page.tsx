@@ -4,25 +4,25 @@ import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
 import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
+  title: "Free Etsy CSV Tools: Listing Audit & Restock Planner",
   description:
-    "Audit active Etsy listings from one private CSV. Check titles, tags, descriptions, prices, quantities, photos, and shop-wide patterns in your browser.",
+    "Audit active Etsy listings, summarize order CSVs and plan stock replenishment from your shop exports. Free browser tools with no Etsy login or file upload.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
     languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
   },
   openGraph: {
-    title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
+    title: "Etsy CSV Tools: Listing Audit & Restock Planner",
     description:
-      "Review titles, tags and listing details across your active Etsy listings. Your CSV stays in your browser; no Etsy login or upload is needed.",
+      "Review listings, sales and stock from Etsy CSV exports. Free tools run in your browser with no login or upload.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Etsy Listing CSV Checker",
-    description: "Review titles and tags across your shop export. Private, free, and no Etsy login required.",
+    title: "Etsy Listing Audit & Restock Planner",
+    description: "Review listings, sales and stock from Etsy CSV exports.",
     images: ["/opengraph-image"],
   },
 };
@@ -76,6 +76,7 @@ const appSchema = {
   featureList: [
     "Audit Etsy active-listings CSV files locally in the browser",
     "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
+    "Combine active listings and order exports to plan stock replenishment locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy tag list for count, character limits, and duplicates",
     "Estimate US Etsy fees, profit, and a target item price",
@@ -100,6 +101,7 @@ export default function Home() {
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
+            <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
             <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
@@ -113,10 +115,10 @@ export default function Home() {
               Free Etsy CSV checker · No Etsy login
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Check listings and summarize orders from your Etsy shop exports.
+              Review Etsy listings, sales and stock from your shop exports.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Audit titles and tags across active listings, or group sold items by product from an Etsy orders export. Both CSV tools run in your browser; no Etsy login or file upload is needed.
+              Audit titles and tags, summarize sold items by product, or plan restocks from your active-listings and order exports. The CSV tools run in your browser; no Etsy login or file upload is needed.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#csv-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
@@ -151,6 +153,12 @@ export default function Home() {
               <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize Etsy sales →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Inventory planning</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy restock planner</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Match active stock with sold units to spot listings that may need replenishment.</p>
+              <Link href="/etsy-restock-planner" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan Etsy restocks →</Link>
+            </article>
+            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-800">One listing</p>
               <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy tag checker</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Count up to 13 tags, check the 20-character limit, and spot repeated tags before you save.</p>
@@ -164,6 +172,12 @@ export default function Home() {
         </div>
 
         <section className="mt-10 grid gap-4 lg:grid-cols-2" aria-label="Etsy tools and guidance">
+          <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Plan stock</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Match current quantities with recent sold units.</h2>
+            <p className="mt-3 text-sm leading-6 text-stone-600">Use an active-listings export and Order Items CSVs to estimate stock coverage and a replenishment amount from your chosen sales period and lead time.</p>
+            <Link href="/etsy-restock-planner" className="mt-4 inline-flex rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700">Open the Etsy restock planner →</Link>
+          </article>
           <article className="rounded-2xl border border-stone-200 bg-white p-6 sm:p-7">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Check one listing</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight">Count tags and characters before saving.</h2>
