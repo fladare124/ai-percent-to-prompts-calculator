@@ -10,6 +10,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     en: new URL("/privacy", SITE_URL).toString(),
     es: new URL("/es/privacidad", SITE_URL).toString(),
   };
+  const lovableVercelLanguageAlternates = {
+    en: new URL("/lovable-to-vercel-checker", SITE_URL).toString(),
+    es: new URL("/es/publicar-lovable-en-vercel", SITE_URL).toString(),
+  };
 
   return publicRoutes.map((route) => {
     const entry = {
@@ -25,6 +29,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     if (route.path === "/privacy" || route.path === "/es/privacidad") {
       return { ...entry, alternates: { languages: privacyLanguageAlternates } };
+    }
+
+    if (route.path === "/lovable-to-vercel-checker" || route.path === "/es/publicar-lovable-en-vercel") {
+      return { ...entry, alternates: { languages: lovableVercelLanguageAlternates } };
     }
 
     return entry;

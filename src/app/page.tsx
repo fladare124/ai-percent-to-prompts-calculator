@@ -153,6 +153,12 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-zinc-600">Understand containers, static hosting, databases and outbound transfer.</p>
               <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Read the cost guide →</span>
             </Link>
+            <Link href="/lovable-to-vercel-checker" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
+              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Lovable + Vercel</p>
+              <h3 className="mt-3 text-xl font-semibold">Check your Lovable deployment version</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Verify the current framework requirement before importing the GitHub repository.</p>
+              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Check the setup →</span>
+            </Link>
           </div>
         </section>
 

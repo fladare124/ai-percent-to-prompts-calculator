@@ -24,13 +24,14 @@ export default function DeployVibeCodedAppPage() {
     >
       <section id="unrecognized" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Start with the first specific error</h2>
-        <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. <a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel's troubleshooting guide</a> recommends checking the lines before the generic failure and running the production build locally.</p>
+        <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. <a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel’s troubleshooting guide</a> recommends checking the lines before the generic failure and running the production build locally.</p>
       </section>
 
       <section id="diagnostics" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Check your build log</h2>
         <p className="mt-3 text-base leading-7">Paste a redacted build log to identify common patterns and get a short list of checks. The text is analyzed in your browser and is not uploaded or saved.</p>
         <div className="mt-5"><DeploymentErrorHelper /></div>
+        <p className="mt-4 text-base leading-7">Deploying a Lovable project to Vercel? Check the <Link className={linkClass} href="/lovable-to-vercel-checker">current version requirement and setup guide</Link>.</p>
       </section>
 
       <section>
@@ -54,11 +55,11 @@ export default function DeployVibeCodedAppPage() {
           </article>
           <article id="output-directory" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">Output or publish directory not found</h3>
-            <p className="mt-2 text-sm leading-6">Check where the framework actually writes its build files and set the host's output directory to match. The right setting depends on the framework; server-rendered apps should use the matching framework preset instead of a static output folder.</p>
+            <p className="mt-2 text-sm leading-6">Check where the framework actually writes its build files and set the host’s output directory to match. The right setting depends on the framework; server-rendered apps should use the matching framework preset instead of a static output folder.</p>
           </article>
           <article id="browser-api-on-server" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">“window is not defined” or “document is not defined”</h3>
-            <p className="mt-2 text-sm leading-6">The build is running browser-only code in a server context. Find the file in the first error, then move that code into the framework's client-only component or execution path.</p>
+            <p className="mt-2 text-sm leading-6">The build is running browser-only code in a server context. Find the file in the first error, then move that code into the framework’s client-only component or execution path.</p>
           </article>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
 import SitePageShell from "@/components/SitePageShell";
 
@@ -36,6 +37,7 @@ export default function SpanishDeploymentHelpPage() {
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Analiza el registro del error</h2>
         <p className="mt-3 text-base leading-7">La herramienta compara el texto con patrones de errores comunes y muestra comprobaciones concretas. No envía el registro a un servicio de IA ni modifica tu proyecto.</p>
         <div className="mt-5"><DeploymentErrorHelper locale="es" /></div>
+        <p className="mt-4 text-base leading-7">Si estás llevando una app de Lovable a Vercel, comprueba también el requisito de versión en la <a className={linkClass} href="/es/publicar-lovable-en-vercel">guía y comprobador de compatibilidad de Lovable con Vercel</a>.</p>
       </section>
 
       <section id="unrecognized" className="scroll-mt-6">
@@ -102,7 +104,7 @@ export default function SpanishDeploymentHelpPage() {
             <a className={`mt-3 inline-block text-sm ${linkClass}`} href="https://www.digitalocean.com/pricing/app-platform" target="_blank" rel="noopener noreferrer">Consultar precios actuales</a>
           </article>
         </div>
-        <p className="mt-4 text-sm leading-6">Para comparar una ruta según el framework, las necesidades de servidor y el uso comercial, abre el <a className={linkClass} href="/#finder">buscador de alojamiento (en inglés)</a>.</p>
+        <p className="mt-4 text-sm leading-6">Para comparar una ruta según el framework, las necesidades de servidor y el uso comercial, abre el <Link className={linkClass} href="/#finder">buscador de alojamiento (en inglés)</Link>.</p>
       </section>
 
       <p className="text-xs leading-5 text-zinc-500">Esta herramienta ofrece una primera orientación y no garantiza identificar todos los fallos. Los enlaces son informativos y no son enlaces de afiliado. Información de proveedores revisada el 25 de septiembre de 2026.</p>
