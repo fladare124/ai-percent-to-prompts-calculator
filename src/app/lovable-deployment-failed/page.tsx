@@ -11,10 +11,7 @@ export const metadata: Metadata = {
   description:
     "Find where a Lovable deployment fails: preview, Publish, Vercel build or a live 404. Match the failing stage to the next check before changing settings.",
   robots: { index: true, follow: true },
-  alternates: {
-    canonical,
-    languages: { en: canonical, es: "/es/publicar-lovable-en-vercel" },
-  },
+  alternates: { canonical },
   openGraph: {
     title: "Lovable deployment failed?",
     description: "Identify the failed deployment stage and follow the matching checks.",

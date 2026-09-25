@@ -4,7 +4,7 @@ import LovableVercelChecker from "@/components/LovableVercelChecker";
 import SitePageShell from "@/components/SitePageShell";
 
 const canonical = "/es/publicar-lovable-en-vercel";
-const english = "/lovable-deployment-failed";
+const english = "/lovable-to-vercel-checker";
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 
 export const metadata: Metadata = {
