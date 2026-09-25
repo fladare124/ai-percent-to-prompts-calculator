@@ -35,7 +35,7 @@ export default function EtsyTagCheckerPage() {
           </div>
           <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <Link href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</Link>
-            <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-950">Sales report</Link>
+            <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-950">Profit by SKU</Link>
             <Link href="/etsy-title-checker" className="underline underline-offset-4 hover:text-stone-950">Title checker</Link>
             <Link href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</Link>
             <Link href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</Link>
