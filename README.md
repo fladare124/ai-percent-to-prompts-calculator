@@ -29,6 +29,7 @@ The repository deploys to Vercel from the `main` branch. The site uses no backen
 
 - `src/app/page.tsx` — launch-tools homepage, build-log checker, hosting finder and guide hub.
 - `src/components/DeploymentErrorHelper.tsx` and `src/lib/deploymentDiagnostics.ts` — private log-pattern checks and repair-prompt generation.
+- `src/components/LovableDomainStatusChecker.tsx` — status-based next steps for Lovable DNS and SSL setup.
 - `src/components/DeploymentFinder.tsx` — local framework detection and hosting starting-point recommendations.
 - `src/app/deploy-vibe-coded-app/` — deployment troubleshooting guide.
 - `src/app/lovable-deployment-failed/`, `src/app/lovable-to-vercel-checker/` and `src/app/bolt-deployment-failed/` — builder-specific deployment guides.

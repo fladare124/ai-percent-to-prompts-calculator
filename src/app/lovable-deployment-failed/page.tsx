@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
+import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import SitePageShell from "@/components/SitePageShell";
 
 const canonical = "/lovable-deployment-failed";
@@ -9,7 +10,7 @@ const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 export const metadata: Metadata = {
   title: "Lovable Deployment Failed? Fix Publish, Build & 404 Errors",
   description:
-    "Find where a Lovable deployment fails: preview, Lovable Publish, a Vercel build, or a live 404. Follow focused checks before changing your hosting setup.",
+    "Find where a Lovable deployment fails: preview, Publish, Vercel build, custom-domain DNS or SSL, or a live 404. Match the status to the next check.",
   robots: { index: true, follow: true },
   alternates: { canonical },
   openGraph: {
@@ -53,6 +54,7 @@ export default function LovableDeploymentFailedPage() {
           <li>If publishing itself does not complete, use the exact status and error shown by Lovable. Keep this separate from a Vercel build log, which applies only when you deploy the GitHub project there.</li>
         </ol>
         <p className="mt-3 text-sm leading-6 text-zinc-600">Do not post account credentials, secret environment values or private database URLs when asking for help.</p>
+        <div className="mt-5"><LovableDomainStatusChecker /></div>
       </section>
 
       <section id="vercel-build" className="scroll-mt-6">
