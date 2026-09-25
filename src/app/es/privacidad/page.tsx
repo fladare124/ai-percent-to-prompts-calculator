@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AnalyticsOptOut from "@/components/AnalyticsOptOut";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
@@ -36,6 +37,8 @@ export default function SpanishPrivacyPage() {
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Analíticas y alojamiento</h2>
         <p className="mt-3 text-base leading-7">La web se aloja en Vercel y utiliza Vercel Web Analytics y Speed Insights para medir visitas y rendimiento. Estos servicios pueden procesar URL de páginas, procedencia, fecha, información general del dispositivo o navegador, región y mediciones de rendimiento. Los datos introducidos en las herramientas y sus resultados no se envían a esas analíticas.</p>
         <p className="mt-3 text-base leading-7">Consulta la <a className={sourceClass} href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noopener noreferrer">documentación de privacidad de Vercel Analytics</a> y la <a className={sourceClass} href="https://vercel.com/docs/speed-insights" target="_blank" rel="noopener noreferrer">documentación de Speed Insights</a>.</p>
+        <p className="mt-3 text-base leading-7">Usa el ajuste siguiente para excluir los próximos eventos de analítica de este navegador. La preferencia se guarda solo aquí, no elimina datos ya enviados y se restablece si borras el almacenamiento local de esta web.</p>
+        <AnalyticsOptOut locale="es" />
       </section>
 
       <section>

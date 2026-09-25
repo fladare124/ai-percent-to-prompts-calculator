@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AnalyticsOptOut from "@/components/AnalyticsOptOut";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
@@ -39,6 +40,10 @@ export default function PrivacyPage() {
         <p className="mt-3 text-base leading-7">
           See <a className={sourceClass} href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel’s analytics privacy documentation</a> and <a className={sourceClass} href="https://vercel.com/docs/speed-insights" target="_blank" rel="noopener noreferrer">Speed Insights documentation</a> for the provider’s current details.
         </p>
+        <p className="mt-3 text-base leading-7">
+          Use the setting below to exclude future analytics events from this browser. It is saved only in this browser, does not remove data already sent, and resets if you clear this site’s local storage.
+        </p>
+        <AnalyticsOptOut locale="en" />
       </section>
 
       <section>
