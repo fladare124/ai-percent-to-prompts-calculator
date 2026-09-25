@@ -39,6 +39,7 @@ export default function SpanishDeploymentHelpPage() {
         <div className="mt-5"><DeploymentErrorHelper locale="es" /></div>
         <p className="mt-4 text-base leading-7">Si estás llevando una app de Lovable a Vercel, comprueba también el requisito de versión en la <a className={linkClass} href="/es/publicar-lovable-en-vercel">guía y comprobador de compatibilidad de Lovable con Vercel</a>.</p>
         <p className="mt-3 text-base leading-7">Si todavía estás eligiendo hosting, consulta la <a className={linkClass} href="/es/donde-alojar-app-lovable">comparativa para alojar apps de Lovable</a>.</p>
+        <p className="mt-3 text-base leading-7">¿Usas Bolt.new? Consulta la <a className={linkClass} href="/es/error-despliegue-bolt">guía para distinguir fallos de vista previa, publicación en Bolt y despliegue externo</a>.</p>
       </section>
 
       <section id="unrecognized" className="scroll-mt-6">

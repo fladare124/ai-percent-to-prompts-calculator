@@ -10,6 +10,8 @@ export const publicRoutes = [
   { path: "/es/arreglar-error-despliegue", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/lovable-to-vercel-checker", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/es/publicar-lovable-en-vercel", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
+  { path: "/bolt-deployment-failed", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
+  { path: "/es/error-despliegue-bolt", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/where-to-host-lovable-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/es/donde-alojar-app-lovable", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/hostinger-nodejs-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.8 },

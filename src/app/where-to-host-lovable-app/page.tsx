@@ -87,6 +87,7 @@ export default function WhereToHostLovablePage() {
           <li><Link className={linkClass} href="/hostinger-nodejs-app">Check Hostinger&apos;s Node.js plan requirements</Link></li>
           <li><Link className={linkClass} href="/digitalocean-app-platform">Estimate DigitalOcean App Platform costs</Link></li>
           <li><Link className={linkClass} href="/deploy-vibe-coded-app">Troubleshoot a failed AI app build</Link></li>
+          <li><Link className={linkClass} href="/bolt-deployment-failed">Fix a Bolt.new publish or deployment error</Link></li>
         </ul>
       </section>
 

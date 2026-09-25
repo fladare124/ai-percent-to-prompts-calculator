@@ -95,7 +95,7 @@ export default function Home() {
             <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">Compare Vercel, Hostinger and DigitalOcean by framework, app services and commercial use. Get a practical recommendation, then check the real plan requirements before you launch.</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#finder" className="rounded-lg bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">Find a host for my app</a>
-              <a href="/where-to-host-lovable-app" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Compare Lovable hosting</a>
+              <a href="/bolt-deployment-failed" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Fix a Bolt deployment</a>
             </div>
             <p className="mt-4 text-xs leading-5 text-zinc-500">No account connection. Your package file is checked in your browser and is not uploaded.</p>
           </div>
@@ -145,6 +145,12 @@ export default function Home() {
             <p className="mt-3 text-base leading-7 text-zinc-600">Check framework compatibility, commercial terms, build settings and the services that remain attached to your app.</p>
           </div>
           <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <Link href="/bolt-deployment-failed" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
+              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Bolt.new troubleshooting</p>
+              <h3 className="mt-3 text-xl font-semibold">Fix a Bolt app that won’t deploy</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Separate preview, Bolt publishing and external-host build issues, then check the right steps.</p>
+              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Troubleshoot Bolt →</span>
+            </Link>
             <Link href="/where-to-host-lovable-app" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Hosting comparison</p>
               <h3 className="mt-3 text-xl font-semibold">Where to host a Lovable app?</h3>
