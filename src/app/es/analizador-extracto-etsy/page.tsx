@@ -79,6 +79,13 @@ export default function EtsyPaymentStatementAnalyzerEsPage() {
           </p>
         </section>
 
+        <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">¿No sabes qué CSV abrir o cómo leer cada columna?</h2>
+          <p className="mt-3 text-base leading-7">
+            Consulta la <a href="/es/guia-extracto-mensual-etsy-csv" className="font-semibold text-emerald-900 underline underline-offset-4">guía para descargar y entender el extracto mensual de Etsy</a>. Explica la diferencia entre extractos, artículos pedidos y anuncios activos, y por qué el neto no siempre coincide con tu depósito.
+          </p>
+        </section>
+
         <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-stone-950">Es un resumen del extracto, no una conciliación ni el beneficio por producto</h2>
           <p className="mt-3 text-base leading-7 text-stone-700">
