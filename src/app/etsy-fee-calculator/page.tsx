@@ -102,6 +102,7 @@ export default function EtsyFeeCalculatorPage() {
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Related Etsy seller tools</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Link href="/etsy-bulk-pricing-audit" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Compare prices and target margins across active listings →</Link>
           <Link href="/" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Audit titles and tags across an active-listings CSV →</Link>
           <Link href="/etsy-tag-checker" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Check one Etsy listing&apos;s tags →</Link>
           <Link href="/etsy-listing-csv-guide" className="rounded-xl border border-stone-200 bg-white p-4 font-semibold text-emerald-950 hover:border-emerald-700">Download Etsy active listings as a CSV →</Link>

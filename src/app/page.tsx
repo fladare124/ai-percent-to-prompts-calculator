@@ -4,25 +4,25 @@ import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
 import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Free Etsy CSV Tools: Listing Audit & Restock Planner",
+  title: "Free Etsy Bulk Pricing Audit & Seller Tools",
   description:
-    "Audit active Etsy listings, summarize order CSVs and plan stock replenishment from your shop exports. Free browser tools with no Etsy login or file upload.",
+    "Review Etsy prices, costs and target margins across active listings. Use free CSV audit and inventory tools that run privately in your browser.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
     languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
   },
   openGraph: {
-    title: "Etsy CSV Tools: Listing Audit & Restock Planner",
+    title: "Free Etsy Bulk Pricing Audit & Seller Tools",
     description:
-      "Review listings, sales and stock from Etsy CSV exports. Free tools run in your browser with no login or upload.",
+      "Compare Etsy listing prices with unit costs and a target margin in a private, browser-based CSV report.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Etsy Listing Audit & Restock Planner",
-    description: "Review listings, sales and stock from Etsy CSV exports.",
+    title: "Etsy Bulk Pricing Audit & Seller Tools",
+    description: "Review Etsy listing prices and target margins across your catalogue.",
     images: ["/opengraph-image"],
   },
 };
@@ -44,9 +44,9 @@ const faq = [
       "No. It finds formatting and catalogue patterns for you to review. It does not connect to Etsy search, see your shop statistics, estimate keyword demand, or predict sales.",
   },
   {
-    question: "Are the fee and profit estimates exact?",
+    question: "Are Etsy bulk pricing and profit estimates exact?",
     answer:
-      "They are estimates using standard US listing, transaction, and Etsy Payments rates. Country, taxes, Offsite Ads, refunds, currency conversion, renewals, and other charges can change the final amount. Confirm actual deductions in your Etsy Payment account.",
+      "No. The bulk report uses editable assumptions for fees, shipping, taxes on fees, and unit costs. Discounts, buyer taxes, refunds, actual ad attribution, renewals, currency conversion, and other account activity can change actual charges.",
   },
   {
     question: "Is this an official Etsy tool?",
@@ -68,12 +68,13 @@ const faqSchema = {
 const appSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "Etsy Listing CSV Checker by Listing Checkup",
+  name: "Listing Checkup Etsy Seller Tools",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
+    "Audit current prices, unit costs, estimated profit and target margins across an Etsy active-listings CSV",
     "Audit Etsy active-listings CSV files locally in the browser",
     "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
@@ -100,6 +101,7 @@ export default function Home() {
             </span>
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
+            <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">Bulk pricing audit</Link>
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
             <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
             <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
@@ -114,33 +116,39 @@ export default function Home() {
         <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Free Etsy CSV checker · No Etsy login
+              Etsy bulk pricing audit · No Etsy login
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Review Etsy listings, sales and stock from your shop exports.
+              See which Etsy listings need a price review.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Audit titles and tags, summarize sold items by product, or plan restocks from your active-listings and order exports. The CSV tools run in your browser; no Etsy login or file upload is needed.
+              Compare current prices with a target margin across your active listings. Add product costs by SKU, then use companion tools to review listing details and stock. Your files stay in this browser.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#csv-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Audit my active listings
-              </a>
-              <Link href="/etsy-sales-csv-analyzer" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
-                Summarize order CSV
+              <Link href="/etsy-bulk-pricing-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
+                Audit prices across my shop
               </Link>
+              <a href="#csv-audit" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
+                Review titles and tags
+              </a>
             </div>
             <p className="mt-5 max-w-2xl text-xs leading-5 text-stone-500">
-              Independent tools for review and planning. They do not edit your shop, promise sales, or predict search placement.
+              Independent planning tools. Estimates are not Etsy account results and do not change your live shop.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
+            <article className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Whole catalogue</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Bulk Etsy pricing audit</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Compare estimated margin at current prices and calculate a target price for each listing.</p>
+              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Audit all listing prices →</Link>
+            </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Whole shop</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>
               <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy CSV listing audit</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Find title and tag patterns across active listings. Your file stays in this browser.</p>
-              <a href="#csv-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Open the CSV checker →</a>
+              <a href="#csv-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Review listing details →</a>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">One order</p>
