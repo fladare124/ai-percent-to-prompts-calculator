@@ -88,6 +88,7 @@ export default function WhereToHostLovablePage() {
           <li><Link className={linkClass} href="/digitalocean-app-platform">Estimate DigitalOcean App Platform costs</Link></li>
           <li><Link className={linkClass} href="/deploy-vibe-coded-app">Troubleshoot a failed AI app build</Link></li>
           <li><Link className={linkClass} href="/bolt-deployment-failed">Fix a Bolt.new publish or deployment error</Link></li>
+          <li><Link className={linkClass} href="/where-to-host-bolt-app">Compare hosting for a Bolt.new app</Link></li>
         </ul>
       </section>
 

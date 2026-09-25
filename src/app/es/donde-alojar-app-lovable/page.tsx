@@ -90,6 +90,7 @@ export default function DondeAlojarAppLovablePage() {
           <li><Link className={linkClass} href="/digitalocean-app-platform">Calcular el coste de DigitalOcean App Platform</Link></li>
           <li><Link className={linkClass} href="/es/arreglar-error-despliegue">Diagnosticar una compilación fallida</Link></li>
           <li><Link className={linkClass} href="/es/error-despliegue-bolt">Solucionar un error al publicar una app de Bolt</Link></li>
+          <li><Link className={linkClass} href="/es/donde-alojar-app-bolt">Comparar alojamiento para apps de Bolt.new</Link></li>
         </ul>
       </section>
 

@@ -106,6 +106,7 @@ export default function BoltDeploymentFailedPage() {
         <h2 className="text-xl font-semibold text-zinc-950">Related launch help</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
           <li><Link className={linkClass} href="/#finder">Get a starting hosting recommendation</Link></li>
+          <li><Link className={linkClass} href="/where-to-host-bolt-app">Compare Bolt Cloud with external hosts</Link></li>
           <li><Link className={linkClass} href="/deploy-vibe-coded-app">Troubleshoot another AI app build error</Link></li>
           <li><Link className={linkClass} href="/where-to-host-lovable-app">Compare hosting for a Lovable app</Link></li>
         </ul>

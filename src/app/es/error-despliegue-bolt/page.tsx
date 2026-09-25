@@ -108,6 +108,7 @@ export default function BoltDeploymentFailedSpanishPage() {
         <h2 className="text-xl font-semibold text-zinc-950">Más ayuda para publicar tu app</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
           <li><Link className={linkClass} href="/#finder">Obtener una recomendación inicial de hosting</Link></li>
+          <li><Link className={linkClass} href="/es/donde-alojar-app-bolt">Comparar Bolt Cloud con otros alojamientos</Link></li>
           <li><Link className={linkClass} href="/es/arreglar-error-despliegue">Diagnosticar otro error de compilación</Link></li>
           <li><Link className={linkClass} href="/es/donde-alojar-app-lovable">Comparar hosting para una app de Lovable</Link></li>
         </ul>

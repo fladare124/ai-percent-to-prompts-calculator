@@ -14,6 +14,8 @@ export const publicRoutes = [
   { path: "/es/error-despliegue-bolt", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/where-to-host-lovable-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/es/donde-alojar-app-lovable", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
+  { path: "/where-to-host-bolt-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
+  { path: "/es/donde-alojar-app-bolt", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/hostinger-nodejs-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.8 },
   { path: "/digitalocean-app-platform", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.8 },
   { path: "/about", lastModified: reviewedAt, changeFrequency: "yearly" as const, priority: 0.3 },

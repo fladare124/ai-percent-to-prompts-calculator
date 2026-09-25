@@ -22,6 +22,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     en: new URL("/where-to-host-lovable-app", SITE_URL).toString(),
     es: new URL("/es/donde-alojar-app-lovable", SITE_URL).toString(),
   };
+  const boltHostingLanguageAlternates = {
+    en: new URL("/where-to-host-bolt-app", SITE_URL).toString(),
+    es: new URL("/es/donde-alojar-app-bolt", SITE_URL).toString(),
+  };
 
   return publicRoutes.map((route) => {
     const entry = {
@@ -49,6 +53,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     if (route.path === "/where-to-host-lovable-app" || route.path === "/es/donde-alojar-app-lovable") {
       return { ...entry, alternates: { languages: lovableHostingLanguageAlternates } };
+    }
+
+    if (route.path === "/where-to-host-bolt-app" || route.path === "/es/donde-alojar-app-bolt") {
+      return { ...entry, alternates: { languages: boltHostingLanguageAlternates } };
     }
 
     return entry;
