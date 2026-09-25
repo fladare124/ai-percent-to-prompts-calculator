@@ -16,6 +16,7 @@ export const publicRoutes = [
   { path: "/es/comprobador-titulos-etsy", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/etsy-sales-csv-analyzer", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/etsy-payment-statement-analyzer", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
+  { path: "/es/analizador-extracto-etsy", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/etsy-fee-calculator", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/etsy-tag-checker", lastModified: reviewedAt, priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/etsy-listing-csv-guide", lastModified: reviewedAt, priority: 0.8, changeFrequency: "monthly" as const },

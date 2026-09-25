@@ -151,6 +151,7 @@ export default function Home() {
               <h2 className="mt-2 text-xl font-semibold tracking-tight">Monthly statement summary</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Group statement amounts, fees, and net values by activity type and currency.</p>
               <Link href="/etsy-payment-statement-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize a statement CSV →</Link>
+              <Link href="/es/analizador-extracto-etsy" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Analizador en español →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>

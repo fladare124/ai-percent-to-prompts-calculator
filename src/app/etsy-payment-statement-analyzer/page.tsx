@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   description:
     "Summarize an Etsy Monthly Statement CSV by activity type and currency. Review Amount, Fees & Taxes, and Net totals privately in your browser.",
   robots: { index: true, follow: true },
-  alternates: { canonical },
+  alternates: {
+    canonical,
+    languages: { en: canonical, "es-ES": "/es/analizador-extracto-etsy" },
+  },
   openGraph: {
     title: "Free Etsy Monthly Statement CSV Analyzer",
     description:
@@ -67,6 +70,10 @@ export default function EtsyPaymentStatementAnalyzerPage() {
         intro="Group the signed Amount, Fees & Taxes, and Net values in an Etsy Monthly Statement CSV by activity type and currency. Use the summary to review the month without exposing the original statement rows."
       >
         <EtsyPaymentStatementAnalyzer />
+
+        <p className="text-sm leading-6 text-stone-600">
+          Need this page in Spanish? <a href="/es/analizador-extracto-etsy" lang="es" hrefLang="es-ES" className="font-semibold text-emerald-900 underline underline-offset-4">Use the Spanish Etsy statement analyzer →</a>
+        </p>
 
         <section>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the statement summary shows</h2>
