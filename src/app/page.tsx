@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   description:
     "Audit active Etsy listings from one private CSV. Check titles, tags, descriptions, prices, quantities, photos, and shop-wide patterns in your browser.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
+  },
   openGraph: {
     title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
     description:
@@ -98,6 +101,7 @@ export default function Home() {
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
             <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
+            <Link href="/es/comprobador-csv-etsy" lang="es" hrefLang="es-ES" className="transition hover:text-stone-950">Español</Link>
           </nav>
         </header>
 

@@ -6,7 +6,10 @@ export const metadata: Metadata = {
   description:
     "How Listing Checkup processes Etsy CSV files, fee calculator inputs, and aggregate site analytics.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "/privacy" },
+  alternates: {
+    canonical: "/privacy",
+    languages: { en: "/privacy", "es-ES": "/es/privacidad" },
+  },
 };
 
 export default function PrivacyPage() {
