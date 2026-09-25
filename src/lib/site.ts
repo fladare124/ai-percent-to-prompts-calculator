@@ -1,9 +1,10 @@
-export const SITE_NAME = "Percent to Prompts";
+export const SITE_NAME = "AI Plan Finder";
 
 export const SITE_URL = "https://percenttoprompts.com";
 
 const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
-const homeContentUpdatedAt = new Date("2026-09-23T21:38:16.000Z");
+const homeContentUpdatedAt = new Date("2026-09-25T12:00:00.000Z");
+const usageCalculatorContentUpdatedAt = new Date("2026-09-25T12:00:00.000Z");
 const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
@@ -11,11 +12,19 @@ const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
 export const calculatorRoutes = [
   {
     path: "/",
+    title: "AI Coding Plan Finder: Compare Claude, Codex, Cursor & Copilot",
+    description:
+      "Choose an AI coding subscription by budget and workflow. Compare Claude Code, Codex, Cursor and GitHub Copilot using current official plan details.",
+    lastModified: homeContentUpdatedAt,
+    priority: 1,
+  },
+  {
+    path: "/ai-usage-calculator",
     title: "AI Percentage Calculator: Estimate Prompts Left",
     description:
       "Convert the remaining percentage in an AI usage meter into estimated prompts, messages or coding tasks.",
-    lastModified: homeContentUpdatedAt,
-    priority: 1,
+    lastModified: usageCalculatorContentUpdatedAt,
+    priority: 0.9,
   },
   {
     path: "/codex-usage-calculator",

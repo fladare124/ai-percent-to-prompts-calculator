@@ -23,7 +23,8 @@ interface ProviderGuide {
 }
 
 const links = [
-  { href: "/", label: "AI Usage Limit Calculator" },
+  { href: "/", label: "AI Coding Plan Finder" },
+  { href: "/ai-usage-calculator", label: "AI Percentage Calculator" },
   {
     href: "/chatgpt-limit-calculator",
     label: "ChatGPT Usage Limit Calculator",

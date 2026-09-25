@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Percent to Prompts estimates remaining AI tasks and messages from usage percentages";
+  "Compare AI coding subscriptions by workflow and monthly budget";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -18,150 +18,130 @@ export default function OpenGraphImage() {
           padding: "54px 64px",
           color: "#f8fafc",
           background:
-            "radial-gradient(circle at 84% 18%, #164e63 0, #101923 34%, #090d14 76%)",
+            "radial-gradient(circle at 82% 15%, #164e63 0, #101923 34%, #090d14 76%)",
           fontFamily: "Arial, sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
             style={{
-              width: 46,
-              height: 46,
+              width: 48,
+              height: 48,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              borderRadius: 12,
+              borderRadius: 14,
               background: "#0e7490",
               color: "#ecfeff",
-              fontSize: 27,
+              fontSize: 24,
               fontWeight: 700,
             }}
           >
-            %
+            AI
           </div>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 19,
+              fontSize: 18,
               fontWeight: 700,
-              letterSpacing: 2.2,
+              letterSpacing: 2,
             }}
           >
-            <span>PERCENT TO PROMPTS</span>
-            <span style={{ marginTop: 5, color: "#67e8f9", fontSize: 14 }}>
-              FREE AI USAGE ESTIMATOR
+            <span>AI PLAN FINDER</span>
+            <span style={{ marginTop: 5, color: "#67e8f9", fontSize: 13 }}>
+              INDEPENDENT PLAN COMPARISON
             </span>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 44 }}>
           <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
             <div
               style={{
                 color: "#a5f3fc",
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: 700,
                 letterSpacing: 2,
               }}
             >
-              TURN YOUR USAGE METER INTO A PLAN
+              CHOOSE BY WORKFLOW AND BUDGET
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 marginTop: 18,
-                fontSize: 67,
-                lineHeight: 1.05,
+                fontSize: 62,
+                lineHeight: 1.06,
                 fontWeight: 700,
-                letterSpacing: -2.5,
+                letterSpacing: -2,
               }}
             >
-              <span>How much AI</span>
-              <span>usage is left?</span>
+              <span>Find your AI</span>
+              <span>coding plan.</span>
             </div>
             <div
               style={{
                 display: "flex",
                 marginTop: 22,
-                maxWidth: 650,
+                maxWidth: 635,
                 color: "#cbd5e1",
-                fontSize: 23,
+                fontSize: 22,
                 lineHeight: 1.35,
               }}
             >
-              Estimate prompts, messages and coding tasks from your own usage
-              readings. No sign-in or account connection.
+              Compare Claude Code, Codex, Cursor and GitHub Copilot with a
+              practical shortlist for your work.
             </div>
           </div>
 
           <div
             style={{
-              width: 335,
+              width: 330,
               display: "flex",
               flexDirection: "column",
-              padding: 26,
+              padding: 24,
               border: "1px solid #334155",
               borderRadius: 20,
               background: "rgba(15, 23, 42, 0.9)",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ color: "#cbd5e1", fontSize: 17 }}>
-                Example reading
-              </span>
-              <span
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#cbd5e1",
+                fontSize: 16,
+              }}
+            >
+              <span>Compare your options</span>
+              <span style={{ color: "#67e8f9", fontWeight: 700 }}>01 / 04</span>
+            </div>
+            {[
+              ["Claude Code", "Terminal workflows"],
+              ["Codex", "ChatGPT + coding"],
+              ["Cursor", "AI editor + agents"],
+              ["GitHub Copilot", "IDE + GitHub"],
+            ].map(([name, detail]) => (
+              <div
+                key={name}
                 style={{
-                  color: "#67e8f9",
-                  fontSize: 15,
-                  fontWeight: 700,
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: 14,
+                  padding: "12px 14px",
+                  border: "1px solid #334155",
+                  borderRadius: 12,
+                  background: "rgba(30, 41, 59, 0.7)",
                 }}
               >
-                ESTIMATE ONLY
-              </span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                gap: 8,
-                marginTop: 24,
-              }}
-            >
-              <span style={{ fontSize: 57, fontWeight: 700 }}>64%</span>
-              <span style={{ color: "#94a3b8", fontSize: 18 }}>remaining</span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                height: 13,
-                marginTop: 17,
-                overflow: "hidden",
-                borderRadius: 999,
-                background: "#334155",
-              }}
-            >
-              <div
-                style={{
-                  width: "64%",
-                  height: "100%",
-                  borderRadius: 999,
-                  background: "linear-gradient(90deg, #22d3ee, #67e8f9)",
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                marginTop: 21,
-                color: "#e2e8f0",
-                fontSize: 19,
-                lineHeight: 1.35,
-              }}
-            >
-              Compare two readings to estimate your own usage pace.
-            </div>
+                <span style={{ fontSize: 17, fontWeight: 700 }}>{name}</span>
+                <span style={{ marginTop: 4, color: "#94a3b8", fontSize: 13 }}>
+                  {detail}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -173,10 +153,10 @@ export default function OpenGraphImage() {
             borderTop: "1px solid #334155",
             paddingTop: 18,
             color: "#94a3b8",
-            fontSize: 17,
+            fontSize: 16,
           }}
         >
-          <span>ChatGPT · Claude · Codex · Gemini · Cursor · more</span>
+          <span>Workflow fit · usage model · monthly budget</span>
           <span style={{ color: "#67e8f9", fontWeight: 700 }}>
             percenttoprompts.com
           </span>

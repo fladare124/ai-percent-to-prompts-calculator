@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: SITE_NAME,
-    template: "%s | Percent to Prompts",
+    template: "%s | AI Plan Finder",
   },
   description:
-    "Unofficial calculator for estimating remaining AI prompts, messages, tasks and usage units from your usage percentage.",
+    "Compare AI coding plans by workflow and budget, then use independent tools to track your AI usage.",
   icons: {
     icon: "/icon.svg",
   },

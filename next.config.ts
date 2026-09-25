@@ -5,17 +5,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/ai-percent-to-prompts-calculator",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/ai-usage-calculator",
-        destination: "/",
+        destination: "/ai-usage-calculator",
         permanent: true,
       },
       {
         source: "/percent-to-prompts-calculator",
-        destination: "/",
+        destination: "/ai-usage-calculator",
         permanent: true,
       },
     ];
