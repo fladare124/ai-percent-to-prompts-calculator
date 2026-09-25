@@ -1,45 +1,56 @@
 import type { Metadata } from "next";
-import SitePageShell from "@/components/SitePageShell";
+import Link from "next/link";
+import EtsyPageShell from "@/components/EtsyPageShell";
 
 export const metadata: Metadata = {
-  title: "About Prompt to Production",
+  title: "About Listing Checkup: Free Etsy Seller Tools",
   description:
-    "How Prompt to Production helps troubleshoot failed builds and deploy apps made with AI coding tools.",
+    "How Listing Checkup's independent Etsy CSV audit, tag checker, and fee estimate work, and what each tool cannot measure.",
+  robots: { index: true, follow: true },
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
-    <SitePageShell
-      eyebrow="About this project"
-      title="Practical guidance for getting an AI-built app live."
-      intro="Prompt to Production is an independent guide from Percent to Prompts. It helps people understand common deployment failures, check a build log in their browser and choose a host that fits the app."
+    <EtsyPageShell
+      eyebrow="About Listing Checkup"
+      title="Free, independent tools for Etsy sellers."
+      intro="Listing Checkup brings together a private active-listings CSV audit, a single-listing tag checker, and a US Etsy fee and profit estimate. The tools run in your browser and do not connect to your shop."
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Deployment troubleshooting</h2>
-        <p className="mt-3 text-base leading-7">The build-log checker looks for a limited set of common messages and returns general steps to verify. It does not connect to a hosting provider, modify project files or guarantee that it will identify the cause of every failure. The log is analyzed in the browser and is not uploaded or saved by this site.</p>
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the tools check</h2>
+        <p className="mt-3 text-base leading-7">
+          The listing audit flags title patterns that Etsy’s public guidance asks sellers to consider: long or hard-to-scan wording, repeated terms, subjective descriptions, and sales or shipping text. It checks the 13-tag and 20-character limits, duplicate tags, repeated tags across listings, and exact duplicate titles. The fee tool estimates common US charges for one order and works backward from a target profit.
+        </p>
+        <p className="mt-3 text-base leading-7">
+          These are prompts for human review, not an Etsy quality or ranking score. Repeated tags, long titles, and gifting phrases are not automatically wrong in every context. Profit estimates do not replace an Etsy Payment account statement.
+        </p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How recommendations are made</h2>
-        <p className="mt-3 text-base leading-7">The hosting finder compares the project shape, commercial use and setup preference. It can identify common frameworks from an optional package.json pasted into the browser, then links to the provider’s own plan or technical documentation so you can confirm current terms.</p>
-        <p className="mt-3 text-base leading-7">We distinguish static frontends, Next.js apps and Node.js services because they can require different runtimes and services. A package manifest cannot reveal every route, database or runtime requirement, so treat the result as a starting point. We do not rank hosts using private benchmarks or promise a fixed monthly bill.</p>
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What it cannot measure</h2>
+        <p className="mt-3 text-base leading-7">
+          The tools cannot access Etsy search volume, competition, impressions, clicks, orders, or conversion data. They do not connect to a shop, change a listing, or predict sales or rank. Use Etsy Shop Stats and keyword research for demand, and your Etsy Payment account for actual fees.
+        </p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">What we do not do</h2>
-        <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7">
-          <li>We do not connect to your GitHub, hosting or payment accounts.</li>
-          <li>We do not deploy, inspect or store your source code.</li>
-          <li>We do not guarantee that a provider’s plan will fit every generated app.</li>
-          <li>We do not currently receive commission for provider recommendations.</li>
-        </ul>
+        <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Sources and independence</h2>
+        <p className="mt-3 text-base leading-7">
+          The listing checks are based on public Etsy seller resources, including Etsy’s <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://www.etsy.com/seller-handbook/article/1399426136697" target="_blank" rel="noopener noreferrer">updated title guidance</a> and <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360000336307-How-to-Use-Tags-to-Get-Found-in-Search" target="_blank" rel="noopener noreferrer">tag requirements</a>. The fee estimate is based on Etsy’s <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360035902374-Etsy-Fee-Basics" target="_blank" rel="noopener noreferrer">fee basics</a>, <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/115015628847-What-are-Payment-Processing-Fees-for-Selling-on-Etsy" target="_blank" rel="noopener noreferrer">payment processing rates</a>, and <a className="font-semibold text-emerald-900 underline underline-offset-4" href="https://help.etsy.com/hc/en-us/articles/360000338367-How-Etsy-s-Offsite-Ads-Work" target="_blank" rel="noopener noreferrer">Offsite Ads policy</a>. We last checked these pages on September 25, 2026. Etsy may update its guidance, so confirm important decisions against Etsy’s current rules.
+        </p>
+        <p className="mt-3 text-base leading-7">
+          Listing Checkup is not affiliated with or endorsed by Etsy, eRank, or another marketplace research service. We do not claim a professional certification or access to Etsy’s internal search systems.
+        </p>
       </section>
 
-      <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Sources and updates</h2>
-        <p className="mt-3 text-base leading-7">Provider requirements and pricing are based on public documentation. Hosting plans and commercial-use terms can change; the official provider pages linked in each guide take precedence. The latest source review date appears on the relevant page.</p>
+      <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+        <h2 className="text-xl font-semibold text-stone-950">Privacy by design</h2>
+        <p className="mt-2 text-sm leading-6">Your CSV and calculator inputs are processed in your browser. Listing content and tool inputs are not sent to us.</p>
+        <Link href="/privacy" className="mt-3 inline-flex font-semibold text-emerald-900 underline underline-offset-4">Read the privacy note</Link>
       </section>
-    </SitePageShell>
+
+      <p className="text-xs leading-5 text-stone-500">Project and guidance reviewed September 25, 2026.</p>
+    </EtsyPageShell>
   );
 }

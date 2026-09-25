@@ -5,10 +5,11 @@ const canonical = "/etsy-tag-checker";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Free Etsy Tag Checker: 13 Tags & 20-Character Limit | Percent to Prompts",
+    absolute: "Free Etsy Tag Checker: 13 Tags & 20-Character Limit | Listing Checkup",
   },
   description:
     "Check an Etsy listing's tags for the 13-tag limit, 20-character count, duplicates and unsupported characters. Your tags stay in your browser.",
+  robots: { index: true, follow: true },
   alternates: { canonical },
   openGraph: {
     title: "Free Etsy Tag Checker",
@@ -25,10 +26,14 @@ export default function EtsyTagCheckerPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-5">
           <div>
-            <p className="text-sm font-bold tracking-tight">Percent to Prompts</p>
+            <p className="text-sm font-bold tracking-tight">Listing Checkup</p>
             <p className="text-xs text-stone-500">Independent browser tools</p>
           </div>
-          <a href="/privacy" className="text-sm font-medium text-stone-600 underline underline-offset-4 hover:text-stone-950">Privacy</a>
+          <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-stone-600" aria-label="Main navigation">
+            <a href="/" className="underline underline-offset-4 hover:text-stone-950">CSV audit</a>
+            <a href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-950">Fee calculator</a>
+            <a href="/privacy" className="underline underline-offset-4 hover:text-stone-950">Privacy</a>
+          </nav>
         </header>
 
         <article className="py-12 sm:py-16">
@@ -76,11 +81,17 @@ export default function EtsyTagCheckerPage() {
                 This checker does not connect to Etsy or measure search volume, competition, impressions, clicks or sales. Use accurate phrases for your item and review your own shop statistics to understand how listings perform.
               </p>
             </section>
+
+            <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+              <h2 className="text-xl font-semibold text-stone-950">Check a whole shop or estimate a sale</h2>
+              <p className="mt-2 text-sm leading-6">Use the <a href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</a> to review titles and tags across active listings, or the <a href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy fee and profit calculator</a> to estimate the fees and costs on one US order.</p>
+            </section>
           </div>
         </article>
 
-        <footer className="border-t border-stone-200 pt-6 text-xs leading-5 text-stone-500">
-          This independent tool is not affiliated with or endorsed by Etsy. Tag rules can change; confirm current limits in Etsy’s help center.
+        <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-stone-200 pt-6 text-xs leading-5 text-stone-500">
+          <p>This independent tool is not affiliated with or endorsed by Etsy. Tag rules can change; confirm current limits in Etsy’s help center.</p>
+          <a href="/about" className="font-semibold text-emerald-900 underline underline-offset-4">About Listing Checkup</a>
         </footer>
       </div>
     </main>

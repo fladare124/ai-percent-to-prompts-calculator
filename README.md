@@ -1,16 +1,12 @@
-# Prompt to Production
+# Listing Checkup
 
 Production site: [percenttoprompts.com](https://percenttoprompts.com/)
 
-Prompt to Production helps people troubleshoot failed builds and choose where to deploy a website or app created with AI coding tools. The site includes a browser-based build-log checker, a hosting finder that can detect common frameworks from a pasted package.json, and practical deployment and provider guides.
+Listing Checkup is an independent set of free Etsy seller tools: a local active-listings CSV audit, a single-listing tag checker, and a US fee and profit estimate with reverse pricing for a target profit.
 
-The project is independent. Provider requirements, plan terms and prices can change, so the guides link to official documentation and tell readers to confirm current details before deploying. There are currently no affiliate links or provider commissions.
+The CSV and calculator run in the browser. The project does not connect to Etsy accounts, upload shop data, or claim access to Etsy search volume or rankings. Fee assumptions link to Etsy's current seller documentation and should be reviewed when policies change.
 
-## Privacy and analytics
-
-- Build-log diagnosis, hosting finder choices and package.json framework detection are processed in the browser and are not submitted to the application server.
-- Vercel Web Analytics and Speed Insights measure page use and performance.
-- The finder does not connect to source-code repositories, hosting accounts or payment services.
+The eRank links are regular links unless `NEXT_PUBLIC_ERANK_AFFILIATE_HREF` is configured after affiliate approval. The site is not currently enrolled and does not earn commissions from eRank.
 
 ## Run locally
 
@@ -25,15 +21,15 @@ npm run dev
 npm run build
 ```
 
-The repository deploys to Vercel from the `main` branch. No backend, database, AI API key or environment variable is required for the finder and guides.
+The repository deploys to Vercel from the `main` branch. The site uses no backend, database, or AI API key.
 
 ## Main files
 
-- `src/app/page.tsx` — deployment troubleshooting, hosting finder, launch checklist and FAQs.
-- `src/components/DeploymentFinder.tsx` — interactive host recommendation.
-- `src/components/DeploymentErrorHelper.tsx` and `src/lib/deploymentDiagnostics.ts` — local build-log checks and troubleshooting suggestions.
-- `src/app/deploy-vibe-coded-app/` — AI app deployment troubleshooting guide.
-- `src/app/es/arreglar-error-despliegue/` — Spanish troubleshooting guide and translated browser-based checker.
-- `src/app/hostinger-nodejs-app/` — managed Node.js deployment requirements.
-- `src/app/digitalocean-app-platform/` — App Platform cost guide.
+- `src/app/page.tsx` — Etsy seller tools hub and shop-wide CSV audit.
+- `src/components/EtsyCsvAuditor.tsx` — private CSV parsing, title/tag checks, and report export.
+- `src/app/etsy-fee-calculator/` and `src/components/EtsyFeeCalculator.tsx` — US fee estimator and target-price calculation.
+- `src/app/etsy-tag-checker/` — single-listing tag checker.
+- `src/app/etsy-listing-csv-guide/` — Etsy active-listings export instructions.
 - `src/lib/site.ts` and `src/app/sitemap.ts` — public route and sitemap definitions.
+
+Legacy AI deployment and usage-calculator routes remain available to direct visitors but are archived, excluded from the sitemap, and not intended for search indexing.
