@@ -6,13 +6,13 @@ import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 export const metadata: Metadata = {
   title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
   description:
-    "Audit titles and tags across active Etsy listings from one CSV. Review duplicate titles, repeated tags, and formatting issues privately in your browser.",
+    "Audit active Etsy listings from one private CSV. Check titles, tags, descriptions, prices, quantities, photos, and shop-wide patterns in your browser.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
   openGraph: {
     title: "Free Etsy Listing CSV Checker | Bulk Title & Tag Audit",
     description:
-      "Check title and tag patterns across your active Etsy listings. Your CSV stays in your browser; no Etsy login or upload is needed.",
+      "Review titles, tags and listing details across your active Etsy listings. Your CSV stays in your browser; no Etsy login or upload is needed.",
     url: "/",
     type: "website",
   },
@@ -28,7 +28,7 @@ const faq = [
   {
     question: "What does the Etsy CSV listing audit check?",
     answer:
-      "It checks title wording and length, tag count and character limits, repeated tags, and duplicate titles across an active-listings CSV. These are review prompts, not an Etsy ranking score.",
+      "It checks title wording and length, tag count and character limits, repeated tags, duplicate titles, and blank listing details such as description, price, quantity, currency, or image URL when those columns are in the export. These are review prompts, not an Etsy ranking score.",
   },
   {
     question: "Does the Etsy CSV checker upload my shop data?",
@@ -72,7 +72,7 @@ const appSchema = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Audit Etsy active-listings CSV files locally in the browser",
-    "Review title wording, tag limits, duplicate titles, and repeated shop tags",
+    "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy tag list for count, character limits, and duplicates",
     "Estimate US Etsy fees, profit, and a target item price",
   ],
@@ -110,7 +110,7 @@ export default function Home() {
               Check titles and tags across your Etsy shop from one CSV.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Review title and tag patterns across your active listings in your browser. Use the separate tag checker and US fee calculator when you need to inspect one listing or order.
+              Review titles, tags, and listing details across your active listings in your browser. Use the separate tag checker and US fee calculator for one listing or order.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#csv-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">

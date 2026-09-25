@@ -23,6 +23,16 @@ type ListingAudit = {
 
 type Filter = "all" | IssueKind | "needs-review";
 
+type AvailableColumns = {
+  description: boolean;
+  materials: boolean;
+  price: boolean;
+  currency: boolean;
+  quantity: boolean;
+  imageUrls: boolean;
+  sku: boolean;
+};
+
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const MAX_LISTINGS = 25_000;
 const validTagPattern = new RegExp("^[\\p{L}\\p{N} '-]+$", "u");
@@ -130,9 +140,9 @@ const EtsyCsvAuditor = () => {
 
   const loadSample = () => {
     const sampleCsv = [
-      "TITLE,DESCRIPTION,TAGS,MATERIALS",
-      '"Beautiful Moon Necklace, Perfect Gift for Her, Silver Moon Necklace, On Sale","Example listing only. A handmade silver necklace with a crescent moon pendant.","moon necklace|silver moon necklace|gift for her|gift for her|handmade jewelry","Sterling silver"',
-      '"Sterling Silver Crescent Moon Necklace","Example listing only. A small crescent moon pendant on a sterling silver chain.","crescent moon|silver necklace|moon pendant|celestial jewelry|sterling silver|dainty necklace|moon jewelry|silver pendant|minimal necklace|lunar necklace|handmade jewelry|chain necklace|gift for her","Sterling silver"',
+      "TITLE,DESCRIPTION,PRICE,CURRENCY,QUANTITY,TAGS,MATERIALS,IMAGE_URLS,SKU",
+      '"Beautiful Moon Necklace, Perfect Gift for Her, Silver Moon Necklace, On Sale","Example listing only. A handmade silver necklace with a crescent moon pendant.",24.00,USD,3,"moon necklace|silver moon necklace|gift for her|gift for her|handmade jewelry","Sterling silver","https://example.com/moon.jpg",MOON-001',
+      '"Sterling Silver Crescent Moon Necklace","","",USD,2,"crescent moon|silver necklace|moon pendant|celestial jewelry|sterling silver|dainty necklace|moon jewelry|silver pendant|minimal necklace|lunar necklace|handmade jewelry|chain necklace|gift for her","Sterling silver",,MOON-001',
     ].join("\r\n");
     const sample = parseListings(sampleCsv);
     setListings(sample);
@@ -275,16 +285,18 @@ const EtsyCsvAuditor = () => {
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <PreviewCard number="01" title="Title guidance" text="Spot unusually long titles, repeated words, gift-heavy phrasing and sales language for a human review." />
               <PreviewCard number="02" title="Tag checks" text="Find missing tag slots, repeated tags and tags that exceed Etsy’s 20-character limit." />
-              <PreviewCard number="03" title="Shop-wide patterns" text="Notice titles or tags used across multiple listings. Repetition is a clue to review, not an automatic mistake." />
-              <PreviewCard number="04" title="Copy-ready AI prompt" text="Create a prompt for one listing without sending the title, tags or description from this page." />
+              <PreviewCard number="03" title="Listing details" text="Review blank description, price, quantity, currency and image fields when they are present in your export. Materials are checked as an optional reminder." />
+              <PreviewCard number="04" title="Shop-wide patterns" text="Notice duplicate titles, repeated tags and reused SKUs across listings. Repetition is a prompt to review, not an automatic mistake." />
+              <PreviewCard number="05" title="Copy-ready AI prompt" text="Create a prompt for one listing without sending the title, tags or description from this page." />
             </div>
           ) : (
             <>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
                 <Metric value={String(listings.length)} label="listings scanned" />
                 <Metric value={String(issueTotals.listings)} label="to review" />
                 <Metric value={String(issueTotals.title)} label="title checks" />
                 <Metric value={String(issueTotals.tags)} label="tag checks" />
+                <Metric value={String(issueTotals.catalog)} label="catalog checks" />
               </div>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -313,7 +325,7 @@ const EtsyCsvAuditor = () => {
                     <option value="needs-review">Needs review</option>
                     <option value="title">Title checks</option>
                     <option value="tags">Tag checks</option>
-                    <option value="catalog">Shop-wide patterns</option>
+                    <option value="catalog">Catalog checks and shop-wide patterns</option>
                   </select>
                 </div>
 
@@ -413,13 +425,25 @@ function parseListings(csvText: string): ListingAudit[] {
   if (rows.length < 2) throw new Error("The CSV has a header but no listing rows.");
 
   const headings = rows[0].map(normalizeHeader);
-  const titleIndex = findColumn(headings, ["title", "listingtitle", "itemtitle"]);
-  const tagsIndex = findColumn(headings, ["tags", "tag", "listingtags", "keywords"]);
-  const descriptionIndex = findColumn(headings, ["description", "listingdescription"]);
-  const materialsIndex = findColumn(headings, ["materials", "material"]);
+  const titleIndex = findColumn(headings, ["title", "listingtitle", "itemtitle", "titulo"]);
+  const tagsIndex = findColumn(headings, ["tags", "tag", "listingtags", "keywords", "etiquetas"]);
+  const descriptionIndex = findColumn(headings, ["description", "listingdescription", "descripcion"]);
+  const materialsIndex = findColumn(headings, ["materials", "material", "materiales"]);
+  const priceIndex = findColumn(headings, ["price", "listingprice", "itemprice", "precio"]);
+  const currencyIndex = findColumn(headings, ["currency", "currencycode", "listingcurrency", "currencytype", "moneda", "divisa", "codigodedivisa"]);
+  const quantityIndex = findColumn(headings, ["quantity", "qty", "listingquantity", "cantidad"]);
+  const imageUrlIndices = headings
+    .map((header, index) => ({ header, index }))
+    .filter(({ header }) =>
+      ["imageurls", "imageurl", "images", "listingimages", "urlimagenes", "urlimagen", "urldelasimagenes", "imagenes"].includes(header) ||
+      /^image\d+$/.test(header) ||
+      /^imagen\d+$/.test(header),
+    )
+    .map(({ index }) => index);
+  const skuIndex = findColumn(headings, ["sku", "skunumber", "listingsku", "productsku", "referencia", "numerossku"]);
 
   if (titleIndex < 0 || tagsIndex < 0) {
-    throw new Error("I couldn’t find both title and tags columns. Use Etsy’s active-listings export with a Title and Tags column.");
+    throw new Error("I couldn’t find both title and tags columns. Use Etsy’s active-listings export with Title and Tags columns.");
   }
 
   const listingRows = rows.slice(1).filter((row) => row.some((cell) => cell.trim() !== ""));
@@ -432,10 +456,23 @@ function parseListings(csvText: string): ListingAudit[] {
     title: row[titleIndex]?.trim() ?? "",
     description: descriptionIndex >= 0 ? row[descriptionIndex]?.trim() ?? "" : "",
     materials: materialsIndex >= 0 ? row[materialsIndex]?.trim() ?? "" : "",
+    price: priceIndex >= 0 ? row[priceIndex]?.trim() ?? "" : "",
+    currency: currencyIndex >= 0 ? row[currencyIndex]?.trim() ?? "" : "",
+    quantity: quantityIndex >= 0 ? row[quantityIndex]?.trim() ?? "" : "",
+    imageUrls: imageUrlIndices.map((index) => row[index]?.trim() ?? "").filter(Boolean).join(" | "),
+    sku: skuIndex >= 0 ? row[skuIndex]?.trim() ?? "" : "",
     tags: parseTags(row[tagsIndex] ?? ""),
   }));
 
-  return auditRows(normalizedRows);
+  return auditRows(normalizedRows, {
+    description: descriptionIndex >= 0,
+    materials: materialsIndex >= 0,
+    price: priceIndex >= 0,
+    currency: currencyIndex >= 0,
+    quantity: quantityIndex >= 0,
+    imageUrls: imageUrlIndices.length > 0,
+    sku: skuIndex >= 0,
+  });
 }
 
 function detectDelimiter(text: string): string {
@@ -493,7 +530,19 @@ function parseCsv(text: string, delimiter: string): string[][] {
 }
 
 function auditRows(
-  sourceRows: Array<{ rowNumber: number; title: string; description: string; materials: string; tags: string[] }>,
+  sourceRows: Array<{
+    rowNumber: number;
+    title: string;
+    description: string;
+    materials: string;
+    price: string;
+    currency: string;
+    quantity: string;
+    imageUrls: string;
+    sku: string;
+    tags: string[];
+  }>,
+  availableColumns: AvailableColumns,
 ): ListingAudit[] {
   const audits = sourceRows.map((source, index) => {
     const listing: ListingAudit = {
@@ -505,7 +554,11 @@ function auditRows(
       tags: source.tags,
       issues: [],
     };
-    listing.issues.push(...checkTitle(source.title), ...checkTags(source.tags));
+    listing.issues.push(
+      ...checkTitle(source.title),
+      ...checkTags(source.tags),
+      ...checkListingDetails(source, availableColumns),
+    );
     return listing;
   });
 
@@ -524,6 +577,30 @@ function auditRows(
         level: "check",
         message: `This exact title also appears on CSV row${matches.length > 2 ? "s" : ""} ${rows}. Check whether each listing is distinct.`,
       });
+    }
+  }
+
+  if (availableColumns.sku) {
+    const skuListings = new Map<string, number[]>();
+    sourceRows.forEach((source, index) => {
+      const normalized = normalizeText(source.sku);
+      if (!normalized) return;
+      skuListings.set(normalized, [...(skuListings.get(normalized) ?? []), index]);
+    });
+
+    for (const matches of skuListings.values()) {
+      if (matches.length < 2) continue;
+      for (const listingIndex of matches) {
+        const otherRows = matches
+          .filter((index) => index !== listingIndex)
+          .map((index) => sourceRows[index].rowNumber)
+          .join(", ");
+        audits[listingIndex].issues.push({
+          kind: "catalog",
+          level: "check",
+          message: `This SKU also appears on CSV row${matches.length > 2 ? "s" : ""} ${otherRows}. Confirm the listings are meant to share it.`,
+        });
+      }
     }
   }
 
@@ -651,6 +728,53 @@ function checkTags(tags: string[]): AuditIssue[] {
   return issues;
 }
 
+function checkListingDetails(
+  listing: { description: string; materials: string; price: string; currency: string; quantity: string; imageUrls: string },
+  availableColumns: AvailableColumns,
+): AuditIssue[] {
+  const issues: AuditIssue[] = [];
+  const checks: Array<{ available: boolean; value: string; message: string }> = [
+    {
+      available: availableColumns.description,
+      value: listing.description,
+      message: "No description text appears in this CSV row. Review the live listing and add buyer-relevant details if needed.",
+    },
+    {
+      available: availableColumns.price,
+      value: listing.price,
+      message: "No price value appears in this CSV row. Confirm the active listing price in Etsy.",
+    },
+    {
+      available: availableColumns.currency,
+      value: listing.currency,
+      message: "No currency code appears in this CSV row. Check the listing currency in Etsy.",
+    },
+    {
+      available: availableColumns.quantity,
+      value: listing.quantity,
+      message: "No quantity value appears in this CSV row. Check the active listing in Etsy.",
+    },
+    {
+      available: availableColumns.imageUrls,
+      value: listing.imageUrls,
+      message: "No image URL appears in this CSV row. Confirm that the listing has photos in Etsy.",
+    },
+    {
+      available: availableColumns.materials,
+      value: listing.materials,
+      message: "No materials are listed in this CSV row. Add them when they help describe the item.",
+    },
+  ];
+
+  for (const check of checks) {
+    if (check.available && !check.value.trim()) {
+      issues.push({ kind: "catalog", level: "check", message: check.message });
+    }
+  }
+
+  return issues;
+}
+
 function buildReviewPrompt(listing: ListingAudit): string {
   return [
     "Help me review one Etsy product listing. Work only with the facts I provide; do not invent materials, sizes, personalization options, production methods, claims, or keyword search volume.",
@@ -672,7 +796,13 @@ function parseTags(value: string): string[] {
 }
 
 function normalizeHeader(value: string): string {
-  return value.replace(/^\uFEFF/, "").trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  return value
+    .replace(/^\uFEFF/, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
 }
 
 function findColumn(headers: string[], names: string[]): number {
