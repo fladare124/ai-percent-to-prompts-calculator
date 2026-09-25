@@ -1,46 +1,47 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import DeploymentFinder from "@/components/DeploymentFinder";
+import DeploymentErrorHelper from "@/components/DeploymentErrorHelper";
 
 export const metadata: Metadata = {
-  title: "Where to Deploy an AI-Built App: Hosting Finder",
+  title: "Fix an AI App Deployment Error: Build Log Checker",
   description:
-    "Choose where to launch an app made with Cursor, Claude Code, Lovable, Bolt or Replit. Compare Vercel, Hostinger and DigitalOcean by app type and commercial use.",
+    "Paste a failed build log to identify common AI app deployment errors. Get browser-based troubleshooting and a practical path to launch.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Where to Deploy an AI-Built App",
-    description: "A practical hosting finder for apps made with AI coding tools.",
+    title: "Fix an AI App Deployment Error",
+    description: "Diagnose common build failures in your browser and get a practical next step.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Where to Deploy an AI-Built App",
-    description: "Pick a hosting path by framework, project needs and commercial use.",
+    title: "Fix an AI App Deployment Error",
+    description: "Paste a failed build log for a browser-based first check.",
     images: ["/opengraph-image"],
   },
 };
 
 const faq = [
   {
-    question: "Can I deploy an app made with an AI coding tool anywhere?",
+    question: "What should I check first when an AI-built app fails to deploy?",
     answer:
-      "Often, yes, if you can export the project or connect its Git repository. The best host depends on the framework, whether the app needs a backend or database, and how much server setup you want to manage.",
+      "Find the first specific error in the build log, not only the final command-failed line. Fix that issue and run the production build locally before deploying again.",
   },
   {
-    question: "Can I earn money from a project hosted on Vercel Hobby?",
+    question: "Why does my app work locally but fail on the host?",
     answer:
-      "Vercel describes Hobby as personal and non-commercial. For a business or revenue-generating project, review Vercel's current commercial plans or choose another host that fits the app.",
+      "The deployed environment may use different dependencies, environment variables, Node.js versions, root directories or case-sensitive file paths. Compare those settings with the working local build.",
   },
   {
-    question: "Can Hostinger run a Next.js app?",
+    question: "Does the deployment checker upload my log?",
     answer:
-      "Hostinger lists Next.js among its supported Node.js frameworks. Its managed Node.js app workflow requires an eligible Business Web or Cloud plan; check current plan details before migrating.",
+      "No. The checker reads the text in your browser and does not upload or save it. Remove secrets, tokens and private URLs before pasting logs.",
   },
   {
-    question: "What does DigitalOcean App Platform cost?",
+    question: "Will this checker automatically fix my app?",
     answer:
-      "DigitalOcean currently offers a free tier for static sites and paid app containers starting at $5 per month. Databases, outbound transfer and extra components can add costs, so price the full stack.",
+      "No. It recognizes a limited set of common build errors and suggests checks. Review the full log and your project settings to confirm the cause.",
   },
 ];
 
@@ -69,31 +70,32 @@ export default function Home() {
             </span>
           </Link>
           <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-zinc-600" aria-label="Main">
+            <a href="#troubleshoot" className="transition hover:text-zinc-950">Fix a deploy error</a>
             <a href="#finder" className="transition hover:text-zinc-950">Choose a host</a>
-            <a href="#guides" className="transition hover:text-zinc-950">Deployment guides</a>
+            <a href="#guides" className="transition hover:text-zinc-950">Guides</a>
             <Link href="/about" className="transition hover:text-zinc-950">About</Link>
           </nav>
         </header>
 
         <section className="grid gap-10 py-12 sm:py-16 lg:grid-cols-[1fr_0.72fr] lg:items-center">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-800">A launch guide for AI-built apps</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">Built an app with AI? Choose where to launch it.</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">Cursor, Claude Code, Lovable, Bolt and Replit can leave you with very different projects. Pick a hosting path based on the files you have, whether the app makes money, and how much infrastructure you want to manage.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-800">From failed build to working launch</p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">AI app won’t deploy? Find the first useful clue.</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">Paste a failed build log to check for common deployment problems in your browser. Then use the hosting finder and step-by-step guides to get the app ready to launch.</p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#finder" className="rounded-lg bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">Find my launch path</a>
-              <Link href="/deploy-vibe-coded-app" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Read the deployment guide</Link>
+              <a href="#troubleshoot" className="rounded-lg bg-zinc-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800">Check a failed build log</a>
+              <a href="#finder" className="rounded-lg border border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-500">Choose where to deploy</a>
             </div>
-            <p className="mt-4 text-xs leading-5 text-zinc-500">Independent guidance. Provider terms and prices change; confirm current details on their official pages before you deploy.</p>
+            <p className="mt-4 text-xs leading-5 text-zinc-500">No account connection. Analysis stays in your browser; remove secrets from logs before pasting.</p>
           </div>
 
           <div className="rounded-3xl bg-zinc-950 p-6 text-white sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-300">Three things that decide it</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-300">A practical route to launch</p>
             <div className="mt-5 space-y-4">
               {[
-                ["01", "What did the AI create?", "Static frontend, Next.js, or a backend with data"],
-                ["02", "Will the app earn money?", "Personal demos and commercial projects have different plan rules"],
-                ["03", "What should the host run?", "Only a frontend, or also an API, worker or database"],
+                ["01", "Find the first real error", "Look above the generic final build-failed message"],
+                ["02", "Check the project settings", "Build command, dependencies, runtime and environment"],
+                ["03", "Choose a matching host", "Compare framework support, services and plan terms"],
               ].map(([number, title, detail]) => (
                 <div key={number} className="flex gap-4 border-t border-white/10 pt-4">
                   <span className="text-sm font-bold text-cyan-300">{number}</span>
@@ -107,9 +109,18 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="troubleshoot" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="troubleshoot-heading">
+          <div className="mb-7 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Free browser-based first check</p>
+            <h2 id="troubleshoot-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Why did the AI-built app deployment fail?</h2>
+            <p className="mt-3 text-base leading-7 text-zinc-600">Paste the build log from your hosting dashboard. The checker recognizes common error patterns and gives you a short list of things to verify.</p>
+          </div>
+          <DeploymentErrorHelper />
+        </section>
+
         <section id="finder" className="scroll-mt-6 border-t border-zinc-200 pt-12 sm:pt-16" aria-labelledby="finder-heading">
           <div className="mb-7 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">Quick recommendation</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-800">The next step after the build works</p>
             <h2 id="finder-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Find a host that fits your app</h2>
             <p className="mt-3 text-base leading-7 text-zinc-600">Choose the framework or app shape, your priority and whether the project is commercial. We show the trade-offs and link to the provider’s current requirements.</p>
           </div>
@@ -124,10 +135,10 @@ export default function Home() {
           </div>
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             <Link href="/deploy-vibe-coded-app" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
-              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Start here</p>
-              <h3 className="mt-3 text-xl font-semibold">Deploy a vibe-coded app</h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-600">A practical checklist for code from Cursor, Claude, Lovable, Bolt or Replit.</p>
-              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Read the guide →</span>
+              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Troubleshooting</p>
+              <h3 className="mt-3 text-xl font-semibold">Fix a failed AI app deployment</h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Check build logs, missing dependencies, environment settings and common configuration mistakes.</p>
+              <span className="mt-5 inline-block text-sm font-semibold text-cyan-800 underline underline-offset-4">Troubleshoot a build →</span>
             </Link>
             <Link href="/hostinger-nodejs-app" className="group rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-cyan-700">
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-800">Managed Node.js</p>
@@ -174,7 +185,7 @@ export default function Home() {
         </section>
 
         <footer className="mt-14 flex flex-col gap-4 border-t border-zinc-200 pt-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>Prompt to Production · Practical hosting guidance for AI-built apps.</p>
+          <p>Prompt to Production · Troubleshooting and deployment guidance for AI-built apps.</p>
           <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
             <Link href="/about" className="underline underline-offset-4 hover:text-zinc-900">About</Link>
             <Link href="/privacy" className="underline underline-offset-4 hover:text-zinc-900">Privacy</Link>

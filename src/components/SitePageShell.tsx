@@ -24,8 +24,9 @@ export default function SitePageShell({
             </span>
           </Link>
           <nav className="flex flex-wrap gap-4 text-sm font-medium text-zinc-600" aria-label="Main">
+            <Link href="/#troubleshoot" className="transition hover:text-zinc-950">Fix a deploy error</Link>
             <Link href="/#finder" className="transition hover:text-zinc-950">Choose a host</Link>
-            <Link href="/deploy-vibe-coded-app" className="transition hover:text-zinc-950">Deployment guide</Link>
+            <Link href="/deploy-vibe-coded-app" className="transition hover:text-zinc-950">Troubleshooting guide</Link>
           </nav>
         </header>
 

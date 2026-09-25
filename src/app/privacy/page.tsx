@@ -4,7 +4,7 @@ import SitePageShell from "@/components/SitePageShell";
 export const metadata: Metadata = {
   title: "Privacy Notice",
   description:
-    "How Prompt to Production handles hosting-finder choices and site analytics.",
+    "How Prompt to Production handles deployment logs, hosting-finder choices and site analytics.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -12,12 +12,17 @@ export default function PrivacyPage() {
   return (
     <SitePageShell
       eyebrow="Privacy notice · September 25, 2026"
-      title="The hosting finder does not need your accounts or source code."
-      intro="Your selections and optional package.json check run in this page to display a recommendation. Prompt to Production does not ask you to connect a code repository, hosting account or payment service."
+      title="The deployment checker does not need your accounts or source code."
+      intro="The optional build-log diagnosis, hosting choices and package.json framework check run in this page. Prompt to Production does not ask you to connect a code repository, hosting account or payment service."
     >
       <section>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Build-log diagnosis</h2>
+        <p className="mt-3 text-base leading-7">If you paste a deployment build log into the checker, the text is analyzed in your browser to look for common error patterns. The site does not upload, store or send the log to an AI service. Clear the text when you finish and remove secrets, passwords, tokens and private URLs before pasting. Vercel Web Analytics and Speed Insights measure site use and performance; the checker does not send pasted log text or its diagnosis to analytics.</p>
+      </section>
+
+      <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Finder selections</h2>
-        <p className="mt-3 text-base leading-7">The finder processes your choices in the browser. It does not submit or store the framework, project type, commercial-use answer or hosting preference. If you paste a package.json file, the page checks dependency names in your browser and does not upload or store the text. Remove any private information before pasting; never paste API keys or other secrets. The site does not receive source code, repository names or account credentials.</p>
+        <p className="mt-3 text-base leading-7">The finder processes your choices in the browser. It does not submit or store the framework, project type, commercial-use answer or hosting preference. If you paste a package.json file, the page checks dependency names in your browser and does not upload or store the text. The site does not receive source code, repository names or account credentials.</p>
       </section>
 
       <section>
@@ -33,7 +38,7 @@ export default function PrivacyPage() {
 
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Changes</h2>
-        <p className="mt-3 text-base leading-7">If the finder begins sending or storing choices, source code or other personal information, this notice will be updated before that behavior is introduced. Reviewed September 25, 2026.</p>
+        <p className="mt-3 text-base leading-7">If the checker begins sending or storing logs, choices, source code or other personal information, this notice will be updated before that behavior is introduced. Reviewed September 25, 2026.</p>
       </section>
     </SitePageShell>
   );

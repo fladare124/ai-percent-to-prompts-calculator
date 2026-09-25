@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Prompt to Production",
   },
   description:
-    "Choose where to deploy websites and apps created with AI coding tools. Compare hosting requirements, commercial terms and launch guides.",
+    "Troubleshoot deployment errors in AI-built apps, then choose a compatible host with practical launch guides.",
   icons: {
     icon: "/icon.svg",
   },

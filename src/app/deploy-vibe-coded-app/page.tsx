@@ -3,9 +3,9 @@ import Link from "next/link";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
-  title: "Where to Deploy a Vibe-Coded App",
+  title: "How to Fix AI App Deployment and Build Errors",
   description:
-    "Compare Vercel, Hostinger and DigitalOcean for apps created with AI coding tools. Choose by framework, backend needs, commercial use and setup preference.",
+    "Troubleshoot failed deployments for AI-built apps. Check build logs, missing packages, environment variables, Node.js versions and output settings.",
   alternates: { canonical: "/deploy-vibe-coded-app" },
 };
 
@@ -14,18 +14,43 @@ const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 export default function DeployVibeCodedAppPage() {
   return (
     <SitePageShell
-      eyebrow="Launch guide · September 25, 2026"
-      title="Where should you deploy a vibe-coded app?"
-      intro="The tool that generated your code does not always have to host it. Start with the app files, check whether it needs a server or database, then choose a host whose plan permits your use."
+      eyebrow="Deployment troubleshooting · September 25, 2026"
+      title="How to fix a failed AI app deployment"
+      intro="When a project from Lovable, Bolt, Cursor, Claude Code or another AI coding tool fails to deploy, the last line in the log rarely explains the cause. Start with the first specific error, match it to the checks below, then run the production build again."
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">First, identify what the AI builder created</h2>
-        <p className="mt-3 text-base leading-7">Open the project folder and look for its framework and runtime. A static site or React frontend has different hosting needs from a Next.js server, an API, a background worker or a database. If the builder can export the code to GitHub, most managed hosts can deploy from that repository.</p>
-        <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-7">
-          <li><strong>Static frontend:</strong> HTML, CSS, JavaScript or a React build with no server-side routes.</li>
-          <li><strong>Next.js app:</strong> server-rendered pages, server actions or API routes may need a compatible Node.js runtime.</li>
-          <li><strong>Full-stack app:</strong> an API, worker, database or scheduled job adds separate services and costs.</li>
-        </ul>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Start with the first specific error</h2>
+        <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. Vercel's troubleshooting guide also recommends checking the lines before the generic failure and running the production build locally.</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Common errors and what to check</h2>
+        <div className="mt-4 space-y-4">
+          <article id="missing-build-script" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">“Missing script: build”</h3>
+            <p className="mt-2 text-sm leading-6">Open package.json and inspect the scripts section. Either add the correct build script for the project or change the hosting Build Command to the command it already defines. Run it from the project root to confirm it works.</p>
+          </article>
+          <article id="missing-dependency" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">“Module not found” or “Could not resolve”</h3>
+            <p className="mt-2 text-sm leading-6">Check the import path letter by letter, confirm the file was committed, and make sure any package is listed in the project dependencies. A project that works on one computer can still fail on a case-sensitive build system if the import capitalization differs from the filename.</p>
+          </article>
+          <article id="environment-variables" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">“Missing environment variable” or an undefined value</h3>
+            <p className="mt-2 text-sm leading-6">Add the named variable to the hosting dashboard for the environment that failed, then start a new deployment. Keep private keys out of client-side code and source control. Redact values before sharing a build log.</p>
+          </article>
+          <article id="node-version" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">Unsupported Node.js version or engine</h3>
+            <p className="mt-2 text-sm leading-6">Read the version requirement in the error and choose a compatible Node.js runtime in the hosting project settings. Align the local and hosted versions, then rebuild.</p>
+          </article>
+          <article id="output-directory" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">Output or publish directory not found</h3>
+            <p className="mt-2 text-sm leading-6">Check where the framework actually writes its build files and set the host's output directory to match. The right setting depends on the framework; server-rendered apps should use the matching framework preset instead of a static output folder.</p>
+          </article>
+          <article id="browser-code" className="scroll-mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-zinc-950">“window is not defined” or “document is not defined”</h3>
+            <p className="mt-2 text-sm leading-6">The build is running browser-only code in a server context. Find the file in the first error, then move that code into the framework's client-only component or execution path.</p>
+          </article>
+        </div>
       </section>
 
       <section className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
@@ -58,7 +83,7 @@ export default function DeployVibeCodedAppPage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">A practical choice by project</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Once the build works, choose a suitable host</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           <article className="rounded-2xl border border-zinc-200 bg-white p-5">
             <h3 className="text-lg font-semibold text-zinc-950">Personal Next.js demo</h3>
