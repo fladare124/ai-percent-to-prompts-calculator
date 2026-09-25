@@ -87,6 +87,11 @@ export default function EtsyPaymentStatementAnalyzerPage() {
           </p>
         </section>
 
+        <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">Need to combine a full year of statements?</h2>
+          <p className="mt-3 text-base leading-7">Follow the <a href="/etsy-annual-statement-csv-summary" className="font-semibold text-emerald-900 underline underline-offset-4">guide to combining Etsy Monthly Statement CSVs</a> for download steps and a clear explanation of what annual totals do and do not show.</p>
+        </section>
+
         <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-stone-950">A statement summary, not product profit or a deposit reconciliation</h2>
           <p className="mt-3 text-base leading-7 text-stone-700">
