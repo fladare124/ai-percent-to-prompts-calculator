@@ -78,6 +78,7 @@ const appSchema = {
     "Plan US-specific Etsy prices across listings using item costs and Etsy tariff estimates",
     "Audit Etsy active-listings CSV files locally in the browser",
     "Group Etsy Order Items CSV sales by product or SKU and estimate contribution locally in the browser",
+    "Summarize Etsy monthly statement CSV values by activity type and currency locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy listing title for character count, word count, and possible repetition",
@@ -144,6 +145,12 @@ export default function Home() {
               <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy profit by SKU</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Add unit costs and fee assumptions to compare estimated contribution across sold products.</p>
               <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Audit profit by product →</Link>
+            </article>
+            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Payment account</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Monthly statement summary</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Group statement amounts, fees, and net values by activity type and currency.</p>
+              <Link href="/etsy-payment-statement-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize a statement CSV →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>

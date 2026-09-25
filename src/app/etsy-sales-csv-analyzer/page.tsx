@@ -90,6 +90,13 @@ export default function EtsySalesCsvAnalyzerPage() {
         </section>
 
         <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">Need to review your Etsy Payment account activity?</h2>
+          <p className="mt-3 text-base leading-7">
+            The Order Items report estimates product contribution from sold items and assumptions. To group the actual signed values in a Monthly Statement CSV by activity type and currency, use the <a href="/etsy-payment-statement-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy monthly statement analyzer</a>. It does not assign every statement fee to an SKU or calculate accounting profit.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
           <h2 className="text-xl font-semibold text-stone-950">Download the Order Items CSV from Etsy</h2>
           <ol className="mt-4 list-decimal space-y-2 pl-6 text-base leading-7">
             <li>Sign in to Etsy.com and open Shop Manager.</li>
