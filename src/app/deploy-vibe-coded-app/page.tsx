@@ -20,7 +20,7 @@ export default function DeployVibeCodedAppPage() {
     >
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Start with the first specific error</h2>
-        <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. Vercel's troubleshooting guide also recommends checking the lines before the generic failure and running the production build locally.</p>
+        <p className="mt-3 text-base leading-7">A message such as “command exited with code 1” only says that the build failed. Scroll upward to the first specific error, note its file, package or setting, and fix that before chasing later messages. <a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel's troubleshooting guide</a> recommends checking the lines before the generic failure and running the production build locally.</p>
       </section>
 
       <section>
@@ -115,6 +115,7 @@ export default function DeployVibeCodedAppPage() {
         <h2 className="text-xl font-semibold text-zinc-950">Official provider references</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6 text-sm leading-6">
           <li><a className={linkClass} href="https://vercel.com/pricing" target="_blank" rel="noopener noreferrer">Vercel plans and use terms</a></li>
+          <li><a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel build-log troubleshooting</a></li>
           <li><a className={linkClass} href="https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/" target="_blank" rel="noopener noreferrer">Hostinger Node.js deployment requirements</a></li>
           <li><a className={linkClass} href="https://www.digitalocean.com/pricing/app-platform" target="_blank" rel="noopener noreferrer">DigitalOcean App Platform pricing</a></li>
         </ul>
