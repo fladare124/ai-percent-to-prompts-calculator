@@ -157,8 +157,10 @@ export default function EstimatorForm({
   const hiddenAdvancedKeys = getHiddenAdvancedKeys(form, criticalFields);
   const isCursor = form.platform === "Cursor";
   const isGemini = form.platform === "Gemini";
+  const isPerplexity = form.platform === "Perplexity";
   const isWindsurfDevin = form.platform === "Windsurf / Devin";
-  const hasDedicatedPlanner = isCursor || isGemini || isWindsurfDevin;
+  const hasDedicatedPlanner =
+    isCursor || isGemini || isPerplexity || isWindsurfDevin;
 
   return (
     <form className="space-y-7" noValidate>
@@ -172,9 +174,11 @@ export default function EstimatorForm({
               ? "Cursor usage is tracked in separate monthly pools."
               : isGemini
                 ? "Gemini usage depends on the limit and reset time shown in your account."
-                : isWindsurfDevin
-                  ? "Devin and Windsurf plans have daily and weekly usage allowances."
-                  : "Match what your provider shows before reading the estimate."}
+                : isPerplexity
+                  ? "Perplexity tracks Pro Search and Research separately. Use the matching pace planner."
+                  : isWindsurfDevin
+                    ? "Devin and Windsurf plans have daily and weekly usage allowances."
+                    : "Match what your provider shows before reading the estimate."}
           </p>
         </div>
         <span className="rounded-md border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-200">
@@ -227,7 +231,9 @@ export default function EstimatorForm({
               ? "Cursor does not have one fixed request count across models and tasks. Compare your recent readings from each pool against the time left in your billing cycle."
               : isGemini
                 ? "Gemini limits refresh every 5 hours until the weekly limit is reached. Use the limit reading and refresh time shown in Gemini Settings."
-                : "Devin and Windsurf usage refreshes daily and weekly. Use the allowance reading and reset time shown in your account."}
+                : isPerplexity
+                  ? "Pro Search and Research have separate allowances and reset windows. Use the account readings in the matching planner; Perplexity limits are not one fixed prompt count."
+                  : "Devin and Windsurf usage refreshes daily and weekly. Use the allowance reading and reset time shown in your account."}
           </p>
           <Link
             href={
@@ -235,7 +241,9 @@ export default function EstimatorForm({
                 ? "/cursor-usage-calculator"
                 : isGemini
                   ? "/gemini-usage-calculator"
-                  : "/windsurf-devin-usage-calculator"
+                  : isPerplexity
+                    ? "/perplexity-usage-calculator"
+                    : "/windsurf-devin-usage-calculator"
             }
             className="mt-2 inline-block font-semibold underline underline-offset-2"
           >
@@ -243,7 +251,9 @@ export default function EstimatorForm({
               ? "Open the Cursor Models and Other Models planners"
               : isGemini
                 ? "Open the Gemini 5-hour and weekly planner"
-                : "Open the Devin and Windsurf daily and weekly planners"}
+                : isPerplexity
+                  ? "Open the Perplexity Pro Search and Research planners"
+                  : "Open the Devin and Windsurf daily and weekly planners"}
           </Link>
         </div>
       ) : (

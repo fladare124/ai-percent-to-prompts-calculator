@@ -40,7 +40,10 @@ const links = [
   },
   { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
-  { href: "/perplexity-usage-calculator", label: "Perplexity Usage Calculator" },
+  {
+    href: "/perplexity-usage-calculator",
+    label: "Perplexity Pro Search and Research planner",
+  },
   { href: "/cursor-usage-calculator", label: "Cursor Usage Calculator" },
   {
     href: "/windsurf-devin-usage-calculator",
@@ -73,6 +76,11 @@ const popularLinks = [
     href: "/gemini-usage-calculator",
     label: "Gemini usage until refresh",
     text: "Compare your Gemini Usage Limits reading with recent pace and reset time.",
+  },
+  {
+    href: "/perplexity-usage-calculator",
+    label: "Perplexity Pro Search and Research",
+    text: "Compare weekly Pro Search or monthly Research usage with the reset time.",
   },
   {
     href: "/cursor-usage-calculator",

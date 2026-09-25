@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import EstimatorForm from "@/components/EstimatorForm";
 import EstimatorResult from "@/components/EstimatorResult";
@@ -255,14 +256,18 @@ export default function UsageEstimator({
       <div className="flex flex-col gap-4 border-b border-zinc-200 bg-zinc-50/80 p-5 dark:border-zinc-800 dark:bg-zinc-950/40 sm:flex-row sm:items-start sm:justify-between sm:p-6">
         <div>
           <p className="text-base font-semibold text-zinc-950 dark:text-white">
-            Build your estimate
+            {form.platform === "Perplexity"
+              ? "Open the matching usage planner"
+              : "Build your estimate"}
           </p>
           <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
             {form.platform === "Cursor"
               ? "Compare both Cursor usage pools with your recent dashboard readings."
               : form.platform === "Gemini"
                 ? "Use the current limit reading and refresh time shown in Gemini Apps."
-                : form.platform === "Windsurf / Devin"
+                : form.platform === "Perplexity"
+                  ? "Track Pro Search and Research separately with your account readings and their matching reset windows."
+                  : form.platform === "Windsurf / Devin"
                   ? "Use your account's daily or weekly allowance and recent usage readings."
                   : "Pick a platform, match the window it shows, then read the likely range."}
           </p>
@@ -283,6 +288,15 @@ export default function UsageEstimator({
                 </span>
                 <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
                   Weekly limit
+                </span>
+              </>
+            ) : form.platform === "Perplexity" ? (
+              <>
+                <span className="rounded-md border border-cyan-200 bg-white px-2 py-1 text-xs font-semibold text-cyan-800 dark:border-cyan-900/60 dark:bg-zinc-900 dark:text-cyan-200">
+                  Pro Search planner
+                </span>
+                <span className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                  Research planner
                 </span>
               </>
             ) : form.platform === "Windsurf / Devin" ? (
@@ -333,21 +347,40 @@ export default function UsageEstimator({
           />
         </div>
         <div className="self-start bg-zinc-50/55 p-5 dark:border-zinc-800 dark:bg-zinc-950/25 sm:p-6 lg:sticky lg:top-4 lg:border-l lg:border-zinc-200 lg:p-7">
-          <EstimatorResult
-            result={result}
-            unitLabel={unitLabel}
-            mainFactorsSummary={mainFactorsSummary}
-            shareStatus={shareStatus}
-            onCopy={copyResult}
-            onShare={shareResult}
-          />
-          {form.platform === "Cursor" ||
-          form.platform === "Gemini" ||
-          form.platform === "Windsurf / Devin" ? null : (
-            <UsageCalibration
-              remainingPercent={Number(form.remainingPercent)}
-              unitLabel={unitLabel}
-            />
+          {form.platform === "Perplexity" ? (
+            <div className="rounded-md border border-cyan-200 bg-cyan-50 p-4 text-sm leading-6 text-cyan-950 dark:border-cyan-900/60 dark:bg-cyan-950/30 dark:text-cyan-100">
+              <h3 className="font-semibold">Use the Perplexity pace planners</h3>
+              <p className="mt-2">
+                Pro Search, Research and Best mode do not share one fixed
+                allowance. Compare the balance and reset for the feature you
+                use.
+              </p>
+              <Link
+                href="/perplexity-usage-calculator"
+                className="mt-2 inline-block font-semibold underline underline-offset-2"
+              >
+                Open the Pro Search and Research planners
+              </Link>
+            </div>
+          ) : (
+            <>
+              <EstimatorResult
+                result={result}
+                unitLabel={unitLabel}
+                mainFactorsSummary={mainFactorsSummary}
+                shareStatus={shareStatus}
+                onCopy={copyResult}
+                onShare={shareResult}
+              />
+              {form.platform === "Cursor" ||
+              form.platform === "Gemini" ||
+              form.platform === "Windsurf / Devin" ? null : (
+                <UsageCalibration
+                  remainingPercent={Number(form.remainingPercent)}
+                  unitLabel={unitLabel}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

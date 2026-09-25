@@ -30,6 +30,8 @@ type UsagePacePlannerProps = {
     | "Gemini usage"
     | "Cursor Models pool"
     | "Other Models pool"
+    | "Perplexity Pro Search"
+    | "Perplexity Research"
     | "Windsurf / Devin daily quota"
     | "Windsurf / Devin weekly quota";
   windowGuidance: string;

@@ -9,6 +9,7 @@ const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
 const spanishCodexContentUpdatedAt = new Date("2026-09-23T20:05:53.000Z");
 const claudeContentUpdatedAt = new Date("2026-09-25T03:47:04.000Z");
+const perplexityContentUpdatedAt = new Date("2026-09-25T04:04:59.000Z");
 
 export const calculatorRoutes = [
   {
@@ -77,10 +78,10 @@ export const calculatorRoutes = [
   },
   {
     path: "/perplexity-usage-calculator",
-    title: "Perplexity Usage Calculator",
+    title: "Perplexity Usage Calculator: Pro Search & Research Limits",
     description:
-      "Estimate remaining Perplexity searches or research tasks from a remaining usage percentage.",
-    lastModified: contentUpdatedAt,
+      "Track your Perplexity Pro Search or Research balance against its reset time. See published Free and Enterprise limits and check dynamic paid-plan usage.",
+    lastModified: perplexityContentUpdatedAt,
     priority: 0.75,
   },
   {

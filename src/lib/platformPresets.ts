@@ -413,14 +413,14 @@ export const platformPresets: Record<PlatformName, PlatformPreset> = {
     resetWindows: ["Daily", "Weekly", "Monthly"],
     defaultResetWindow: "Weekly",
     limitBasis:
-      "Published search allowances where available; consumer Pro and Max figures are conservative estimates because exact dynamic caps are not public.",
+      "Perplexity tracks Pro Search and Research separately. Free and Enterprise allowances are published, while consumer paid limits vary by plan and use. Use the dedicated Pro Search and Research pace planners instead of a single fixed estimate.",
     planPresets: [
-      { label: "Free", baseLimits: limits({ Daily: 3, Weekly: 21, Monthly: 90 }) },
-      { label: "Pro", baseLimits: limits({ Weekly: 300, Monthly: 1200 }) },
-      { label: "Education Pro", baseLimits: limits({ Weekly: 300, Monthly: 1200 }) },
-      { label: "Max", baseLimits: limits({ Weekly: 1200, Monthly: 4800 }) },
-      { label: "Enterprise Pro", baseLimits: limits({ Weekly: 400, Monthly: 1600 }) },
-      { label: "Enterprise Max", baseLimits: limits({ Weekly: 4000, Monthly: 16000 }) },
+      { label: "Free", baseLimits: limits({}) },
+      { label: "Pro", baseLimits: limits({}) },
+      { label: "Education Pro", baseLimits: limits({}) },
+      { label: "Max", baseLimits: limits({}) },
+      { label: "Enterprise Pro", baseLimits: limits({}) },
+      { label: "Enterprise Max", baseLimits: limits({}) },
     ],
     advancedGroups: [
       {
