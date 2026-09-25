@@ -75,6 +75,7 @@ const appSchema = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Audit Etsy active-listings CSV files locally in the browser",
+    "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy tag list for count, character limits, and duplicates",
     "Estimate US Etsy fees, profit, and a target item price",
@@ -98,6 +99,7 @@ export default function Home() {
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
+            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
             <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <Link href="/etsy-listing-csv-guide" className="transition hover:text-stone-950">CSV guide</Link>
@@ -111,17 +113,17 @@ export default function Home() {
               Free Etsy CSV checker · No Etsy login
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Check titles and tags across your Etsy shop from one CSV.
+              Check listings and summarize orders from your Etsy shop exports.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              Review titles, tags, and listing details across your active listings in your browser. Use the separate tag checker and US fee calculator for one listing or order.
+              Audit titles and tags across active listings, or group sold items by product from an Etsy orders export. Both CSV tools run in your browser; no Etsy login or file upload is needed.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#csv-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Audit my Etsy CSV
+                Audit my active listings
               </a>
-              <Link href="/etsy-fee-calculator" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
-                Calculate fees and profit
+              <Link href="/etsy-sales-csv-analyzer" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
+                Summarize order CSV
               </Link>
             </div>
             <p className="mt-5 max-w-2xl text-xs leading-5 text-stone-500">
@@ -142,7 +144,13 @@ export default function Home() {
               <p className="mt-2 text-sm leading-6 text-stone-600">See common US fees, add costs, and work backward from your target profit.</p>
               <Link href="/etsy-fee-calculator" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Calculate an Etsy price →</Link>
             </article>
-            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:col-span-2">
+            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-800">Sales by product</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy Order Items CSV report</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Group sold items by SKU or title and see quantities and item value without uploading buyer data.</p>
+              <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize Etsy sales →</Link>
+            </article>
+            <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-800">One listing</p>
               <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy tag checker</h2>
               <p className="mt-2 text-sm leading-6 text-stone-600">Count up to 13 tags, check the 20-character limit, and spot repeated tags before you save.</p>
