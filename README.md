@@ -31,7 +31,7 @@ The repository deploys to Vercel from the `main` branch. The site uses no backen
 - `src/components/DeploymentErrorHelper.tsx` and `src/lib/deploymentDiagnostics.ts` — private log-pattern checks and repair-prompt generation.
 - `src/components/DeploymentFinder.tsx` — local framework detection and hosting starting-point recommendations.
 - `src/app/deploy-vibe-coded-app/` — deployment troubleshooting guide.
-- `src/app/lovable-to-vercel-checker/` and `src/app/bolt-deployment-failed/` — builder-specific deployment guides.
+- `src/app/lovable-deployment-failed/`, `src/app/lovable-to-vercel-checker/` and `src/app/bolt-deployment-failed/` — builder-specific deployment guides.
 - `src/lib/partners.ts` — optional approved affiliate link configuration and disclosures.
 - `src/lib/site.ts` and `src/app/sitemap.ts` — site metadata and public sitemap routes.
 

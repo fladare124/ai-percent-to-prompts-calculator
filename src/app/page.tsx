@@ -29,6 +29,12 @@ export const metadata: Metadata = {
 
 const guides = [
   {
+    label: "Lovable",
+    title: "Lovable deployment failed? Find where it broke",
+    detail: "Separate a preview, Publish, Vercel build or live 404 problem.",
+    href: "/lovable-deployment-failed",
+  },
+  {
     label: "Lovable → Vercel",
     title: "App works in preview but Vercel shows 404",
     detail: "Identify the project setup before changing routes or build settings.",

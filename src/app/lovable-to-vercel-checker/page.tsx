@@ -77,7 +77,7 @@ export default function LovableToVercelPage() {
           <li>Compare any manual Nitro or Vite configuration with the current framework documentation. Avoid copying a configuration written for a different project generation.</li>
         </ul>
         <p className="mt-4 text-base leading-7">
-          Need help with a failed build log? Use the <Link className={linkClass} href="/deploy-vibe-coded-app">AI app deployment error checker</Link>. For the Spanish guide, open <Link className={linkClass} href={spanish} lang="es">publicar Lovable en Vercel</Link>.
+          Need help with a failed build log? Use the <Link className={linkClass} href="/deploy-vibe-coded-app">AI app deployment error checker</Link>. For a wider set of preview, Publish and Vercel build failures, open the <Link className={linkClass} href="/lovable-deployment-failed">Lovable deployment troubleshooting guide</Link>. For the Spanish guide, open <Link className={linkClass} href={spanish} lang="es">publicar Lovable en Vercel</Link>.
         </p>
         <p className="mt-3 text-base leading-7">Choosing a host for a Lovable app? See the <Link className={linkClass} href="/where-to-host-lovable-app">Vercel, Hostinger and DigitalOcean comparison</Link>.</p>
       </section>

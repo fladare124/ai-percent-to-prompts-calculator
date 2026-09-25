@@ -8,6 +8,7 @@ export const publicRoutes = [
   { path: "/", lastModified: reviewedAt, priority: 1, changeFrequency: "weekly" as const },
   { path: "/deploy-vibe-coded-app", lastModified: reviewedAt, priority: 0.95, changeFrequency: "monthly" as const },
   { path: "/lovable-to-vercel-checker", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
+  { path: "/lovable-deployment-failed", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/bolt-deployment-failed", lastModified: reviewedAt, priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/where-to-host-lovable-app", lastModified: reviewedAt, priority: 0.85, changeFrequency: "monthly" as const },
   { path: "/where-to-host-bolt-app", lastModified: reviewedAt, priority: 0.85, changeFrequency: "monthly" as const },
