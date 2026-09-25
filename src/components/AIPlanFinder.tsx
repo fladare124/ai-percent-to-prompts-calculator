@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Workflow = "editor" | "terminal" | "github" | "general";
 type Intensity = "occasional" | "daily" | "all-day";
@@ -216,6 +216,53 @@ export default function AIPlanFinder() {
   const [workflow, setWorkflow] = useState<Workflow>("editor");
   const [budget, setBudget] = useState<Budget>(20);
   const [intensity, setIntensity] = useState<Intensity>("daily");
+  const [shareMessage, setShareMessage] = useState("");
+  const [shareUrl, setShareUrl] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sharedWorkflow = params.get("workflow");
+    const sharedBudget = params.get("budget");
+    const sharedIntensity = params.get("intensity");
+
+    if (workflowOptions.some((option) => option.id === sharedWorkflow)) {
+      setWorkflow(sharedWorkflow as Workflow);
+    }
+
+    if (sharedBudget !== null) {
+      const parsedBudget = Number(sharedBudget);
+      if (budgetOptions.some((option) => option.value === parsedBudget)) {
+        setBudget(parsedBudget as Budget);
+      }
+    }
+
+    if (intensityOptions.some((option) => option.id === sharedIntensity)) {
+      setIntensity(sharedIntensity as Intensity);
+    }
+  }, []);
+
+  async function copyShortlistLink() {
+    const url = new URL(window.location.pathname, window.location.origin);
+    url.searchParams.set("workflow", workflow);
+    url.searchParams.set("budget", String(budget));
+    url.searchParams.set("intensity", intensity);
+    url.hash = "finder";
+
+    try {
+      await navigator.clipboard.writeText(url.toString());
+      setShareUrl("");
+      setShareMessage("Shortlist link copied. You can send it to someone.");
+    } catch {
+      setShareUrl(url.toString());
+      setShareMessage("Your browser blocked copying. Select the link below and copy it.");
+    }
+  }
+
+  function clearShareLink() {
+    setShareMessage("");
+    setShareUrl("");
+  }
+
   const ranked = rankPlans(budget, workflow, intensity);
   const recommendation = ranked[0];
   const alternatives = ranked.slice(1, 3);
@@ -239,7 +286,10 @@ export default function AIPlanFinder() {
                   key={option.id}
                   type="button"
                   aria-pressed={workflow === option.id}
-                  onClick={() => setWorkflow(option.id)}
+                  onClick={() => {
+                    setWorkflow(option.id);
+                    clearShareLink();
+                  }}
                   className={`rounded-xl border p-3 text-left transition ${workflow === option.id ? "border-cyan-700 bg-cyan-50 ring-1 ring-cyan-700" : "border-zinc-200 bg-white hover:border-zinc-400"}`}
                 >
                   <span className="block text-sm font-semibold">{option.label}</span>
@@ -254,7 +304,10 @@ export default function AIPlanFinder() {
               Monthly budget
               <select
                 value={budget}
-                onChange={(event) => setBudget(Number(event.target.value) as Budget)}
+                onChange={(event) => {
+                  setBudget(Number(event.target.value) as Budget);
+                  clearShareLink();
+                }}
                 className="mt-2 block w-full rounded-xl border border-zinc-300 bg-white px-3 py-3 text-sm font-medium text-zinc-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
               >
                 {budgetOptions.map((option) => (
@@ -270,7 +323,10 @@ export default function AIPlanFinder() {
                     key={option.id}
                     type="button"
                     aria-pressed={intensity === option.id}
-                    onClick={() => setIntensity(option.id)}
+                    onClick={() => {
+                      setIntensity(option.id);
+                      clearShareLink();
+                    }}
                     className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${intensity === option.id ? "border-zinc-950 bg-zinc-950 text-white" : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-500"}`}
                   >
                     {option.label}
@@ -302,6 +358,35 @@ export default function AIPlanFinder() {
               <a href={recommendation.href} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200">
                 Check official plan <span aria-hidden="true">↗</span>
               </a>
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={copyShortlistLink}
+                  className="text-sm font-semibold text-cyan-200 underline decoration-cyan-300/60 underline-offset-4 transition hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-zinc-950"
+                >
+                  Copy link to my shortlist
+                </button>
+                <p className="mt-1 text-xs leading-5 text-zinc-400">
+                  The link contains your workflow, budget and usage frequency only; it includes no provider-account information.
+                </p>
+                {shareMessage ? (
+                  <p className="mt-2 text-xs leading-5 text-cyan-100" role="status">
+                    {shareMessage}
+                  </p>
+                ) : null}
+                {shareUrl ? (
+                  <label className="mt-2 block text-xs text-zinc-300">
+                    Shortlist link
+                    <input
+                      type="url"
+                      readOnly
+                      value={shareUrl}
+                      onFocus={(event) => event.currentTarget.select()}
+                      className="mt-1 block w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white"
+                    />
+                  </label>
+                ) : null}
+              </div>
               {alternatives.length > 0 ? (
                 <div className="mt-7 border-t border-white/10 pt-5">
                   <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Also compare</p>
@@ -322,7 +407,7 @@ export default function AIPlanFinder() {
         </div>
       </div>
       <p className="mt-6 border-t border-zinc-100 pt-4 text-xs leading-5 text-zinc-500">
-        The ranking is a starting point based on published features and your answers. It does not read your account, compare private plan limits or guarantee a task count.
+        The ranking is an editorial starting point based on published workflow features, your budget and usage intensity. It is not a benchmark and does not read your account, compare private plan limits or guarantee a task count.
       </p>
     </section>
   );

@@ -3,7 +3,7 @@ export const SITE_NAME = "AI Plan Finder";
 export const SITE_URL = "https://percenttoprompts.com";
 
 const contentUpdatedAt = new Date("2026-09-23T00:00:00.000Z");
-const homeContentUpdatedAt = new Date("2026-09-25T04:46:09.000Z");
+const homeContentUpdatedAt = new Date("2026-09-25T04:56:51.000Z");
 const usageCalculatorContentUpdatedAt = new Date("2026-09-25T03:20:00.000Z");
 const codexContentUpdatedAt = new Date("2026-09-23T20:18:07.000Z");
 const chatGPTContentUpdatedAt = new Date("2026-09-23T19:33:15.000Z");
