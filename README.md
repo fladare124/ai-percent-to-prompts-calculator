@@ -1,17 +1,16 @@
-# Percent to Prompts — AI Plan Finder
+# Prompt to Production
 
 Production site: [percenttoprompts.com](https://percenttoprompts.com/)
 
-The homepage helps developers compare AI coding subscriptions by workflow, usage style and monthly budget. Supporting pages explain published plan limits and include browser-based usage planners for individual providers.
+Prompt to Production helps people decide where to deploy a website or app created with AI coding tools. The site includes a browser-based hosting finder and practical guides to Vercel, Hostinger and DigitalOcean App Platform.
 
-The site is independent. Prices and plan details can change, so each comparison links to provider documentation. It does not connect to provider accounts, promise a fixed number of prompts or use a paid ranking.
+The project is independent. Provider requirements, plan terms and prices can change, so the guides link to official documentation and tell readers to confirm current details before deploying. There are currently no affiliate links or provider commissions.
 
 ## Privacy and analytics
 
-- Usage calculator inputs are processed in the browser and are not submitted to the application server.
-- Shared shortlist links include only the selected workflow, budget and usage frequency.
+- Hosting finder choices are processed in the browser and are not submitted to the application server.
 - Vercel Web Analytics and Speed Insights measure page use and performance.
-- Etsy checker routes remain available as noindex legacy pages and are not included in the sitemap.
+- The finder does not connect to source-code repositories, hosting accounts or payment services.
 
 ## Run locally
 
@@ -26,11 +25,13 @@ npm run dev
 npm run build
 ```
 
-The repository deploys to Vercel from the `main` branch. No backend, database, AI API key or environment variable is required for the comparison and usage planners.
+The repository deploys to Vercel from the `main` branch. No backend, database, AI API key or environment variable is required for the finder and guides.
 
 ## Main files
 
-- `src/app/page.tsx` — plan finder, plan comparison and methodology.
-- `src/components/AIPlanFinder.tsx` — interactive plan shortlist.
-- `src/components/` — provider-specific usage planners.
-- `src/lib/site.ts` and `src/app/sitemap.ts` — public AI comparison and tool routes.
+- `src/app/page.tsx` — hosting finder, launch checklist and FAQs.
+- `src/components/DeploymentFinder.tsx` — interactive host recommendation.
+- `src/app/deploy-vibe-coded-app/` — general deployment guide.
+- `src/app/hostinger-nodejs-app/` — managed Node.js deployment requirements.
+- `src/app/digitalocean-app-platform/` — App Platform cost guide.
+- `src/lib/site.ts` and `src/app/sitemap.ts` — public route and sitemap definitions.

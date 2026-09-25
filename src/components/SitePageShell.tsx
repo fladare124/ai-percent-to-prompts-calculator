@@ -16,17 +16,16 @@ export default function SitePageShell({
     <main className="min-h-screen bg-[#f7f7f4] text-zinc-950">
       <div className="mx-auto max-w-4xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 pb-5">
-          <Link href="/" className="flex items-center gap-3" aria-label="Percent to Prompts home">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-950 text-lg font-bold text-cyan-300">P</span>
+          <Link href="/" className="flex items-center gap-3" aria-label="Prompt to Production home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-950 text-sm font-bold text-cyan-300">P→</span>
             <span>
-              <span className="block text-sm font-bold tracking-tight">AI Plan Finder</span>
-              <span className="block text-xs text-zinc-500">A Percent to Prompts project</span>
+              <span className="block text-sm font-bold tracking-tight">Prompt to Production</span>
+              <span className="block text-xs text-zinc-500">by Percent to Prompts</span>
             </span>
           </Link>
           <nav className="flex flex-wrap gap-4 text-sm font-medium text-zinc-600" aria-label="Main">
-            <Link href="/#finder" className="transition hover:text-zinc-950">Find a plan</Link>
-            <Link href="/#compare" className="transition hover:text-zinc-950">Compare plans</Link>
-            <Link href="/ai-usage-calculator" className="transition hover:text-zinc-950">Usage tools</Link>
+            <Link href="/#finder" className="transition hover:text-zinc-950">Choose a host</Link>
+            <Link href="/deploy-vibe-coded-app" className="transition hover:text-zinc-950">Deployment guide</Link>
           </nav>
         </header>
 
@@ -38,7 +37,7 @@ export default function SitePageShell({
         </article>
 
         <footer className="flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-6 text-xs text-zinc-500">
-          <Link href="/" className="underline underline-offset-4 hover:text-zinc-900">AI Plan Finder</Link>
+          <Link href="/" className="underline underline-offset-4 hover:text-zinc-900">Prompt to Production</Link>
           <Link href="/about" className="underline underline-offset-4 hover:text-zinc-900">About</Link>
           <Link href="/privacy" className="underline underline-offset-4 hover:text-zinc-900">Privacy</Link>
           <Link href="/affiliate-disclosure" className="underline underline-offset-4 hover:text-zinc-900">Affiliate disclosure</Link>

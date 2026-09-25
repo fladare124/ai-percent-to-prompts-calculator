@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import SitePageShell from "@/components/SitePageShell";
 
 export const metadata: Metadata = {
-  title: "About the AI Plan Finder",
+  title: "About Prompt to Production",
   description:
-    "Learn how Percent to Prompts compares AI coding subscriptions, checks official plan information and explains the limits of its recommendations.",
+    "How Prompt to Production helps people choose where to deploy apps made with AI coding tools.",
   alternates: { canonical: "/about" },
 };
 
@@ -12,42 +12,29 @@ export default function AboutPage() {
   return (
     <SitePageShell
       eyebrow="About this project"
-      title="Independent help choosing an AI coding plan."
-      intro="Percent to Prompts compares published AI coding plans and provides free tools for understanding usage limits. The goal is to help you choose based on your workflow and budget without claiming every provider measures usage the same way."
+      title="Practical guidance for the step after AI writes the code."
+      intro="Prompt to Production is an independent guide from Percent to Prompts. It helps people choose a host for apps created with AI coding tools and understand the requirements that can affect a launch."
     >
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How the comparison works</h2>
-        <p className="mt-3 text-base leading-7">
-          The plan finder ranks options by the workflow you describe, your monthly budget and how often you expect to use coding agents. We compare published features and link to providers’ own plan details. Usage estimates are guidance, not benchmark results or guaranteed task counts.
-        </p>
-        <p className="mt-3 text-base leading-7">
-          Each provider uses different models, meters, caps and reset windows. A message, completion or agent task is not a common unit, so we avoid presenting a universal number of prompts for a plan.
-        </p>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How recommendations are made</h2>
+        <p className="mt-3 text-base leading-7">The hosting finder compares the project shape, commercial use and setup preference. It gives a starting point, then links to the provider’s own plan or technical documentation so you can confirm current terms.</p>
+        <p className="mt-3 text-base leading-7">We distinguish static sites, Next.js apps and projects with a backend because they require different runtimes and services. We do not rank hosts using private benchmarks or promise a fixed monthly bill.</p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">What it cannot measure</h2>
-        <p className="mt-3 text-base leading-7">
-          We do not connect to your provider accounts or see your private usage balances. Actual limits may depend on your account, region, model, task, context, system capacity and provider changes. Check your account’s usage page before making a purchase decision.
-        </p>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">What we do not do</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7">
+          <li>We do not connect to your GitHub, hosting or payment accounts.</li>
+          <li>We do not deploy, inspect or store your source code.</li>
+          <li>We do not guarantee that a provider’s plan will fit every generated app.</li>
+          <li>We do not currently receive commission for provider recommendations.</li>
+        </ul>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Sources and independence</h2>
-        <p className="mt-3 text-base leading-7">
-          Product and usage descriptions are checked against public provider documentation and pricing pages. Those details change; use the linked official pages for the latest plan terms and prices.
-        </p>
-        <p className="mt-3 text-base leading-7">
-          Percent to Prompts is an independent project and is not affiliated with or endorsed by the providers listed in the comparison.
-        </p>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Sources and updates</h2>
+        <p className="mt-3 text-base leading-7">Provider requirements and pricing are based on public documentation. Hosting plans and commercial-use terms can change; the official provider pages linked in each guide take precedence. The latest source review date appears on the relevant page.</p>
       </section>
-
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-zinc-950">Privacy</h2>
-        <p className="mt-2 text-sm leading-6">The finder does not ask for an account connection. Calculator inputs stay in your browser and are not submitted to a provider or to Percent to Prompts.</p>
-      </section>
-
-      <p className="text-xs leading-5 text-zinc-500">Project and provider references reviewed September 25, 2026.</p>
     </SitePageShell>
   );
 }

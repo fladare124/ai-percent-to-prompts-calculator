@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: SITE_NAME,
-    template: "%s | AI Plan Finder",
+    template: "%s | Prompt to Production",
   },
   description:
-    "Compare AI coding plans by workflow and budget, then use independent tools to track your AI usage.",
+    "Choose where to deploy websites and apps created with AI coding tools. Compare hosting requirements, commercial terms and launch guides.",
   icons: {
     icon: "/icon.svg",
   },

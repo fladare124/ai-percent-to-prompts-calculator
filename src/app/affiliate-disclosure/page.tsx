@@ -4,7 +4,7 @@ import SitePageShell from "@/components/SitePageShell";
 export const metadata: Metadata = {
   title: "Affiliate Disclosure",
   description:
-    "Learn whether Percent to Prompts receives compensation for links in its AI plan comparisons.",
+    "Current affiliate and compensation status for the hosting recommendations on Prompt to Production.",
   alternates: { canonical: "/affiliate-disclosure" },
 };
 
@@ -12,21 +12,17 @@ export default function AffiliateDisclosurePage() {
   return (
     <SitePageShell
       eyebrow="Affiliate disclosure · September 25, 2026"
-      title="No paid ranking or affiliate links."
-      intro="Percent to Prompts does not currently earn commissions from the AI plans or services listed on the site. The plan shortlist is based on workflow, budget and published product information."
+      title="We do not currently earn from provider links."
+      intro="Prompt to Production is not currently enrolled in the affiliate programs of Vercel, Hostinger, DigitalOcean or the other providers mentioned on this site. Links currently go to official provider pages and are not tracked affiliate links."
     >
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">If that changes</h2>
-        <p className="mt-3 text-base leading-7">
-          If the site adds a compensated link in the future, it will be clearly labeled near that link and this page will be updated. Compensation will not change the factual descriptions of plan features, limits or prices.
-        </p>
+        <p className="mt-3 text-base leading-7">If a future provider link earns commission or another benefit, we will label it near the recommendation and update this page. Compensation will not change the stated technical requirements, commercial-use terms or price details.</p>
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How we choose recommendations</h2>
-        <p className="mt-3 text-base leading-7">
-          The plan finder ranks products using the visitor’s stated workflow, budget and usage intensity. It links to official provider pages so visitors can confirm current plan terms before subscribing.
-        </p>
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">How recommendations are selected</h2>
+        <p className="mt-3 text-base leading-7">Recommendations are based on the app type, commercial use and deployment preferences entered in the finder. Verify the provider’s current terms and the full cost of your app before purchasing.</p>
       </section>
     </SitePageShell>
   );

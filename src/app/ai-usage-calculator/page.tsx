@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "AI Percentage Calculator: Estimate Prompts Left",
   description:
     "Convert an AI usage percentage into estimated prompts, messages, searches or coding tasks. Choose a provider and reset window, or calibrate the estimate with your recent usage.",

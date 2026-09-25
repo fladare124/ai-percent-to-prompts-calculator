@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "AI Percent to Prompts Calculator - Estimate AI Prompts Left",
   description:
     "Convert your remaining AI usage percentage into estimated prompts, messages or tasks across ChatGPT / Codex, Claude, Gemini and more.",

@@ -1,0 +1,152 @@
+"use client";
+
+import { useState } from "react";
+
+type Stack = "static" | "next" | "backend";
+type Priority = "easy" | "budget" | "services";
+type ProjectUse = "personal" | "commercial";
+
+type Host = {
+  name: string;
+  plan: string;
+  summary: string;
+  reason: string;
+  caveat: string;
+  href: string;
+  linkLabel: string;
+};
+
+const hosts: Record<string, Host> = {
+  vercel: {
+    name: "Vercel",
+    plan: "Hobby for personal demos · Pro for commercial projects",
+    summary: "The simplest route for a Next.js app or a frontend that deploys from GitHub.",
+    reason: "It fits especially well when your AI builder created a Next.js project and you want preview deployments with little server setup.",
+    caveat: "Vercel says Hobby is for personal, non-commercial use. Choose a commercial plan before you use the app for business or revenue.",
+    href: "https://vercel.com/pricing",
+    linkLabel: "Check Vercel plans",
+  },
+  hostinger: {
+    name: "Hostinger",
+    plan: "Business Web or a Cloud plan for managed Node.js apps",
+    summary: "A managed hosting route for Node.js and supported frameworks, connected to GitHub.",
+    reason: "It can fit a full-stack Node.js or Next.js project when you prefer a guided hosting dashboard over configuring a server yourself.",
+    caveat: "Node.js hosting requires an eligible Business or Cloud plan. Check the current plan price and app limits before moving a production project.",
+    href: "https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/",
+    linkLabel: "Check Node.js requirements",
+  },
+  digitalocean: {
+    name: "DigitalOcean App Platform",
+    plan: "Static sites from $0 · app containers from $5/month",
+    summary: "A managed option for apps with a Node service, worker or database alongside the frontend.",
+    reason: "You can deploy from a Git repository and add app components as the project grows, without managing a virtual machine first.",
+    caveat: "Container, database and outbound-transfer costs are separate. Price every component your app needs.",
+    href: "https://www.digitalocean.com/pricing/app-platform",
+    linkLabel: "Check App Platform pricing",
+  },
+};
+
+function getRecommendation(stack: Stack, priority: Priority, use: ProjectUse): Host {
+  if (stack === "static") {
+    if (use === "personal" && priority === "easy") return hosts.vercel;
+    return hosts.digitalocean;
+  }
+
+  if (priority === "services") return hosts.digitalocean;
+  if (stack === "backend" && priority === "easy") return hosts.hostinger;
+  if (priority === "budget") return hosts.hostinger;
+  return hosts.vercel;
+}
+
+const stackOptions: Array<{ id: Stack; title: string; detail: string }> = [
+  { id: "static", title: "Static site or React frontend", detail: "Pages, portfolio or client-side app" },
+  { id: "next", title: "Next.js app", detail: "Server-rendered pages or API routes" },
+  { id: "backend", title: "Full-stack Node app", detail: "Backend, worker or database too" },
+];
+
+const priorityOptions: Array<{ id: Priority; title: string }> = [
+  { id: "easy", title: "Easiest setup" },
+  { id: "budget", title: "Predictable cost" },
+  { id: "services", title: "Add app services" },
+];
+
+function Choice<T extends string>({
+  value,
+  current,
+  title,
+  detail,
+  onClick,
+}: {
+  value: T;
+  current: T;
+  title: string;
+  detail?: string;
+  onClick: (value: T) => void;
+}) {
+  const selected = value === current;
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={() => onClick(value)}
+      className={`rounded-xl border p-3 text-left transition ${selected ? "border-cyan-700 bg-cyan-50 ring-1 ring-cyan-700" : "border-zinc-200 bg-white hover:border-zinc-400"}`}
+    >
+      <span className="block text-sm font-semibold text-zinc-950">{title}</span>
+      {detail ? <span className="mt-1 block text-xs leading-5 text-zinc-500">{detail}</span> : null}
+    </button>
+  );
+}
+
+export default function DeploymentFinder() {
+  const [stack, setStack] = useState<Stack>("next");
+  const [priority, setPriority] = useState<Priority>("easy");
+  const [use, setUse] = useState<ProjectUse>("personal");
+  const result = getRecommendation(stack, priority, use);
+
+  return (
+    <section id="finder" className="scroll-mt-6 rounded-[1.75rem] border border-zinc-200 bg-white p-5 shadow-sm sm:p-8">
+      <div className="grid gap-9 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="space-y-7">
+          <fieldset>
+            <legend className="text-sm font-semibold">What did your AI builder create?</legend>
+            <div className="mt-3 grid gap-2">
+              {stackOptions.map((option) => (
+                <Choice key={option.id} value={option.id} current={stack} title={option.title} detail={option.detail} onClick={setStack} />
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold">What matters most?</legend>
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {priorityOptions.map((option) => (
+                <Choice key={option.id} value={option.id} current={priority} title={option.title} onClick={setPriority} />
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold">Is this a personal demo or a commercial project?</legend>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <Choice value="personal" current={use} title="Personal demo" detail="Portfolio, learning or private project" onClick={setUse} />
+              <Choice value="commercial" current={use} title="Commercial project" detail="Business, clients or earning revenue" onClick={setUse} />
+            </div>
+          </fieldset>
+        </div>
+
+        <div aria-live="polite" className="rounded-2xl bg-zinc-950 p-5 text-white sm:p-7">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">A sensible starting point</p>
+          <h3 className="mt-4 text-3xl font-semibold tracking-tight">{result.name}</h3>
+          <p className="mt-2 text-sm font-semibold text-cyan-200">{result.plan}</p>
+          <p className="mt-4 text-sm leading-6 text-zinc-300">{result.summary}</p>
+          <p className="mt-4 text-sm leading-6 text-zinc-300">{result.reason}</p>
+          <p className="mt-5 rounded-xl border border-amber-200/20 bg-amber-100/10 p-4 text-sm leading-6 text-amber-100">{result.caveat}</p>
+          <a href={result.href} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200">
+            {result.linkLabel} <span aria-hidden="true">↗</span>
+          </a>
+          <p className="mt-4 text-xs leading-5 text-zinc-400">This is a starting recommendation, not a quote. Hosting prices, limits and included services can change.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
