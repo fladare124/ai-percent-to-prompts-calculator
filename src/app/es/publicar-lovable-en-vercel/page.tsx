@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import LovableVercelChecker from "@/components/LovableVercelChecker";
 import SitePageShell from "@/components/SitePageShell";
 
 const canonical = "/es/publicar-lovable-en-vercel";
-const english = "/lovable-to-vercel-checker";
+const english = "/lovable-deployment-failed";
 const linkClass = "font-semibold text-cyan-800 underline underline-offset-4";
 
 export const metadata: Metadata = {
-  title: "Lovable en Vercel muestra 404: comprueba el tipo de proyecto",
+  title: "Lovable en Vercel: corrige 404 y dominio personalizado",
   description:
-    "Distingue un error de rutas en una SPA antigua de Vite de un problema de configuración en TanStack Start antes de cambiar Vercel.",
+    "Comprueba el tipo de proyecto si Lovable en Vercel muestra 404 y revisa el estado DNS o SSL del dominio personalizado.",
   robots: { index: true, follow: true },
   alternates: {
     canonical,
@@ -54,6 +55,11 @@ export default function PublicarLovableEnVercelPage() {
         </p>
       </section>
 
+      <div className="scroll-mt-6">
+        <p className="mb-4 text-base leading-7">Si funciona la dirección <code>.lovable.app</code> pero no tu dominio propio, consulta el estado que muestra Lovable antes de modificar el DNS. La verificación, la propagación y la emisión del certificado SSL son pasos separados.</p>
+        <LovableDomainStatusChecker locale="es" />
+      </div>
+
       <section id="spa-vite-404" className="scroll-mt-6">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">SPA antigua de Vite: funciona la portada, pero recargar una ruta da 404</h2>
         <p className="mt-3 text-base leading-7">
@@ -90,6 +96,8 @@ export default function PublicarLovableEnVercelPage() {
           <li><a className={linkClass} href="https://vercel.com/docs/frameworks/full-stack/tanstack-start" target="_blank" rel="noopener noreferrer">Vercel: TanStack Start y versión requerida para Lovable</a></li>
           <li><a className={linkClass} href="https://vercel.com/docs/frameworks/frontend/vite" target="_blank" rel="noopener noreferrer">Vercel: rutas internas en una SPA de Vite</a></li>
           <li><a className={linkClass} href="https://docs.lovable.dev/integrations/github" target="_blank" rel="noopener noreferrer">Lovable: sincronizar un proyecto con GitHub</a></li>
+          <li><a className={linkClass} href="https://docs.lovable.dev/features/publish" target="_blank" rel="noopener noreferrer">Lovable: publicar un proyecto</a></li>
+          <li><a className={linkClass} href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">Lovable: configurar un dominio personalizado</a></li>
           <li><a className={linkClass} href="https://vercel.com/changelog/you-can-now-deploy-lovable-apps-to-vercel" target="_blank" rel="noopener noreferrer">Vercel: anuncio del despliegue de Lovable</a></li>
         </ul>
       </section>
