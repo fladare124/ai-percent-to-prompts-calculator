@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LovableDnsRecordChecker from "@/components/LovableDnsRecordChecker";
 import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import SitePageShell from "@/components/SitePageShell";
 
@@ -29,8 +30,9 @@ export default function LovableCustomDomainNotWorkingPage() {
     <SitePageShell
       eyebrow="Lovable custom-domain troubleshooting · reviewed September 25, 2026"
       title="Lovable custom domain not working? Check the status before changing DNS"
-      intro="Start with the exact status shown in Project → Settings → Domains. Domain verification, SSL setup and app publishing are separate stages, so the right fix depends on where the setup stopped."
+      intro="Check the public DNS records, then compare them with the exact status in Project → Settings → Domains. Domain verification, SSL setup and app publishing are separate stages, so the right fix depends on where the setup stopped."
     >
+      <LovableDnsRecordChecker />
       <LovableDomainStatusChecker />
 
       <section id="connection-method" className="scroll-mt-6">

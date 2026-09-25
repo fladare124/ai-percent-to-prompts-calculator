@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LovableDnsRecordChecker from "@/components/LovableDnsRecordChecker";
 import LovableDomainStatusChecker from "@/components/LovableDomainStatusChecker";
 import SitePageShell from "@/components/SitePageShell";
 
@@ -31,8 +32,9 @@ export default function DominioPersonalizadoLovableNoFuncionaPage() {
       locale="es"
       eyebrow="Solución de problemas de dominios de Lovable · revisada el 25 de septiembre de 2026"
       title="¿No funciona tu dominio personalizado de Lovable? Comprueba el estado antes de cambiar el DNS"
-      intro="Empieza por el estado exacto que aparece en Proyecto → Configuración → Dominios. La verificación del dominio, el certificado SSL y la publicación de la app son pasos distintos; la solución depende de dónde se haya detenido la configuración."
+      intro="Consulta los registros DNS públicos y compáralos con el estado exacto de Proyecto → Configuración → Dominios. La verificación, el certificado SSL y la publicación de la app son pasos distintos."
     >
+      <LovableDnsRecordChecker locale="es" />
       <LovableDomainStatusChecker locale="es" />
 
       <section id="metodo-de-conexion" className="scroll-mt-6">
