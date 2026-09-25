@@ -48,8 +48,9 @@ export default function LovableDeploymentFailedPage() {
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">Lovable Publish reports an error</h2>
         <ol className="mt-3 list-decimal space-y-2 pl-6 text-base leading-7">
           <li>Copy the exact message shown after Publish. A custom-domain error can be separate from publishing to the project’s generated address.</li>
-          <li>If only the custom domain fails, check its status and the DNS instructions in Lovable before rebuilding the app.</li>
-          <li>If the generated address also fails, capture the first specific project error and compare it with the deployment log; repeated retries alone do not identify the cause.</li>
+          <li>Confirm whether the Publish dialog says the website is live and test the generated <code>.lovable.app</code> address.</li>
+          <li>If that address works but a custom domain does not, check whether Lovable reports the domain as Live and follow its current DNS setup instructions before rebuilding.</li>
+          <li>If publishing itself does not complete, use the exact status and error shown by Lovable. Keep this separate from a Vercel build log, which applies only when you deploy the GitHub project there.</li>
         </ol>
         <p className="mt-3 text-sm leading-6 text-zinc-600">Do not post account credentials, secret environment values or private database URLs when asking for help.</p>
       </section>
@@ -96,6 +97,8 @@ export default function LovableDeploymentFailedPage() {
           <li><a className={linkClass} href="https://vercel.com/docs/deployments/troubleshoot-a-build" target="_blank" rel="noopener noreferrer">Vercel: troubleshoot a build</a></li>
           <li><a className={linkClass} href="https://vercel.com/docs/frameworks/full-stack/tanstack-start" target="_blank" rel="noopener noreferrer">Vercel: TanStack Start and Lovable setup</a></li>
           <li><a className={linkClass} href="https://docs.lovable.dev/integrations/github" target="_blank" rel="noopener noreferrer">Lovable: GitHub integration and sync</a></li>
+          <li><a className={linkClass} href="https://docs.lovable.dev/features/publish" target="_blank" rel="noopener noreferrer">Lovable: publish a project</a></li>
+          <li><a className={linkClass} href="https://docs.lovable.dev/features/custom-domain" target="_blank" rel="noopener noreferrer">Lovable: set up a custom domain</a></li>
         </ul>
       </section>
 
