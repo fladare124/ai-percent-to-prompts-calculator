@@ -38,7 +38,10 @@ const links = [
     href: "/github-copilot-usage-calculator",
     label: "GitHub Copilot AI Credits Calculator",
   },
-  { href: "/claude-usage-calculator", label: "Claude Usage Calculator" },
+  {
+    href: "/claude-usage-calculator",
+    label: "Claude Code 5-hour and weekly limit planner",
+  },
   { href: "/gemini-usage-calculator", label: "Gemini Usage Calculator" },
   {
     href: "/perplexity-usage-calculator",
@@ -69,8 +72,8 @@ const popularLinks = [
   },
   {
     href: "/claude-usage-calculator",
-    label: "Claude usage until reset",
-    text: "Estimate remaining messages and compare your usage pace with the next reset.",
+    label: "Claude Code session and weekly limits",
+    text: "Compare both Claude usage balances with your recent pace and reset time.",
   },
   {
     href: "/gemini-usage-calculator",

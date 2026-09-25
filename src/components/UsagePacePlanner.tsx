@@ -25,6 +25,8 @@ type Estimate =
 type UsagePacePlannerProps = {
   platform:
     | "Claude"
+    | "Claude 5-hour session"
+    | "Claude weekly limit"
     | "Codex"
     | "GitHub Copilot"
     | "Gemini usage"

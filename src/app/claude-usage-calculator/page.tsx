@@ -3,9 +3,9 @@ import UsagePacePlanner from "@/components/UsagePacePlanner";
 import SeoCalculatorPage from "@/components/SeoCalculatorPage";
 
 export const metadata: Metadata = {
-  title: "Claude Usage Limit Calculator: Pace Until Reset",
+  title: "Claude Code Usage Limit Calculator: 5-Hour & Weekly",
   description:
-    "Estimate Claude usage until your five-hour or weekly reset. Learn how Claude Code sharing, usage credits and optional free limit resets affect your plan.",
+    "Check whether your Claude Code session or weekly allowance could last until reset. Compare both usage bars with your recent pace; no fixed prompt counts assumed.",
   alternates: {
     canonical: "/claude-usage-calculator",
   },
@@ -14,15 +14,23 @@ export const metadata: Metadata = {
 export default function ClaudeUsageCalculatorPage() {
   return (
     <SeoCalculatorPage
-      h1="Claude Usage Limit Calculator"
-      intro="Use your current Claude usage meter and recent pace to estimate whether your allowance could last until reset. The planner uses your own readings instead of assuming every model uses the same number of messages."
+      h1="Claude Code Usage Limit Calculator: 5-Hour & Weekly Pace"
+      intro="Claude Code shares usage with Claude, and two limits can matter at once. Compare your five-hour session and weekly balances with your recent pace to see whether either could run out before reset."
       calculator={
-        <UsagePacePlanner
-          platform="Claude"
-          windowGuidance="Claude can show a five-hour session allowance and a separate weekly allowance. Calculate each one from Settings → Usage. If an optional ‘Reset for free’ offer appears there, follow the allowance and expiry shown in your account."
-          sourceUrl="https://claude.ai/settings/usage"
-          sourceLabel="Open Claude Settings → Usage"
-        />
+        <div className="space-y-8">
+          <UsagePacePlanner
+            platform="Claude 5-hour session"
+            windowGuidance="Use the five-hour session balance and reset shown in Claude Settings → Usage. Compare readings from this session window only."
+            sourceUrl="https://claude.ai/settings/usage"
+            sourceLabel="Open Claude Settings → Usage"
+          />
+          <UsagePacePlanner
+            platform="Claude weekly limit"
+            windowGuidance="Use the separate weekly balance and account-assigned reset time in Claude Settings → Usage. This weekly allowance can run out even when the five-hour window has reset."
+            sourceUrl="https://claude.ai/settings/usage"
+            sourceLabel="Open Claude Settings → Usage"
+          />
+        </div>
       }
       guide={{
         title: "How Claude usage limits work",
@@ -33,7 +41,7 @@ export default function ClaudeUsageCalculatorPage() {
           "Claude web, desktop and interactive Claude Code usage can count toward the same plan limits. The Claude Agent SDK and claude -p have separate usage-credit rules.",
           "Fable 5 and Fable 5.1 are included in the plan limit for Max and eligible premium organization seats, where they can use up to 50% of weekly plan usage. On Pro and standard organization seats, Fable uses pay-as-you-go usage credits rather than the included plan allowance.",
           "Some eligible accounts may show an optional ‘Reset for free’ offer in Settings → Usage. It can refill the five-hour or weekly allowance shown in the offer, may expire, and cannot be undone after use.",
-          "Use the five-hour progress bar and weekly progress bar as separate calculations. This planner does not read your account or estimate a universal number of messages.",
+          "Use the separate five-hour and weekly planners below. Whichever balance runs out first can interrupt work; each estimate uses your own readings and does not assume a universal number of messages.",
         ],
         sources: [
           {
@@ -62,7 +70,7 @@ export default function ClaudeUsageCalculatorPage() {
         {
           question: "How many Claude messages can I send before reset?",
           answer:
-            "There is no single message count for every plan, model and task. Use the current five-hour or weekly meter in Settings → Usage, then compare recent readings from that same window with the planner above.",
+            "There is no single message count for every plan, model and task. Use the five-hour or weekly meter in Settings → Usage and compare recent readings with the matching planner above.",
         },
         {
           question: "Does Claude Fable 5 or Fable 5.1 use my regular plan limit?",
