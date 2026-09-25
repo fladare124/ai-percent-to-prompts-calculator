@@ -26,7 +26,7 @@ type Filter = "all" | IssueKind | "needs-review";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const MAX_LISTINGS = 25_000;
-const validTagPattern = new RegExp("^[\\p{L}\\p{N} '&-]+$", "u");
+const validTagPattern = new RegExp("^[\\p{L}\\p{N} '-]+$", "u");
 
 const stopWords = new Set(
   [
@@ -532,6 +532,53 @@ function auditRows(
       });
     }
   }
+
+  const tagListings = new Map<string, { tag: string; listings: ListingAudit[] }>();
+  for (const listing of audits) {
+    const uniqueTags = new Map<string, string>();
+    for (const tag of listing.tags) {
+      const normalized = normalizeText(tag);
+      if (normalized && !uniqueTags.has(normalized)) uniqueTags.set(normalized, tag.trim());
+    }
+    for (const [normalized, tag] of uniqueTags) {
+      const entry = tagListings.get(normalized) ?? { tag, listings: [] };
+      entry.listings.push(listing);
+      tagListings.set(normalized, entry);
+    }
+  }
+
+  const reusedTagSummaries = new Map<string, { count: number; examples: string[] }>();
+  for (const entry of tagListings.values()) {
+    if (entry.listings.length < 2) continue;
+    const sampleRows = entry.listings.slice(0, 5).map((match) => match.rowNumber);
+    const otherListingCount = entry.listings.length - 1;
+    for (const listing of entry.listings) {
+      const summary = reusedTagSummaries.get(listing.id) ?? { count: 0, examples: [] };
+      summary.count += 1;
+      if (summary.examples.length < 4) {
+        const rowNumbers = sampleRows.filter((rowNumber) => rowNumber !== listing.rowNumber).slice(0, 4);
+        const extraRows = otherListingCount > rowNumbers.length
+          ? " and " + (otherListingCount - rowNumbers.length) + " more"
+          : "";
+        summary.examples.push("“" + entry.tag + "” (also rows " + rowNumbers.join(", ") + extraRows + ")");
+      }
+      reusedTagSummaries.set(listing.id, summary);
+    }
+  }
+
+  for (const listing of audits) {
+    const summary = reusedTagSummaries.get(listing.id);
+    if (!summary) continue;
+    const remainingTags = summary.count > summary.examples.length
+      ? "; plus " + (summary.count - summary.examples.length) + " other reused tag" + (summary.count - summary.examples.length === 1 ? "" : "s")
+      : "";
+    listing.issues.push({
+      kind: "catalog",
+      level: "check",
+      message: "Tag reuse across your export: " + summary.examples.join("; ") + remainingTags + ". Reuse is not automatically wrong; confirm each tag fits every item.",
+    });
+  }
+
   return audits;
 }
 

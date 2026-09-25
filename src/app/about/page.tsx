@@ -19,7 +19,7 @@ export default function AboutPage() {
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What it checks</h2>
         <p className="mt-3 text-base leading-7">
-          The audit flags title patterns that Etsy’s public guidance asks sellers to consider: long or hard-to-scan wording, repeated terms, subjective descriptions, and sales or shipping text. It checks that listings use no more than 13 tags, each tag is no longer than 20 characters, and it surfaces exact duplicates within a listing or shop export.
+          The audit flags title patterns that Etsy’s public guidance asks sellers to consider: long or hard-to-scan wording, repeated terms, subjective descriptions, and sales or shipping text. It checks that listings use no more than 13 tags, each tag is no longer than 20 characters, and it surfaces normalized tag reuse across listings as well as duplicates within a listing.
         </p>
         <p className="mt-3 text-base leading-7">
           The checks are intentionally visible and simple. They are prompts for human review, not an Etsy quality score. Repeated tags, long titles or gifting phrases are not automatically wrong in every context.

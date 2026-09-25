@@ -27,7 +27,7 @@ const faq = [
   {
     question: "What does the Etsy CSV checker review?",
     answer:
-      "It checks title length and repeated or promotional wording, tag count and tag length, repeated tags within a listing, and exact duplicate titles across the shop export. These are review prompts, not an Etsy ranking score.",
+      "It checks title length and repeated or promotional wording, tag count and tag length, repeated tags within a listing, tag reuse across listings, and exact duplicate titles across the shop export. These are review prompts, not an Etsy ranking score.",
   },
   {
     question: "Does the checker upload or save my Etsy file?",
@@ -77,6 +77,7 @@ const appSchema = {
   featureList: [
     "Review title wording against current public Etsy title guidance",
     "Check up to 13 tags and the 20-character limit",
+    "Find normalized tag reuse across active listings",
     "Audit an active-listings CSV locally in the browser",
     "Download the report or copy an optional AI review prompt",
   ],
@@ -105,6 +106,7 @@ export default function Home() {
           </Link>
           <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-stone-600" aria-label="Main navigation">
             <a href="#auditor" className="transition hover:text-stone-950">CSV checker</a>
+            <Link href="/etsy-tag-checker" className="transition hover:text-stone-950">Tag checker</Link>
             <a href="#method" className="transition hover:text-stone-950">Checks and limits</a>
             <Link href="/about" className="transition hover:text-stone-950">About</Link>
           </nav>
@@ -163,6 +165,17 @@ export default function Home() {
         </section>
 
         <EtsyCsvAuditor />
+
+        <section className="mt-8 rounded-2xl border border-stone-200 bg-white p-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-7">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Checking one listing?</p>
+            <h2 className="mt-2 text-xl font-semibold tracking-tight text-stone-950">Use the single-listing Etsy tag checker.</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">Paste tags to count characters, spot duplicates and see how many of Etsy’s 13 tag slots you have used.</p>
+          </div>
+          <Link href="/etsy-tag-checker" className="mt-4 inline-flex shrink-0 rounded-xl border border-stone-300 bg-[#f7f6f0] px-4 py-3 text-sm font-semibold text-stone-900 transition hover:border-emerald-700 sm:mt-0">
+            Check Etsy tags →
+          </Link>
+        </section>
 
         <section id="method" className="scroll-mt-8 border-t border-stone-200 pt-12 sm:pt-16">
           <div className="max-w-3xl">
