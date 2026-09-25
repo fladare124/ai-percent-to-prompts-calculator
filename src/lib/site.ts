@@ -6,6 +6,7 @@ const reviewedAt = new Date("2026-09-25T00:00:00.000Z");
 
 export const publicRoutes = [
   { path: "/", lastModified: reviewedAt, changeFrequency: "weekly" as const, priority: 1 },
+  { path: "/etsy-tag-checker", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.7 },
   { path: "/deploy-vibe-coded-app", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/es/arreglar-error-despliegue", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
   { path: "/lovable-to-vercel-checker", lastModified: reviewedAt, changeFrequency: "monthly" as const, priority: 0.9 },
