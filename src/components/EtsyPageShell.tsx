@@ -30,7 +30,7 @@ export default function EtsyPageShell({
             <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="transition hover:text-stone-950">{spanish ? "Revisión CSV" : "CSV audit"}</Link>
             {!spanish && <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price plan</Link>}
             {spanish && <Link href="/es/planificador-precios-etsy-eeuu" className="transition hover:text-stone-950">Precios EE. UU.</Link>}
-            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">{spanish ? "Informe de ventas" : "Sales report"}</Link>
+            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">{spanish ? "Rentabilidad por SKU" : "Profit by SKU"}</Link>
             <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="transition hover:text-stone-950">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
             <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="transition hover:text-stone-950">{spanish ? "Título" : "Title checker"}</Link>
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">{spanish ? "Calculadora de tarifas" : "Fee calculator"}</Link>
@@ -49,7 +49,7 @@ export default function EtsyPageShell({
           <Link href={spanish ? "/es/comprobador-csv-etsy" : "/"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Herramientas para Etsy" : "Etsy seller tools"}</Link>
           {!spanish && <Link href="/etsy-bulk-pricing-audit" className="underline underline-offset-4 hover:text-stone-900">US price planner</Link>}
           {spanish && <Link href="/es/planificador-precios-etsy-eeuu" className="underline underline-offset-4 hover:text-stone-900">Precios para EE. UU.</Link>}
-          <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Informe de ventas" : "Sales report"}</Link>
+          <Link href="/etsy-sales-csv-analyzer" className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Rentabilidad por SKU" : "Profit by SKU"}</Link>
           <Link href={spanish ? "/es/planificador-reposicion-etsy" : "/etsy-restock-planner"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Plan de reposición" : "Restock planner"}</Link>
           <Link href={spanish ? "/es/comprobador-titulos-etsy" : "/etsy-title-checker"} className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Comprobador de títulos" : "Title checker"}</Link>
           <Link href="/etsy-fee-calculator" className="underline underline-offset-4 hover:text-stone-900">{spanish ? "Calculadora de tarifas" : "Fee calculator"}</Link>

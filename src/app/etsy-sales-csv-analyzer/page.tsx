@@ -6,15 +6,15 @@ import EtsySalesCsvAnalyzer from "@/components/EtsySalesCsvAnalyzer";
 const canonical = "/etsy-sales-csv-analyzer";
 
 export const metadata: Metadata = {
-  title: "Etsy Sales by Product CSV Analyzer | Free Order Items Report",
+  title: "Etsy Profit by SKU from CSV | Free Profit Analyzer",
   description:
-    "Summarize Etsy Order Items CSV sales by product or SKU. See item rows, quantities, order counts and item value privately in your browser.",
+    "Estimate Etsy contribution by product from an Order Items CSV. Add unit costs and fee assumptions, compare margins by SKU, and keep your data in your browser.",
   robots: { index: true, follow: true },
   alternates: { canonical },
   openGraph: {
-    title: "Free Etsy Sales by Product CSV Analyzer",
+    title: "Free Etsy Profit by SKU CSV Analyzer",
     description:
-      "Group Etsy Order Items CSV rows by product or SKU and download a private sales summary. No sign-in or file upload.",
+      "Estimate contribution by Etsy product using a private Order Items CSV report with your own unit costs and fee assumptions.",
     url: canonical,
     type: "website",
   },
@@ -27,9 +27,14 @@ const faq = [
       "Choose the Order Items CSV in Etsy Shop Manager under Settings, Options, Download Data, then Orders. Select Order Items, choose a month or year, and download the file.",
   },
   {
-    question: "Does this report show profit or Etsy Stats revenue?",
+    question: "How does the Etsy profit by SKU estimate work?",
     answer:
-      "No. It groups item prices from the selected CSV and does not calculate profit, subtract discounts or fees, or reconcile shipping, taxes, refunds, or cancellations. Etsy Stats revenue can use different rules.",
+      "It groups sold item value by SKU (or title), subtracts the all-in cost you enter per unit and the fee percentage you enter, then allocates a fixed per-order fee across products in that order by item value. It is an estimate based on your assumptions, not an Etsy account reconciliation.",
+  },
+  {
+    question: "Does this show exact Etsy profit?",
+    answer:
+      "No. The Order Items export alone does not contain every cost or adjustment. The estimate does not reconcile refunds, cancellations, buyer-paid shipping, sales taxes, ad attribution, or every payment-account charge. Use your Payment account and a qualified accounting professional for financial or tax decisions.",
   },
   {
     question: "Is my Etsy order file uploaded?",
@@ -39,7 +44,7 @@ const faq = [
   {
     question: "How are products grouped?",
     answer:
-      "Rows are grouped by SKU when one is available, otherwise by product title. Order counts need an Order ID column. If there is no quantity column, unit counts are unavailable and each row is treated as one item for the item-value summary; blank quantities in an existing column are counted as one and flagged.",
+      "Rows are grouped by SKU when one is available, otherwise by product title. Order counts need an Order ID column. If there is no quantity column, cost estimates assume one unit per row and the report warns you; blank or unreadable quantities are also assumed to be one. Fixed per-order fees cannot be allocated to rows with no order ID.",
   },
 ];
 
@@ -58,20 +63,30 @@ export default function EtsySalesCsvAnalyzerPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <EtsyPageShell
-        eyebrow="Free Etsy sales report · No upload or sign-in"
-        title="See Etsy sales by product from an Order Items CSV"
-        intro="Group sold item rows by SKU or title, then review units and item value from the period in your Etsy export. The file is processed privately in your browser."
+        eyebrow="Free Etsy profit by SKU estimate · Private CSV"
+        title="Estimate Etsy profit by product from your sales CSV"
+        intro="Group sold items by SKU or title, add your all-in cost per unit and effective fee assumptions, then compare estimated contribution and margin across products. The file stays in your browser."
       >
         <EtsySalesCsvAnalyzer />
 
         <section>
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the Etsy sales report shows</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Compare estimated contribution across products</h2>
           <p className="mt-3 text-base leading-7">
-            The report groups rows by SKU when a SKU is present, or by product title when it is not. It shows included item rows, quantity when available, distinct order IDs when available, and item value in separate currency totals. You can download the grouped summary as a CSV.
+            The report groups rows by SKU when one is present, or by product title when it is not. Enter the full cost to make and fulfill one unit, then add your own effective percentage fee and fixed fee per order for each currency. Download the resulting product summary as a CSV for further sorting or review.
           </p>
           <p className="mt-3 text-base leading-7">
-            Use the export period you selected in Etsy to compare which products moved more units or contributed more item value. The result is a quick product overview; it is not an Etsy search ranking, demand forecast, or profit calculation.
+            A product’s estimate is item value in the export, minus unit costs for sold quantities, minus your percentage fee assumption and an allocated share of fixed fees for each order. The report does not infer or change your Etsy rates.
           </p>
+        </section>
+
+        <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-stone-950">What to include in your assumptions</h2>
+          <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7">
+            <li><strong>All-in unit cost:</strong> materials or production, labor, packaging, and postage you paid for the item.</li>
+            <li><strong>Percentage fees:</strong> enter the effective rate you want to account for, using your own Etsy Payment account as the reference. The tool starts blank.</li>
+            <li><strong>Fixed order fee:</strong> enter the fixed amount you want included. When order IDs are present, it is shared among items in that order in proportion to their item value.</li>
+          </ul>
+          <p className="mt-3 text-sm leading-6 text-stone-700">For a large catalogue, download the unit cost template in the tool, fill it in, and import the CSV. It matches by SKU or product title; include a currency on each row when the sales report uses more than one.</p>
         </section>
 
         <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
@@ -88,9 +103,9 @@ export default function EtsySalesCsvAnalyzerPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">Item value is not profit or Etsy Stats revenue</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-950">A planning estimate, not your Etsy net profit</h2>
           <p className="mt-3 text-base leading-7">
-            This tool summarizes item prices in the selected export. It does not subtract Etsy fees, discounts, shipping, taxes, materials, refunds, or cancellations, and it cannot account for your production costs. Etsy explains that Shop Stats revenue usually subtracts buyer discounts and excludes selling fees, shipping costs, and fully refunded or cancelled orders. The totals can therefore differ; use your Etsy Payment account and <a href="https://help.etsy.com/hc/en-us/articles/360016388633-How-Is-Revenue-in-My-Shop-Stats-Calculated" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy’s revenue guidance ↗</a> for reconciliation.
+            The estimate applies your entered percentage fee only to item value in the CSV. The export may not include buyer-paid shipping or every discount and adjustment. The calculation does not reconcile refunds, cancellations, taxes, offsite-ad attribution, actual postage purchases or all Etsy Payment account activity. Etsy distinguishes order totals, revenue, deposits and net profit, so compare financial records in the Payment account and use <a href="https://help.etsy.com/hc/en-us/articles/360016389293-How-Is-the-Total-on-My-1099-K-Calculated" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy’s explanation of its financial totals ↗</a> before relying on a number.
           </p>
         </section>
 
@@ -102,7 +117,7 @@ export default function EtsySalesCsvAnalyzerPage() {
         </section>
 
         <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
-          <h2 className="text-xl font-semibold text-stone-950">Want to review active listings too?</h2>
+          <h2 className="text-xl font-semibold text-stone-950">Continue with the rest of your shop review</h2>
           <p className="mt-2 text-sm leading-6 text-stone-700">
             Use the <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy active-listings CSV checker</Link> to review listing titles and tags across your shop. It reads the listing export locally and does not change your Etsy shop.
           </p>

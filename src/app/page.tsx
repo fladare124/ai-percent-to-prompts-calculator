@@ -4,25 +4,25 @@ import EtsyCsvAuditor from "@/components/EtsyCsvAuditor";
 import { ERANK_DISCLOSURE, ERANK_HREF, ERANK_REL } from "@/lib/partners";
 
 export const metadata: Metadata = {
-  title: "Etsy US Price Planner & Seller Tools",
+  title: "Etsy Profit by SKU from CSV | Free Seller Tools",
   description:
-    "Plan US-specific Etsy prices from active listings, product costs and Etsy tariff estimates. Free private CSV and inventory tools for international sellers.",
+    "Estimate profit by Etsy product from an Order Items CSV. Add unit costs and fee assumptions, compare margins by SKU, and keep your shop data in your browser.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
     languages: { en: "/", "es-ES": "/es/comprobador-csv-etsy" },
   },
   openGraph: {
-    title: "Etsy US-Specific Price Planner",
+    title: "Estimate Etsy Profit by SKU from a CSV",
     description:
-      "Compare Etsy listing prices with unit costs and Etsy's US tariff estimates in a private bulk CSV report.",
+      "Import sold items, enter your own unit costs and fee assumptions, and compare estimated contribution across Etsy products.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Etsy US Price Planner & Seller Tools",
-    description: "Plan US-specific Etsy prices with a private, bulk CSV workflow.",
+    title: "Etsy Profit by SKU from CSV | Free Seller Tools",
+    description: "Estimate contribution by Etsy product with a private sales CSV workflow.",
     images: ["/opengraph-image"],
   },
 };
@@ -46,7 +46,7 @@ const faq = [
   {
     question: "Are Etsy bulk pricing and profit estimates exact?",
     answer:
-      "No. The bulk report uses editable assumptions for fees, shipping, taxes on fees, and unit costs. Discounts, buyer taxes, refunds, actual ad attribution, renewals, currency conversion, and other account activity can change actual charges.",
+      "No. Product-level results use your entered unit costs and fee assumptions. The report does not reconcile discounts, buyer taxes, refunds, actual ad attribution, postage, renewals, currency conversion, or all activity in your Payment account.",
   },
   {
     question: "Is this an official Etsy tool?",
@@ -74,9 +74,10 @@ const appSchema = {
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "Plan US-specific Etsy prices across listings using item costs, Etsy tariff estimates and target margins",
+    "Estimate contribution and margin by product from Etsy Order Items CSV exports using seller-entered costs and fee assumptions",
+    "Plan US-specific Etsy prices across listings using item costs and Etsy tariff estimates",
     "Audit Etsy active-listings CSV files locally in the browser",
-    "Summarize Etsy Order Items CSV sales by product or SKU locally in the browser",
+    "Group Etsy Order Items CSV sales by product or SKU and estimate contribution locally in the browser",
     "Combine active listings and order exports to plan stock replenishment locally in the browser",
     "Review title wording, tag limits, blank listing details, duplicate titles, repeated shop tags, and reused SKUs",
     "Check one Etsy listing title for character count, word count, and possible repetition",
@@ -101,9 +102,9 @@ export default function Home() {
             </span>
           </Link>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-stone-600" aria-label="Main navigation">
+            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Profit by SKU</Link>
             <Link href="/etsy-bulk-pricing-audit" className="transition hover:text-stone-950">US price planner</Link>
             <a href="#csv-audit" className="transition hover:text-stone-950">CSV audit</a>
-            <Link href="/etsy-sales-csv-analyzer" className="transition hover:text-stone-950">Sales report</Link>
             <Link href="/etsy-restock-planner" className="transition hover:text-stone-950">Restock planner</Link>
             <Link href="/etsy-title-checker" className="transition hover:text-stone-950">Title checker</Link>
             <Link href="/etsy-fee-calculator" className="transition hover:text-stone-950">Fee calculator</Link>
@@ -116,20 +117,20 @@ export default function Home() {
         <section className="grid gap-9 py-12 sm:py-16 lg:grid-cols-[1fr_0.8fr] lg:items-center lg:gap-16">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-950">
-              Etsy US-specific prices · Bulk CSV · No Etsy login
+              Etsy order CSV · Profit by SKU · Private in your browser
             </p>
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.06] tracking-tight sm:text-6xl">
-              Plan US-specific Etsy prices across your catalogue.
+              See estimated profit by product across your Etsy shop.
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-600">
-              For shops outside the US planning duty-paid shipments to US buyers: add product costs and Etsy’s tariff estimate for each item, then review a target price across active listings. Your files stay in this browser.
+              Import an Etsy Order Items CSV, add your all-in unit costs and fee assumptions, and compare estimated contribution by product or SKU. Your files stay in this browser.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/etsy-bulk-pricing-audit" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
-                Plan US prices from my listings
+              <Link href="/etsy-sales-csv-analyzer" className="rounded-xl bg-emerald-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-900">
+                Analyze profit by SKU
               </Link>
-              <a href="#csv-audit" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
-                Review titles and tags
+              <a href="#seller-tools" className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-500">
+                Browse free Etsy tools
               </a>
             </div>
             <p className="mt-5 max-w-2xl text-xs leading-5 text-stone-500">
@@ -137,13 +138,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div id="seller-tools" className="grid gap-3 sm:grid-cols-2">
             <article className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">International Etsy sellers</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">US-specific price planner</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Add Etsy’s US tariff estimate and item costs to plan a target price across listings.</p>
-              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan US-specific prices →</Link>
-              <Link href="/es/planificador-precios-etsy-eeuu" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Planificador en español →</Link>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Product performance</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy profit by SKU</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Add unit costs and fee assumptions to compare estimated contribution across sold products.</p>
+              <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Audit profit by product →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Listing quality</p>
@@ -158,10 +158,11 @@ export default function Home() {
               <Link href="/etsy-fee-calculator" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Calculate an Etsy price →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sky-800">Sales by product</p>
-              <h2 className="mt-2 text-xl font-semibold tracking-tight">Etsy Order Items CSV report</h2>
-              <p className="mt-2 text-sm leading-6 text-stone-600">Group sold items by SKU or title and see quantities and item value without uploading buyer data.</p>
-              <Link href="/etsy-sales-csv-analyzer" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Summarize Etsy sales →</Link>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">International pricing</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight">US-specific price planner</h2>
+              <p className="mt-2 text-sm leading-6 text-stone-600">Use item costs and Etsy’s tariff estimates to plan a US price across active listings.</p>
+              <Link href="/etsy-bulk-pricing-audit" className="mt-4 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Plan US-specific prices →</Link>
+              <Link href="/es/planificador-precios-etsy-eeuu" lang="es" hrefLang="es-ES" className="mt-2 inline-flex text-sm font-semibold text-emerald-900 underline decoration-emerald-300 underline-offset-4">Planificador en español →</Link>
             </article>
             <article className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">Inventory planning</p>
@@ -213,7 +214,7 @@ export default function Home() {
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-800">Transparent checks</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Useful checks, with the limits stated plainly.</h2>
-            <p className="mt-4 text-base leading-7 text-stone-600">The CSV audit is a local checklist, not an Etsy ranking score. The fee calculator is a planning estimate, not your final Payment account statement. Review every suggestion and check Etsy&apos;s latest seller guidance before changing a live listing.</p>
+            <p className="mt-4 text-base leading-7 text-stone-600">The CSV audit is a local checklist, not an Etsy ranking score. Product profit is an estimate based on your costs and fee assumptions, not your final Payment account statement. Review each result and check Etsy&apos;s latest seller guidance before changing a live listing.</p>
           </div>
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">

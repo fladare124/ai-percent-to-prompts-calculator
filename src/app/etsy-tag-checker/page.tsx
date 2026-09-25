@@ -92,7 +92,7 @@ export default function EtsyTagCheckerPage() {
             <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
               <h2 className="text-xl font-semibold text-stone-950">Continue with your shop data</h2>
               <p className="mt-2 text-sm leading-6">
-                Review one title with the <Link href="/etsy-title-checker" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy title checker</Link>, or audit titles and tags across active listings with the <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</Link>. Group sold items in the <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy sales report</Link>, or estimate one US order with the <Link href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">fee and profit calculator</Link>.
+                Review one title with the <Link href="/etsy-title-checker" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy title checker</Link>, or audit titles and tags across active listings with the <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">CSV listing audit</Link>. Estimate contribution by SKU with the <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy profit report</Link>, or estimate one US order with the <Link href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">fee and profit calculator</Link>.
               </p>
             </section>
           </div>

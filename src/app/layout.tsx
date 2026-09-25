@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Listing Checkup",
   },
   description:
-    "Free Etsy seller tools for listing audits, tag checks, and fee and profit estimates.",
+    "Private Etsy shop CSV tools to estimate profit by SKU, audit listings, review sales, and plan inventory.",
   robots: { index: false, follow: true },
   icons: {
     icon: "/icon.svg",

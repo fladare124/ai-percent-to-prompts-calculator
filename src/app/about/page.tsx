@@ -5,7 +5,7 @@ import EtsyPageShell from "@/components/EtsyPageShell";
 export const metadata: Metadata = {
   title: "About Listing Checkup: Free Etsy Seller Tools",
   description:
-    "How Listing Checkup's Etsy title and tag checkers, sales and stock CSV tools, and US fee estimate work—and what each cannot measure.",
+    "How Listing Checkup's Etsy CSV profit estimate, title and tag checkers, stock planner, and fee tools work—and what each cannot measure.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/about" },
 };
@@ -15,7 +15,7 @@ export default function AboutPage() {
     <EtsyPageShell
       eyebrow="About Listing Checkup"
       title="Free, independent tools for Etsy sellers."
-      intro="Listing Checkup brings together private title and tag checks, Etsy CSV reports for sales and stock planning, and a US fee and profit estimate. The tools run in your browser and do not connect to your shop."
+      intro="Listing Checkup brings together private Etsy catalogue checks, a product-level contribution estimate from sales CSVs, stock planning and price tools. The tools run in your browser and do not connect to your shop."
     >
       <section>
         <h2 className="text-2xl font-semibold tracking-tight text-stone-950">What the tools check</h2>
@@ -26,7 +26,7 @@ export default function AboutPage() {
           These are prompts for human review, not an Etsy quality or ranking score. Repeated tags, long titles, and gifting phrases are not automatically wrong in every context. Profit estimates do not replace an Etsy Payment account statement.
         </p>
         <p className="mt-3 text-base leading-7">
-          The single-title checker counts characters and words and flags a few wording patterns for review. The sales and stock tools summarize selected Etsy CSV exports; they do not forecast demand or include profit in the restock report. Files are read locally in your browser.
+          The single-title checker counts characters and words and flags a few wording patterns for review. The Order Items CSV report estimates product contribution from item value, your entered cost per unit, and your fee assumptions. It does not reconcile Etsy Payment account activity. The stock tool compares current quantities with sold units but does not forecast demand. Files are read locally in your browser.
         </p>
       </section>
 

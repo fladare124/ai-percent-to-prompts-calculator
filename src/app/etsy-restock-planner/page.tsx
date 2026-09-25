@@ -117,7 +117,7 @@ export default function EtsyRestockPlannerPage() {
           <h2 className="text-xl font-semibold text-stone-950">Review the rest of your shop data</h2>
           <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm leading-6">
             <Link href="/" className="font-semibold text-emerald-900 underline underline-offset-4">Audit active listing details</Link>
-            <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Summarize sales by product</Link>
+            <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Estimate profit by SKU</Link>
             <Link href="/etsy-tag-checker" className="font-semibold text-emerald-900 underline underline-offset-4">Check Etsy tags</Link>
           </div>
         </section>

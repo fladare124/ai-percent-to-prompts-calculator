@@ -69,6 +69,11 @@ export default function EtsyListingCsvGuidePage() {
       </section>
 
       <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
+        <h2 className="text-xl font-semibold text-stone-950">Compare sales and estimated contribution by SKU</h2>
+        <p className="mt-2 text-sm leading-6 text-stone-600">For sold items, download Etsy’s Order Items CSV, add your unit costs and fee assumptions, then review an estimated contribution by product in the <Link href="/etsy-sales-csv-analyzer" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy profit by SKU analyzer</Link>.</p>
+      </section>
+
+      <section className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6">
         <h2 className="text-xl font-semibold text-stone-950">Estimate fees before you change a price</h2>
         <p className="mt-2 text-sm leading-6 text-stone-600">The active-listings CSV audit checks title and tag patterns. For one US order, the <Link href="/etsy-fee-calculator" className="font-semibold text-emerald-900 underline underline-offset-4">Etsy fee and profit calculator</Link> estimates common fees, your costs, and a target item price.</p>
       </section>
